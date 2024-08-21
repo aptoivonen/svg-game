@@ -1,9 +1,10 @@
 import { create } from 'zustand'
 import { initTerrain } from './helpers'
+import type { TerrainSymbol } from '@/types'
 import scenario from '@/data/scenario1.json'
 
 type Store = {
-  grid: string[][]
+  grid: TerrainSymbol[][]
   setGrid: () => void
 }
 

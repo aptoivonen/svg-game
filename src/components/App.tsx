@@ -3,6 +3,7 @@ import Svg from '@/components/Svg'
 import Background from '@/components/Background'
 import Tiles from '@/components/Tiles'
 import Tile from '@/components/Tile'
+import GridLines from '@/components/GridLines'
 import { map2D } from '@/utils'
 
 const TILE = {
@@ -41,6 +42,14 @@ function App() {
           ></Tile>
         ))}
       </Tiles>
+      <GridLines
+        tileWidth={TILE.WIDTH}
+        tileHeight={TILE.HEIGHT}
+        viewBoxWidth={viewBoxWidth}
+        viewBoxHeight={viewBoxHeight}
+        gridWidth={gridWidth}
+        gridHeight={gridHeight}
+      />
     </Svg>
   )
 }

@@ -1,26 +1,16 @@
-const SVG_WIDTH_MULTIPLIER = 4
-
 type SvgProps = {
-  gridWidth: number
-  gridHeight: number
-  tileWidth: number
-  tileHeight: number
+  viewBoxWidth: number
+  viewBoxHeight: number
+  outerWidth: number
   children: React.ReactNode
 }
 
-function Svg({
-  gridWidth,
-  gridHeight,
-  tileWidth,
-  tileHeight,
-  children
-}: SvgProps) {
-  const viewBoxWidth = gridWidth * tileWidth
-  const viewBoxHeight = gridHeight * tileHeight
+function Svg({ viewBoxWidth, viewBoxHeight, outerWidth, children }: SvgProps) {
   return (
     <svg
       viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
-      width={`${SVG_WIDTH_MULTIPLIER * viewBoxWidth}px`}
+      width={`${outerWidth}px`}
+      xmlns="http://www.w3.org/2000/svg"
     >
       {children}
     </svg>

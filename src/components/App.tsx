@@ -9,7 +9,7 @@ import Background from '@/components/Background'
 import Tiles from '@/components/Tiles'
 import Tile from '@/components/Tile'
 import GridLines from '@/components/GridLines'
-import Characters from '@/components/Characters'
+import Characters from '@/components/CharacterTiles'
 import CharacterTile from '@/components/CharacterTile'
 import { map2D } from '@/utils'
 
@@ -73,6 +73,7 @@ function App() {
             tileHeight={TILE.HEIGHT}
             x={char.position[0]}
             y={char.position[1]}
+            owner={char.owner}
           />
         ))}
       </Characters>

@@ -43,6 +43,6 @@ const CharacterDataSchema = z.object({
   position: PositionSchema,
   owner: OwnerSchema
 })
-export const CharactersDataSchema = z.array(CharacterDataSchema)
-
 export type CharacterData = z.infer<typeof CharacterDataSchema>
+
+export const CharactersDataSchema = z.array(CharacterDataSchema)

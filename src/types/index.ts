@@ -1,5 +1,8 @@
+import { z } from 'zod'
+
 export type Store = {
   grid: TerrainSymbol[][]
+  characters: Map<string, Character>
   setGrid: () => void
 }
 
@@ -9,20 +12,9 @@ export type Entity = {
 
 export type TerrainSymbol = '.' | 'w' | 'f'
 
-export type Owner = 'ai' | 'player'
-
-export type Position = [number, number]
-
-/** Character info that comes from json */
-export type CharacterData = {
-  name: string
-  position: Position
-  owner: Owner
-} & Entity
-
 export type Movable = {
   position: Position
-  path: Array<PathSegment>
+  path: Array<PathSegment> | null
 }
 
 export type PathSegment = {
@@ -35,3 +27,22 @@ export type Character = {
   owner: Owner
 } & Movable &
   Entity
+
+const OwnerSchema = z.enum(['ai', 'player'])
+export type Owner = z.infer<typeof OwnerSchema>
+
+const PositionSchema = z.tuple([
+  z.number().int().nonnegative(),
+  z.number().int().nonnegative()
+])
+export type Position = z.infer<typeof PositionSchema>
+
+const CharacterDataSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  position: PositionSchema,
+  owner: OwnerSchema
+})
+export const CharactersDataSchema = z.array(CharacterDataSchema)
+
+export type CharacterData = z.infer<typeof CharacterDataSchema>

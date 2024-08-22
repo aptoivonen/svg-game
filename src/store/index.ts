@@ -16,6 +16,17 @@ const useStore = create<Store>((set) => ({
           position
         })
       }
+    }),
+  setPath: (id: string, path: Path) =>
+    set((state) => {
+      const char = selectCharacter(state, id)
+      if (!char) return state
+      return {
+        characters: new Map(selectCharacters(state)).set(id, {
+          ...char,
+          path
+        })
+      }
     })
 }))
 

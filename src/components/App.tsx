@@ -9,7 +9,7 @@ import Background from '@/components/Background'
 import Tiles from '@/components/Tiles'
 import Tile from '@/components/Tile'
 import GridLines from '@/components/GridLines'
-import Characters from '@/components/CharacterTiles'
+import CharacterTiles from '@/components/CharacterTiles'
 import CharacterTile from '@/components/CharacterTile'
 import { map2D } from '@/utils'
 
@@ -60,7 +60,7 @@ function App() {
         gridWidth={gridWidth}
         gridHeight={gridHeight}
       />
-      <Characters
+      <CharacterTiles
         useId={characterUseId}
         tileWidth={TILE.WIDTH}
         tileHeight={TILE.HEIGHT}
@@ -76,7 +76,7 @@ function App() {
             owner={char.owner}
           />
         ))}
-      </Characters>
+      </CharacterTiles>
     </Svg>
   )
 }

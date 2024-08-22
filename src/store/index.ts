@@ -24,6 +24,9 @@ const selectGridWidth = (state: Store) => selectGrid(state)[0].length
 const selectGridHeight = (state: Store) => selectGrid(state).length
 
 const selectCharacters = (state: Store) => state.characters
+const selectCharactersList: (state: Store) => Character[] = (state: Store) => [
+  ...selectCharacters(state).values()
+]
 const selectCharacter: (state: Store, id: string) => Character | undefined = (
   state: Store,
   id: string
@@ -49,6 +52,7 @@ const useGrid = () => useStore(selectGrid)
 const useGridWidth = () => useStore(selectGridWidth)
 const useGridHeight = () => useStore(selectGridHeight)
 const useCharacters = () => useStore(selectCharacters)
+const useCharactersList = () => useStore(selectCharactersList)
 const useCharacter = (id: string) =>
   useStore((state) => selectCharacter(state, id))
 const usePosition = (id: string) =>
@@ -61,10 +65,12 @@ export {
   useGridWidth,
   useGridHeight,
   useCharacters,
+  useCharactersList,
   useCharacter,
   usePosition,
   usePath,
   selectCharacters,
+  selectCharactersList,
   selectCharacter,
   selectPosition,
   selectPath

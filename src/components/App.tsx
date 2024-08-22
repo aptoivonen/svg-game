@@ -17,6 +17,7 @@ const TILE = {
   WIDTH: 10,
   HEIGHT: 10
 }
+// TODO: change to tile size in pixels
 const SVG_WIDTH_MULTIPLIER = 4
 
 function App() {

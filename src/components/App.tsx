@@ -33,6 +33,7 @@ function App() {
       <Tiles useId={tileUseId} tileWidth={TILE.WIDTH} tileHeight={TILE.HEIGHT}>
         {map2D(grid, (terrainSymbol, x, y) => (
           <Tile
+            key={`${x}-${y}`}
             useId={tileUseId}
             tileWidth={TILE.WIDTH}
             tileHeight={TILE.HEIGHT}

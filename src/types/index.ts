@@ -14,13 +14,15 @@ export type TerrainSymbol = '.' | 'w' | 'f'
 
 export type Movable = {
   position: Position
-  path: Array<PathSegment> | null
+  path: Path | null
 }
 
 export type PathSegment = {
   pathCost: number
   position: Position
 }
+
+export type Path = Array<PathSegment>
 
 export type Character = {
   name: string

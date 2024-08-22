@@ -47,6 +47,11 @@ const selectPath: (state: Store, id: string) => Path | null = (
   if (!char) return null
   return char.path
 }
+const selectHasPath = (state: Store, id: string) => {
+  const char = selectCharacter(state, id)
+  if (!char) return false
+  return !!char.path
+}
 
 const useGrid = () => useStore(selectGrid)
 const useGridWidth = () => useStore(selectGridWidth)
@@ -58,6 +63,7 @@ const useCharacter = (id: string) =>
 const usePosition = (id: string) =>
   useStore((state) => selectPosition(state, id))
 const usePath = (id: string) => useStore((state) => selectPath(state, id))
+const useHasPath = (id: string) => useStore((state) => selectHasPath(state, id))
 
 export {
   useStore,
@@ -69,9 +75,11 @@ export {
   useCharacter,
   usePosition,
   usePath,
+  useHasPath,
   selectCharacters,
   selectCharactersList,
   selectCharacter,
   selectPosition,
-  selectPath
+  selectPath,
+  selectHasPath
 }

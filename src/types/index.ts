@@ -4,6 +4,8 @@ export type Store = {
   grid: TerrainSymbol[][]
   characters: Map<string, Character>
   setPosition: (id: string, position: Position) => void
+  setPath: (id: string, path: Path) => void
+  executePath: (id: string) => Promise<void>
 }
 
 export type Entity = {

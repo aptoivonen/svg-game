@@ -1,10 +1,11 @@
 import { create } from 'zustand'
-import { initTerrain } from './helpers'
+import { initTerrain, initCharacters } from './helpers'
 import type { Store } from '@/types'
 import scenario from '@/data/scenario1.json'
 
 const useStore = create<Store>((set) => ({
   grid: initTerrain(scenario.grid),
+  characters: initCharacters(scenario.characters),
   setGrid: () => set((state) => state)
 }))
 

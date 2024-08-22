@@ -1,4 +1,5 @@
 import { TerrainSymbol } from '@/types'
+import { memo } from 'react'
 
 const TILE_CLASSES: Record<TerrainSymbol, string> = {
   '.': 'fill-[#6bb00c]',
@@ -36,4 +37,4 @@ function Tile({
   )
 }
 
-export default Tile
+export default memo(Tile)

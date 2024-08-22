@@ -1,3 +1,5 @@
+import { memo } from 'react'
+
 type CharactersProps = {
   useId: string
   tileWidth: number
@@ -36,4 +38,4 @@ function Characters({
   )
 }
 
-export default Characters
+export default memo(Characters)

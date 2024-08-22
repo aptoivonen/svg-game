@@ -1,3 +1,5 @@
+import { memo } from 'react'
+
 type GridLinesProps = {
   tileWidth: number
   tileHeight: number
@@ -32,4 +34,4 @@ function GridLines({
   )
 }
 
-export default GridLines
+export default memo(GridLines)

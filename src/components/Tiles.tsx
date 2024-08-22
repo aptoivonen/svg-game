@@ -1,3 +1,5 @@
+import { memo } from 'react'
+
 type TilesProps = {
   useId: string
   tileWidth: number
@@ -21,4 +23,4 @@ function Tiles({ useId, tileWidth, tileHeight, children }: TilesProps) {
   )
 }
 
-export default Tiles
+export default memo(Tiles)

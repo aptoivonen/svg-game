@@ -1,9 +1,10 @@
 import { create } from 'zustand'
 import { initTerrain, initCharacters } from './helpers'
 import type { Character, Path, Position, Store } from '@/types'
+import { wait } from '@/utils'
 import scenario from '@/data/scenario1.json'
 
-const useStore = create<Store>((set) => ({
+const useStore = create<Store>((set, get) => ({
   grid: initTerrain(scenario.grid),
   characters: initCharacters(scenario.characters),
   setPosition: (id: string, position: Position) =>
@@ -17,7 +18,7 @@ const useStore = create<Store>((set) => ({
         })
       }
     }),
-  setPath: (id: string, path: Path) =>
+  setPath: (id: string, path: Path) => {
     set((state) => {
       const char = selectCharacter(state, id)
       if (!char) return state
@@ -28,6 +29,17 @@ const useStore = create<Store>((set) => ({
         })
       }
     })
+  },
+  executePath: async (id: string) => {
+    const char = selectCharacter(get(), id)
+    if (!char) return
+    const path = selectPath(get(), id)
+    if (!path) return
+    for (const pathSegment of path) {
+      get().setPosition(id, pathSegment.position)
+      await wait(1000)
+    }
+  }
 }))
 
 const selectGrid = (state: Store) => state.grid
@@ -75,6 +87,13 @@ const usePosition = (id: string) =>
   useStore((state) => selectPosition(state, id))
 const usePath = (id: string) => useStore((state) => selectPath(state, id))
 const useHasPath = (id: string) => useStore((state) => selectHasPath(state, id))
+
+useStore.getState().setPath('pc-1', [
+  { pathCost: 0, position: [0, 1] },
+  { pathCost: 0, position: [1, 1] },
+  { pathCost: 0, position: [1, 2] }
+])
+useStore.getState().executePath('pc-1')
 
 export {
   useStore,

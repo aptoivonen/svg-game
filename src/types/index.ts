@@ -29,3 +29,9 @@ export type PathSegment = {
   pathCost: number
   position: Position
 }
+
+export type Character = {
+  name: string
+  owner: Owner
+} & Movable &
+  Entity

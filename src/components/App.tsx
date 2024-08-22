@@ -1,9 +1,16 @@
-import { useGrid, useGridHeight, useGridWidth } from '@/store'
+import {
+  useCharactersList,
+  useGrid,
+  useGridHeight,
+  useGridWidth
+} from '@/store'
 import Svg from '@/components/Svg'
 import Background from '@/components/Background'
 import Tiles from '@/components/Tiles'
 import Tile from '@/components/Tile'
 import GridLines from '@/components/GridLines'
+import Characters from '@/components/Characters'
+import CharacterTile from '@/components/CharacterTile'
 import { map2D } from '@/utils'
 
 const TILE = {
@@ -16,12 +23,14 @@ function App() {
   const gridWidth = useGridWidth()
   const gridHeight = useGridHeight()
   const grid = useGrid()
+  const characters = useCharactersList()
 
   const viewBoxWidth = gridWidth * TILE.WIDTH
   const viewBoxHeight = gridHeight * TILE.HEIGHT
   const outerWidth = SVG_WIDTH_MULTIPLIER * viewBoxWidth
 
   const tileUseId = 'tileProto'
+  const characterUseId = 'characterProto'
 
   return (
     <Svg
@@ -51,6 +60,22 @@ function App() {
         gridWidth={gridWidth}
         gridHeight={gridHeight}
       />
+      <Characters
+        useId={characterUseId}
+        tileWidth={TILE.WIDTH}
+        tileHeight={TILE.HEIGHT}
+      >
+        {characters.map((char) => (
+          <CharacterTile
+            key={char.id}
+            useId={characterUseId}
+            tileWidth={TILE.WIDTH}
+            tileHeight={TILE.HEIGHT}
+            x={char.position[0]}
+            y={char.position[1]}
+          />
+        ))}
+      </Characters>
     </Svg>
   )
 }

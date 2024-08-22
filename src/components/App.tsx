@@ -31,7 +31,7 @@ function App() {
     >
       <Background viewBoxWidth={viewBoxWidth} viewBoxHeight={viewBoxHeight} />
       <Tiles useId={tileUseId} tileWidth={TILE.WIDTH} tileHeight={TILE.HEIGHT}>
-        {map2D(grid, (terrainSymbol, [x, y]) => (
+        {map2D(grid, (terrainSymbol, x, y) => (
           <Tile
             useId={tileUseId}
             tileWidth={TILE.WIDTH}

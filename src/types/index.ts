@@ -3,7 +3,7 @@ import { z } from 'zod'
 export type Store = {
   grid: TerrainSymbol[][]
   characters: Map<string, Character>
-  setGrid: () => void
+  setPosition: (id: string, position: Position) => void
 }
 
 export type Entity = {

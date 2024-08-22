@@ -6,7 +6,17 @@ import scenario from '@/data/scenario1.json'
 const useStore = create<Store>((set) => ({
   grid: initTerrain(scenario.grid),
   characters: initCharacters(scenario.characters),
-  setGrid: () => set((state) => state)
+  setPosition: (id: string, position: Position) =>
+    set((state) => {
+      const char = selectCharacter(state, id)
+      if (!char) return state
+      return {
+        characters: new Map(selectCharacters(state)).set(id, {
+          ...char,
+          position
+        })
+      }
+    })
 }))
 
 const selectGrid = (state: Store) => state.grid

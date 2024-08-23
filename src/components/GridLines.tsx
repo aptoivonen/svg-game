@@ -1,12 +1,10 @@
 import { memo } from 'react'
 import { useTileSize, useViewboxSize } from '@/components/App'
+import { useGridHeight, useGridWidth } from '@/store'
 
-type GridLinesProps = {
-  gridWidth: number
-  gridHeight: number
-}
-
-function GridLines({ gridWidth, gridHeight }: GridLinesProps) {
+function GridLines() {
+  const gridWidth = useGridWidth()
+  const gridHeight = useGridHeight()
   const [tileWidth, tileHeight] = useTileSize()
   const [viewBoxWidth, viewBoxHeight] = useViewboxSize()
 

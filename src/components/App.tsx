@@ -61,7 +61,7 @@ function App() {
               ></Tile>
             ))}
           </Tiles>
-          <GridLines gridWidth={gridWidth} gridHeight={gridHeight} />
+          <GridLines />
           <CharacterTiles useId={characterUseId}>
             {characters.map((char) => (
               <CharacterTile

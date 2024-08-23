@@ -12,13 +12,18 @@ import GridLines from '@/components/GridLines'
 import CharacterTiles from '@/components/CharacterTiles'
 import CharacterTile from '@/components/CharacterTile'
 import { map2D } from '@/utils'
+import { createContext, useContext } from 'react'
 
 const TILE = {
   WIDTH: 10,
   HEIGHT: 10
 }
+const tileSize: [number, number] = [TILE.WIDTH, TILE.HEIGHT]
 // TODO: change to tile size in pixels
 const SVG_WIDTH_MULTIPLIER = 4
+
+export const TileSizeContext = createContext<[number, number]>(tileSize)
+export const useTileSize = () => useContext(TileSizeContext)
 
 function App() {
   const gridWidth = useGridWidth()
@@ -34,51 +39,43 @@ function App() {
   const characterUseId = 'characterProto'
 
   return (
-    <Svg
-      viewBoxWidth={viewBoxWidth}
-      viewBoxHeight={viewBoxHeight}
-      outerWidth={outerWidth}
-    >
-      <Background viewBoxWidth={viewBoxWidth} viewBoxHeight={viewBoxHeight} />
-      <Tiles useId={tileUseId} tileWidth={TILE.WIDTH} tileHeight={TILE.HEIGHT}>
-        {map2D(grid, (terrainSymbol, x, y) => (
-          <Tile
-            key={`${x}-${y}`}
-            useId={tileUseId}
-            tileWidth={TILE.WIDTH}
-            tileHeight={TILE.HEIGHT}
-            terrainSymbol={terrainSymbol}
-            x={x}
-            y={y}
-          ></Tile>
-        ))}
-      </Tiles>
-      <GridLines
-        tileWidth={TILE.WIDTH}
-        tileHeight={TILE.HEIGHT}
+    <TileSizeContext.Provider value={tileSize}>
+      <Svg
         viewBoxWidth={viewBoxWidth}
         viewBoxHeight={viewBoxHeight}
-        gridWidth={gridWidth}
-        gridHeight={gridHeight}
-      />
-      <CharacterTiles
-        useId={characterUseId}
-        tileWidth={TILE.WIDTH}
-        tileHeight={TILE.HEIGHT}
+        outerWidth={outerWidth}
       >
-        {characters.map((char) => (
-          <CharacterTile
-            key={char.id}
-            useId={characterUseId}
-            tileWidth={TILE.WIDTH}
-            tileHeight={TILE.HEIGHT}
-            x={char.position[0]}
-            y={char.position[1]}
-            owner={char.owner}
-          />
-        ))}
-      </CharacterTiles>
-    </Svg>
+        <Background viewBoxWidth={viewBoxWidth} viewBoxHeight={viewBoxHeight} />
+        <Tiles useId={tileUseId}>
+          {map2D(grid, (terrainSymbol, x, y) => (
+            <Tile
+              key={`${x}-${y}`}
+              useId={tileUseId}
+              terrainSymbol={terrainSymbol}
+              x={x}
+              y={y}
+            ></Tile>
+          ))}
+        </Tiles>
+        <GridLines
+          viewBoxWidth={viewBoxWidth}
+          viewBoxHeight={viewBoxHeight}
+          gridWidth={gridWidth}
+          gridHeight={gridHeight}
+        />
+        <CharacterTiles useId={characterUseId}>
+          {characters.map((char) => (
+            <CharacterTile
+              key={char.id}
+              useId={characterUseId}
+              x={char.position[0]}
+              y={char.position[1]}
+              owner={char.owner}
+            />
+          ))}
+        </CharacterTiles>
+      </Svg>
+    </TileSizeContext.Provider>
   )
 }
 

@@ -1,5 +1,6 @@
 import { TerrainSymbol } from '@/types'
 import { memo } from 'react'
+import { useTileSize } from '@/components/App'
 
 const TILE_CLASSES: Record<TerrainSymbol, string> = {
   '.': 'fill-[#6bb00c]',
@@ -12,19 +13,11 @@ type TileProps = {
   useId: string
   x: number
   y: number
-  tileWidth: number
-  tileHeight: number
   terrainSymbol: TerrainSymbol
 }
 
-function Tile({
-  useId,
-  x,
-  y,
-  tileWidth,
-  tileHeight,
-  terrainSymbol
-}: TileProps) {
+function Tile({ useId, x, y, terrainSymbol }: TileProps) {
+  const [tileWidth, tileHeight] = useTileSize()
   const calcX = x * tileWidth
   const calcY = y * tileHeight
   return (

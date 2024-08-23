@@ -1,8 +1,7 @@
 import { memo } from 'react'
+import { useTileSize } from '@/components/App'
 
 type GridLinesProps = {
-  tileWidth: number
-  tileHeight: number
   viewBoxWidth: number
   viewBoxHeight: number
   gridWidth: number
@@ -10,13 +9,13 @@ type GridLinesProps = {
 }
 
 function GridLines({
-  tileWidth,
-  tileHeight,
   viewBoxWidth,
   viewBoxHeight,
   gridWidth,
   gridHeight
 }: GridLinesProps) {
+  const [tileWidth, tileHeight] = useTileSize()
+
   let pathString = ''
   for (let x = 0; x <= gridWidth; x++) {
     pathString = pathString.concat(`M ${tileWidth * x} 0 v ${viewBoxHeight}`)

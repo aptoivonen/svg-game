@@ -1,18 +1,14 @@
 import { memo } from 'react'
+import { useTileSize } from '@/components/App'
 
 type CharactersProps = {
   useId: string
-  tileWidth: number
-  tileHeight: number
   children: React.ReactNode
 }
 
-function Characters({
-  useId,
-  tileWidth,
-  tileHeight,
-  children
-}: CharactersProps) {
+function Characters({ useId, children }: CharactersProps) {
+  const [tileWidth, tileHeight] = useTileSize()
+
   return (
     <g id="characters">
       <symbol

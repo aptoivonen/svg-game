@@ -1,12 +1,11 @@
 import { Owner } from '@/types'
+import { useTileSize } from '@/components/App'
 
 type CharacterProps = {
   useId: string
   x: number
   y: number
   owner: Owner
-  tileWidth: number
-  tileHeight: number
 }
 
 const COLORS: Record<Owner, string> = {
@@ -14,14 +13,9 @@ const COLORS: Record<Owner, string> = {
   player: 'fill-cyan-600'
 }
 
-function Character({
-  useId,
-  x,
-  y,
-  tileWidth,
-  tileHeight,
-  owner
-}: CharacterProps) {
+function Character({ useId, x, y, owner }: CharacterProps) {
+  const [tileWidth, tileHeight] = useTileSize()
+
   const calcX = x * tileWidth
   const calcY = y * tileHeight
   return (

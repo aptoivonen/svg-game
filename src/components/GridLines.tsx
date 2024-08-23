@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { useTileSize, useViewboxSize } from '@/components/App'
+import { useTileSize, useViewboxSize } from '@/components/Svg'
 import { useGridHeight, useGridWidth } from '@/store'
 
 function GridLines() {

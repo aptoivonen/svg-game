@@ -1,6 +1,6 @@
 import { TerrainSymbol } from '@/types'
 import { memo } from 'react'
-import { useTileSize } from '@/components/App'
+import { useTileSize } from '@/components/Svg'
 
 const TILE_CLASSES: Record<TerrainSymbol, string> = {
   '.': 'fill-[#6bb00c]',

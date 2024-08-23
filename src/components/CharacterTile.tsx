@@ -1,5 +1,5 @@
 import { Owner } from '@/types'
-import { useTileSize } from '@/components/App'
+import { useTileSize } from '@/components/Svg'
 
 type CharacterProps = {
   useId: string

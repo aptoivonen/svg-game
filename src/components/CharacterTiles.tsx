@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { useTileSize } from '@/components/App'
+import { useTileSize } from '@/components/Svg'
 
 type CharactersProps = {
   useId: string

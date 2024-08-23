@@ -19,8 +19,6 @@ function App() {
   const grid = useGrid()
   const characters = useCharactersList()
 
-  const characterUseId = 'characterProto'
-
   return (
     <Svg tileCssSize={tileCssSize}>
       <Background />
@@ -35,11 +33,10 @@ function App() {
         ))}
       </Tiles>
       <GridLines />
-      <CharacterTiles useId={characterUseId}>
+      <CharacterTiles>
         {characters.map((char) => (
           <CharacterTile
             key={char.id}
-            useId={characterUseId}
             x={char.position[0]}
             y={char.position[1]}
             owner={char.owner}

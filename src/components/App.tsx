@@ -7,11 +7,7 @@ import GridLines from '@/components/GridLines'
 import CharacterTiles from '@/components/CharacterTiles'
 import CharacterTile from '@/components/CharacterTile'
 import { map2D } from '@/utils'
-
-const TILE_CSS = {
-  WIDTH: 40,
-  HEIGHT: 40
-}
+import { TILE_CSS } from '@/config'
 
 const tileCssSize: [number, number] = [TILE_CSS.WIDTH, TILE_CSS.HEIGHT]
 

@@ -1,10 +1,6 @@
 import { createContext, useContext, useMemo } from 'react'
 import { useGridHeight, useGridWidth } from '@/store'
-
-const TILE = {
-  WIDTH: 10,
-  HEIGHT: 10
-}
+import { TILE } from '@/config'
 
 const tileSize: [number, number] = [TILE.WIDTH, TILE.HEIGHT]
 

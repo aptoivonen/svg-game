@@ -1,12 +1,18 @@
 import { create } from 'zustand'
 import { initTerrain, initCharacters } from './helpers'
-import type { Character, Path, Position, Store } from '@/types'
 import { wait } from '@/utils'
-import scenario from '@/data/scenario1.json'
+import type { Character, Path, Position, ScenarioData, Store } from '@/types'
 
 const useStore = create<Store>((set, get) => ({
-  grid: initTerrain(scenario.grid),
-  characters: initCharacters(scenario.characters),
+  name: '',
+  grid: [[]],
+  characters: new Map(),
+  init: (scenarioData: ScenarioData) =>
+    set(() => ({
+      name: scenarioData.name,
+      grid: initTerrain(scenarioData.grid),
+      characters: initCharacters(scenarioData.characters)
+    })),
   setPosition: (id: string, position: Position) =>
     set((state) => {
       const char = selectCharacter(state, id)

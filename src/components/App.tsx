@@ -1,8 +1,8 @@
 import Scenario from '@/components/Scenario'
 import scenario1json from '@/data/scenario1.json'
-import { ScenarioDataScema } from '@/types'
+import { ScenarioDataSchema } from '@/types'
 
-const scenario1Data = ScenarioDataScema.safeParse(scenario1json)
+const scenario1Data = ScenarioDataSchema.safeParse(scenario1json)
 const { success: isSuccess } = scenario1Data
 
 function App() {

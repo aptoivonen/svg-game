@@ -1,4 +1,4 @@
-import { Owner } from '@/types'
+import { Owner } from '@/types/types'
 import { useTileSize } from '@/components/Svg'
 import { useCharacterProtoId } from '@/components/CharacterTiles'
 

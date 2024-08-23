@@ -1,0 +1,47 @@
+{
+  "name": "Scenario 1",
+  "grid": [
+    "...............",
+    "......fff......",
+    ".......ff......",
+    "...............",
+    "..........w....",
+    "..........w....",
+    "..........w....",
+    "..........w....",
+    "...............",
+    "..............."
+  ],
+  "characters": [
+    {
+      "id": "npc-1",
+      "name": "Bad Guy #1",
+      "position": [1, 5],
+      "owner": "ai"
+    },
+    {
+      "id": "npc-2",
+      "name": "Bad Guy #2",
+      "position": [2, 5],
+      "owner": "ai"
+    },
+    {
+      "id": "npc-3",
+      "name": "Bad Guy #3",
+      "position": [3, 5],
+      "owner": "ai"
+    },
+    {
+      "id": "pc-1",
+      "name": "Dude #1",
+      "position": [0, 0],
+      "owner": "player"
+    },
+    {
+      "id": "pc-2",
+      "name": "Dude #2",
+      "position": [1, 0],
+      "owner": "player"
+    }
+  ]
+}

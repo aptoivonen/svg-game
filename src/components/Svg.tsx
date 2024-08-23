@@ -1,11 +1,12 @@
+import { useViewboxSize } from '@/components/App'
+
 type SvgProps = {
-  viewBoxWidth: number
-  viewBoxHeight: number
   outerWidth: number
   children: React.ReactNode
 }
 
-function Svg({ viewBoxWidth, viewBoxHeight, outerWidth, children }: SvgProps) {
+function Svg({ outerWidth, children }: SvgProps) {
+  const [viewBoxWidth, viewBoxHeight] = useViewboxSize()
   return (
     <svg
       viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}

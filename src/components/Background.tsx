@@ -1,9 +1,8 @@
-type BackgroundProps = {
-  viewBoxWidth: number
-  viewBoxHeight: number
-}
+import { useViewboxSize } from '@/components/App'
 
-function Background({ viewBoxWidth, viewBoxHeight }: BackgroundProps) {
+function Background() {
+  const [viewBoxWidth, viewBoxHeight] = useViewboxSize()
+
   return <rect width={viewBoxWidth} height={viewBoxHeight} fill="#ccc"></rect>
 }
 

@@ -94,13 +94,6 @@ const usePosition = (id: string) =>
 const usePath = (id: string) => useStore((state) => selectPath(state, id))
 const useHasPath = (id: string) => useStore((state) => selectHasPath(state, id))
 
-useStore.getState().setPath('pc-1', [
-  { pathCost: 0, position: [0, 1] },
-  { pathCost: 0, position: [1, 1] },
-  { pathCost: 0, position: [1, 2] }
-])
-useStore.getState().executePath('pc-1')
-
 export {
   useStore,
   useGrid,

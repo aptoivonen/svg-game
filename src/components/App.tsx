@@ -18,9 +18,13 @@ const TILE = {
   WIDTH: 10,
   HEIGHT: 10
 }
+const TILE_CSS = {
+  WIDTH: 40,
+  HEIGHT: 40
+}
+
 const tileSize: [number, number] = [TILE.WIDTH, TILE.HEIGHT]
-// TODO: change to tile size in pixels
-const SVG_WIDTH_MULTIPLIER = 4
+const tileCssSize: [number, number] = [TILE_CSS.WIDTH, TILE_CSS.HEIGHT]
 
 const TileSizeContext = createContext<[number, number]>(tileSize)
 export const useTileSize = () => useContext(TileSizeContext)
@@ -40,7 +44,6 @@ function App() {
     () => [viewBoxWidth, viewBoxHeight],
     [viewBoxWidth, viewBoxHeight]
   )
-  const outerWidth = SVG_WIDTH_MULTIPLIER * viewBoxWidth
 
   const tileUseId = 'tileProto'
   const characterUseId = 'characterProto'
@@ -48,7 +51,7 @@ function App() {
   return (
     <TileSizeContext.Provider value={tileSize}>
       <ViewboxSizeContext.Provider value={viewBoxSize}>
-        <Svg outerWidth={outerWidth}>
+        <Svg tileCssSize={tileCssSize}>
           <Background />
           <Tiles useId={tileUseId}>
             {map2D(grid, (terrainSymbol, x, y) => (

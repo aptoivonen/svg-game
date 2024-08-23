@@ -19,17 +19,15 @@ function App() {
   const grid = useGrid()
   const characters = useCharactersList()
 
-  const tileUseId = 'tileProto'
   const characterUseId = 'characterProto'
 
   return (
     <Svg tileCssSize={tileCssSize}>
       <Background />
-      <Tiles useId={tileUseId}>
+      <Tiles>
         {map2D(grid, (terrainSymbol, x, y) => (
           <Tile
             key={`${x}-${y}`}
-            useId={tileUseId}
             terrainSymbol={terrainSymbol}
             x={x}
             y={y}

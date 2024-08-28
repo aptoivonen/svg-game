@@ -1,5 +1,4 @@
-import { useEffect } from 'react'
-import { useCharactersList, useGrid, useStore } from '@/store'
+import { useCharactersList, useGrid } from '@/store'
 import Svg from '@/components/Svg'
 import Background from '@/components/Background'
 import Tiles from '@/components/Tiles'
@@ -10,6 +9,7 @@ import CharacterTile from '@/components/CharacterTile'
 import { map2D } from '@/utils'
 import { ScenarioData } from '@/types'
 import { TILE_CSS } from '@/config'
+import useInit from './useInit'
 
 const tileCssSize: [number, number] = [TILE_CSS.WIDTH, TILE_CSS.HEIGHT]
 
@@ -18,11 +18,7 @@ type ScenarioProps = {
 }
 
 function Scenario({ scenarioData }: ScenarioProps) {
-  const { init } = useStore()
-  useEffect(() => {
-    init(scenarioData)
-  }, [scenarioData, init])
-
+  useInit(scenarioData)
   const grid = useGrid()
   const characters = useCharactersList()
 

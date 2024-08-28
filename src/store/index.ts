@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { initTerrain, initCharacters } from './helpers'
 import { wait } from '@/utils'
 import type { Character, Path, Position, ScenarioData, Store } from '@/types'
+import { CHARACTER_MOVE_DELAY_SECONDS } from '@/config'
 
 const useStore = create<Store>((set, get) => ({
   name: '',
@@ -43,7 +44,7 @@ const useStore = create<Store>((set, get) => ({
     if (!path) return
     for (const pathSegment of path) {
       get().setPosition(id, pathSegment.position)
-      await wait(1000)
+      await wait(CHARACTER_MOVE_DELAY_SECONDS * 1000)
     }
   }
 }))

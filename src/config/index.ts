@@ -9,3 +9,5 @@ export const TILE_CSS = {
   WIDTH: 40,
   HEIGHT: 40
 }
+
+export const CHARACTER_MOVE_DELAY_SECONDS = 0.7

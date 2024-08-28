@@ -1,3 +1,4 @@
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import { useCharactersList, useGrid } from '@/store'
 import Svg from '@/components/Svg'
 import Background from '@/components/Background'
@@ -23,30 +24,34 @@ function Scenario({ scenarioData }: ScenarioProps) {
   const characters = useCharactersList()
 
   return (
-    <Svg tileCssSize={tileCssSize}>
-      <Background />
-      <Tiles>
-        {map2D(grid, (terrainSymbol, x, y) => (
-          <Tile
-            key={`${x}-${y}`}
-            terrainSymbol={terrainSymbol}
-            x={x}
-            y={y}
-          ></Tile>
-        ))}
-      </Tiles>
-      <GridLines />
-      <CharacterTiles>
-        {characters.map((char) => (
-          <CharacterTile
-            key={char.id}
-            x={char.position[0]}
-            y={char.position[1]}
-            owner={char.owner}
-          />
-        ))}
-      </CharacterTiles>
-    </Svg>
+    <TransformWrapper initialPositionX={0} initialPositionY={0}>
+      <TransformComponent wrapperStyle={{ height: '100%', width: '100%' }}>
+        <Svg tileCssSize={tileCssSize}>
+          <Background />
+          <Tiles>
+            {map2D(grid, (terrainSymbol, x, y) => (
+              <Tile
+                key={`${x}-${y}`}
+                terrainSymbol={terrainSymbol}
+                x={x}
+                y={y}
+              ></Tile>
+            ))}
+          </Tiles>
+          <GridLines />
+          <CharacterTiles>
+            {characters.map((char) => (
+              <CharacterTile
+                key={char.id}
+                x={char.position[0]}
+                y={char.position[1]}
+                owner={char.owner}
+              />
+            ))}
+          </CharacterTiles>
+        </Svg>
+      </TransformComponent>
+    </TransformWrapper>
   )
 }
 

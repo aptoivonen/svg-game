@@ -1,6 +1,8 @@
+import { motion } from 'framer-motion'
 import { Owner } from '@/types/types'
 import { useTileSize } from '@/components/Svg'
 import { useCharacterProtoId } from '@/components/CharacterTiles'
+import { CHARACTER_MOVE_DELAY_SECONDS } from '@/config'
 
 type CharacterProps = {
   x: number
@@ -20,12 +22,13 @@ function Character({ x, y, owner }: CharacterProps) {
   const calcX = x * tileWidth
   const calcY = y * tileHeight
   return (
-    <use
+    <motion.use
       href={`#${characterProtoId}`}
-      x={calcX}
-      y={calcY}
+      animate={{ x: calcX, y: calcY }}
+      initial={false}
+      transition={{ duration: CHARACTER_MOVE_DELAY_SECONDS }}
       className={COLORS[owner]}
-    ></use>
+    ></motion.use>
   )
 }
 

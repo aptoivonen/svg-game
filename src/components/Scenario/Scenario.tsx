@@ -34,6 +34,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
       initialPositionX={initialX}
       initialPositionY={initialY}
       limitToBounds={false}
+      minScale={0.5}
     >
       <TransformComponent wrapperStyle={{ height: '100%', width: '100%' }}>
         <Svg tileCssSize={tileCssSize}>

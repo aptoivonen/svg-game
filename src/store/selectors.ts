@@ -27,6 +27,14 @@ export const selectAiCharacters: (state: Store) => Map<string, Character> =
 export const selectCharactersList: (state: Store) => Character[] =
   createSelector([selectCharacters], (characters) => [...characters.values()])
 
+export const selectPlayerCharactersList: (state: Store) => Character[] =
+  createSelector([selectPlayerCharacters], (characters) => [
+    ...characters.values()
+  ])
+
+export const selectAiCharactersList: (state: Store) => Character[] =
+  createSelector([selectAiCharacters], (characters) => [...characters.values()])
+
 export const selectCharacter: (
   state: Store,
   id: string
@@ -64,6 +72,9 @@ export const useCharacters = () => useStore(selectCharacters)
 export const usePlayerCharacters = () => useStore(selectPlayerCharacters)
 export const useAiCharacters = () => useStore(selectAiCharacters)
 export const useCharactersList = () => useStore(selectCharactersList)
+export const usePlayerCharactersList = () =>
+  useStore(selectPlayerCharactersList)
+export const useAiCharactersList = () => useStore(selectAiCharactersList)
 export const useCharacter = (id: string) =>
   useStore((state) => selectCharacter(state, id))
 export const usePosition = (id: string) =>

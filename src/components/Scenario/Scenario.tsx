@@ -11,6 +11,7 @@ import { map2D } from '@/utils'
 import { ScenarioData } from '@/types'
 import { TILE_CSS } from '@/config'
 import useInit from './useInit'
+import useInitialPosition from './useInitialPosition'
 
 const tileCssSize: [number, number] = [TILE_CSS.WIDTH, TILE_CSS.HEIGHT]
 
@@ -19,12 +20,17 @@ type ScenarioProps = {
 }
 
 function Scenario({ scenarioData }: ScenarioProps) {
-  useInit(scenarioData)
+  const isInitialized = useInit(scenarioData)
   const grid = useGrid()
   const characters = useCharactersList()
+  const [initialX, initialY] = useInitialPosition()
+
+  if (!isInitialized) {
+    return <div>Waiting to initialize scenario</div>
+  }
 
   return (
-    <TransformWrapper initialPositionX={0} initialPositionY={0}>
+    <TransformWrapper initialPositionX={initialX} initialPositionY={initialY}>
       <TransformComponent wrapperStyle={{ height: '100%', width: '100%' }}>
         <Svg tileCssSize={tileCssSize}>
           <Background />

@@ -10,6 +10,20 @@ export const selectGridHeight = (state: Store) => selectGrid(state).length
 
 export const selectCharacters = (state: Store) => state.characters
 
+export const selectPlayerCharacters: (state: Store) => Map<string, Character> =
+  createSelector(
+    [selectCharacters],
+    (characters) =>
+      new Map([...characters].filter(([, char]) => char.owner === 'player'))
+  )
+
+export const selectAiCharacters: (state: Store) => Map<string, Character> =
+  createSelector(
+    [selectCharacters],
+    (characters) =>
+      new Map([...characters].filter(([, char]) => char.owner === 'ai'))
+  )
+
 export const selectCharactersList: (state: Store) => Character[] =
   createSelector([selectCharacters], (characters) => [...characters.values()])
 
@@ -47,6 +61,8 @@ export const useGrid = () => useStore(selectGrid)
 export const useGridWidth = () => useStore(selectGridWidth)
 export const useGridHeight = () => useStore(selectGridHeight)
 export const useCharacters = () => useStore(selectCharacters)
+export const usePlayerCharacters = () => useStore(selectPlayerCharacters)
+export const useAiCharacters = () => useStore(selectAiCharacters)
 export const useCharactersList = () => useStore(selectCharactersList)
 export const useCharacter = (id: string) =>
   useStore((state) => selectCharacter(state, id))

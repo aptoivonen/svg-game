@@ -1,5 +1,6 @@
 import type { Character, Path, Position, Store } from '@/types'
 import { useStore } from './store'
+import { createSelector } from 'reselect'
 
 export const selectGrid = (state: Store) => state.grid
 
@@ -9,9 +10,12 @@ export const selectGridHeight = (state: Store) => selectGrid(state).length
 
 export const selectCharacters = (state: Store) => state.characters
 
-export const selectCharactersList: (state: Store) => Character[] = (
-  state: Store
-) => [...selectCharacters(state).values()]
+// export const selectCharactersList: (state: Store) => Character[] = (
+//   state: Store
+// ) => [...selectCharacters(state).values()]
+
+export const selectCharactersList: (state: Store) => Character[] =
+  createSelector([selectCharacters], (characters) => [...characters.values()])
 
 export const selectCharacter: (
   state: Store,

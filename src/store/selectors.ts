@@ -41,6 +41,14 @@ export const selectCharacter: (
 ) => Character | undefined = (state: Store, id: string) =>
   selectCharacters(state).get(id)
 
+export const selectIsEnemy = (state: Store, id1: string, id2: string) => {
+  const character1 = selectCharacter(state, id1)
+  const character2 = selectCharacter(state, id2)
+  const isFound = !!character1 && !!character2
+  if (!isFound) return false
+  return character1.owner !== character2.owner
+}
+
 export const selectPosition: (state: Store, id: string) => Position | null = (
   state: Store,
   id: string
@@ -77,6 +85,8 @@ export const usePlayerCharactersList = () =>
 export const useAiCharactersList = () => useStore(selectAiCharactersList)
 export const useCharacter = (id: string) =>
   useStore((state) => selectCharacter(state, id))
+export const useIsEnemy = (id1: string, id2: string) =>
+  useStore((state) => selectIsEnemy(state, id1, id2))
 export const usePosition = (id: string) =>
   useStore((state) => selectPosition(state, id))
 export const usePath = (id: string) =>

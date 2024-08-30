@@ -10,10 +10,6 @@ export const selectGridHeight = (state: Store) => selectGrid(state).length
 
 export const selectCharacters = (state: Store) => state.characters
 
-// export const selectCharactersList: (state: Store) => Character[] = (
-//   state: Store
-// ) => [...selectCharacters(state).values()]
-
 export const selectCharactersList: (state: Store) => Character[] =
   createSelector([selectCharacters], (characters) => [...characters.values()])
 

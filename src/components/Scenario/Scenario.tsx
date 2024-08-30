@@ -30,7 +30,11 @@ function Scenario({ scenarioData }: ScenarioProps) {
   }
 
   return (
-    <TransformWrapper initialPositionX={initialX} initialPositionY={initialY}>
+    <TransformWrapper
+      initialPositionX={initialX}
+      initialPositionY={initialY}
+      limitToBounds={false}
+    >
       <TransformComponent wrapperStyle={{ height: '100%', width: '100%' }}>
         <Svg tileCssSize={tileCssSize}>
           <Background />

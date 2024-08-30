@@ -8,12 +8,15 @@ import GridLines from '@/components/GridLines'
 import CharacterTiles from '@/components/CharacterTiles'
 import CharacterTile from '@/components/CharacterTile'
 import CharacterInfoBox from '@/components/CharacterInfoBox'
+import PathSegments from '@/components/PathSegments'
+import PathSegment from '@/components/PathSegment'
 import { map2D } from '@/utils'
 import { ScenarioData } from '@/types'
-import { TILE_CSS } from '@/config'
+import { TILE_CSS, DEBUG } from '@/config'
 import useInit from './useInit'
 import useInitialPosition from './useInitialPosition'
 import useHoveredCharacter from './useHoveredCharacter'
+import pathToIdPath from './pathToIdPath'
 
 const tileCssSize: [number, number] = [TILE_CSS.WIDTH, TILE_CSS.HEIGHT]
 
@@ -65,6 +68,20 @@ function Scenario({ scenarioData }: ScenarioProps) {
               ))}
             </Tiles>
             <GridLines />
+            {DEBUG && (
+              <PathSegments>
+                {characters
+                  .map(pathToIdPath)
+                  .flat()
+                  .map((pathSegment) => (
+                    <PathSegment
+                      key={pathSegment.id}
+                      x={pathSegment.position[0]}
+                      y={pathSegment.position[1]}
+                    />
+                  ))}
+              </PathSegments>
+            )}
             <CharacterTiles>
               {characters.map((char) => (
                 <CharacterTile

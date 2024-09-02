@@ -21,9 +21,7 @@ export type Entity = {
   id: string
 }
 
-type TerrainSymbol = (typeof TERRAIN_SYMBOLS)[number]
-
-// export type TerrainSymbol = '.' | 'w' | 'f'
+export type TerrainSymbol = (typeof TERRAIN_SYMBOLS)[number]
 
 export type Movable = {
   position: Position

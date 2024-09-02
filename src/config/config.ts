@@ -1,4 +1,8 @@
-export const TERRAIN_SYMBOLS = ['.', 'w', 'f'] as const
+export const TERRAIN = {
+  '.': { movementCost: 100, name: 'Plain' },
+  w: { movementCost: 0, name: 'Water' },
+  f: { movementCost: 200, name: 'Forest' }
+} as const
 
 /** Terrain tile size in outer svg viewbox context */
 export const TILE = {

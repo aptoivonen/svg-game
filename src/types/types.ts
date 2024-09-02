@@ -5,6 +5,7 @@ import {
   CharacterDataSchema,
   ScenarioDataSchema
 } from './schemas'
+import { TERRAIN_SYMBOLS } from '@/config'
 
 export type Store = {
   name: string
@@ -20,7 +21,9 @@ export type Entity = {
   id: string
 }
 
-export type TerrainSymbol = '.' | 'w' | 'f'
+type TerrainSymbol = (typeof TERRAIN_SYMBOLS)[number]
+
+// export type TerrainSymbol = '.' | 'w' | 'f'
 
 export type Movable = {
   position: Position

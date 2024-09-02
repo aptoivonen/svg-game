@@ -1,3 +1,5 @@
+export const TERRAIN_SYMBOLS = ['.', 'w', 'f'] as const
+
 /** Terrain tile size in outer svg viewbox context */
 export const TILE = {
   WIDTH: 10,

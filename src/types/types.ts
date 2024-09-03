@@ -17,15 +17,23 @@ export type Store = {
   executePath: (id: string) => Promise<void>
 }
 
+export type TerrainSymbol = keyof typeof TERRAIN
+
 export type Entity = {
   id: string
 }
 
-export type TerrainSymbol = keyof typeof TERRAIN
+export type BaseCharacter = {
+  name: string
+  owner: Owner
+}
 
-export type Movable = {
+export type Positioned = {
   position: Position
-  path: Path | null
+}
+
+export type HasPath = {
+  path: Path
 }
 
 export type PathSegment = {
@@ -35,11 +43,7 @@ export type PathSegment = {
 
 export type Path = Array<PathSegment>
 
-export type Character = {
-  name: string
-  owner: Owner
-} & Movable &
-  Entity
+export type Character = BaseCharacter & Positioned & HasPath & Entity
 
 export type Owner = z.infer<typeof OwnerSchema>
 

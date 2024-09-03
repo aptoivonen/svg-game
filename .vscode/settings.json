@@ -4,5 +4,7 @@
   },
   "files.associations": {
     "*.css": "tailwindcss"
-  }
+  },
+  "pieces.cloudCapabilities": "Blended",
+  "pieces.telemetry": true
 }

@@ -37,7 +37,7 @@ export default function path({
   const startNode = graph.grid[startY][startX]
   const endNode = graph.grid[endY][endX]
 
-  const resultPath = search(graph, startNode, endNode, { closest: true }).map(
+  const resultPath = search(graph, startNode, endNode, { closest: false }).map(
     (node) => ({
       pathCost: node.pathCost,
       position: [node.y, node.x] as [number, number]

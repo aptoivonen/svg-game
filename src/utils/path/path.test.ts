@@ -46,3 +46,37 @@ test('path finds route next to another character', () => {
     [1, 3]
   ])
 })
+
+test('path finds no route when no path exists', () => {
+  const calculatedPath = path({
+    targetPosition: [0, 2],
+    characterToMove: { position: [3, 0] },
+    grid: [
+      ['.', '.', '.', '.'],
+      ['w', 'w', '.', '.'],
+      ['.', 'w', '.', '.'],
+      ['w', 'w', '.', '.'],
+      ['.', '.', '.', '.']
+    ],
+    charactersList: []
+  })
+
+  expect(calculatedPath.map((segment) => segment.position)).toEqual([])
+})
+
+test('path finds no route when path is blocked by other characters', () => {
+  const calculatedPath = path({
+    targetPosition: [0, 2],
+    characterToMove: { position: [3, 0] },
+    grid: [
+      ['.', '.', '.', '.'],
+      ['w', 'w', '.', '.'],
+      ['.', 'w', '.', '.'],
+      ['.', 'w', '.', '.'],
+      ['.', '.', '.', '.']
+    ],
+    charactersList: [{ position: [0, 3] }]
+  })
+
+  expect(calculatedPath.map((segment) => segment.position)).toEqual([])
+})

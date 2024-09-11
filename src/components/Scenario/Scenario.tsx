@@ -15,8 +15,8 @@ import { ScenarioData } from '@/types'
 import { TILE_CSS, DEBUG } from '@/config'
 import useInit from './useInit'
 import useInitialPosition from './useInitialPosition'
-import useHoveredCharacter from './useHoveredCharacter'
 import pathToIdPath from './pathToIdPath'
+import useHighlightedCharacter from './useHighlightedCharacter'
 
 const tileCssSize: [number, number] = [TILE_CSS.WIDTH, TILE_CSS.HEIGHT]
 
@@ -29,8 +29,8 @@ function Scenario({ scenarioData }: ScenarioProps) {
   const grid = useGrid()
   const characters = useCharactersList()
   const [initialX, initialY] = useInitialPosition()
-  const { setHoveredCharacterId, clearHoveredCharacterId, hoveredCharacter } =
-    useHoveredCharacter()
+  const [setHoveredCharacterId, clearHoveredCharacterId, hoveredCharacter] =
+    useHighlightedCharacter()
   const hasHoveredCharacter = !!hoveredCharacter
 
   function handleMouseEnterCharacter(characterId: string): void {

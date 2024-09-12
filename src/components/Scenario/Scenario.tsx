@@ -18,6 +18,8 @@ import useInit from './useInit'
 import useInitialPosition from './useInitialPosition'
 import pathToIdPath from './pathToIdPath'
 import useHighlightedCharacter from './useHighlightedCharacter'
+import useKeyboardShortcut from '@/hooks/useKeyboardShortcut'
+import { useCallback } from 'react'
 
 const tileCssSize: [number, number] = [TILE_CSS.WIDTH, TILE_CSS.HEIGHT]
 
@@ -37,6 +39,11 @@ function Scenario({ scenarioData }: ScenarioProps) {
   const [setSelectedCharacterId, clearSelectedCharacterId, selectedCharacter] =
     useHighlightedCharacter()
   const hasSelectedCharacter = !!selectedCharacter
+
+  const onEscapePressed = useCallback(() => {
+    clearSelectedCharacterId()
+  }, [clearSelectedCharacterId])
+  useKeyboardShortcut({ key: 'Escape', onKeyPressed: onEscapePressed })
 
   function handleMouseEnterCharacter(characterId: string): void {
     setHoveredCharacterId(characterId)

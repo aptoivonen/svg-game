@@ -48,7 +48,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
   const selectedCharacter = useCharacter(
     mode.name === 'selectedCharacter' ? mode.characterId : ''
   )
-  const hasSelectedCharacter2 = !!selectedCharacter
+  const hasSelectedCharacter = !!selectedCharacter
 
   const onEscapePressed = useCallback(() => {
     dispatch({ type: 'cancel' })
@@ -78,7 +78,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
   return (
     <div className="relative h-full">
       {hasHoveredCharacter && <CharacterInfoBox character={hoveredCharacter} />}
-      {hasSelectedCharacter2 && (
+      {hasSelectedCharacter && (
         <SelectedCharacterPanel character={selectedCharacter} />
       )}
       <TransformWrapper

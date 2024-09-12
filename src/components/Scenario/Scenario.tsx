@@ -25,7 +25,7 @@ import pathToIdPath from './pathToIdPath'
 import useHighlightedCharacter from './useHighlightedCharacter'
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut'
 import { useCallback } from 'react'
-import useMode from './modeReducer'
+import useMode from './useMode'
 
 const tileCssSize: [number, number] = [TILE_CSS.WIDTH, TILE_CSS.HEIGHT]
 

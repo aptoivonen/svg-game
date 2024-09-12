@@ -11,6 +11,7 @@ type CharacterProps = {
   owner: Owner
   onMouseEnter: (id: string) => void
   onMouseLeave: () => void
+  onClick: (id: string) => void
 }
 
 const COLORS: Record<Owner, string> = {
@@ -24,7 +25,8 @@ function CharacterTile({
   y,
   owner,
   onMouseEnter,
-  onMouseLeave
+  onMouseLeave,
+  onClick
 }: CharacterProps) {
   const [tileWidth, tileHeight] = useTileSize()
   const characterProtoId = useCharacterProtoId()
@@ -44,6 +46,12 @@ function CharacterTile({
     onMouseLeave()
   }
 
+  function handleClick(e: React.MouseEvent<SVGUseElement, MouseEvent>): void {
+    const characterId = e.target instanceof Element ? e.target.id : undefined
+    if (!characterId) return
+    onClick(characterId)
+  }
+
   return (
     <motion.use
       id={id}
@@ -54,6 +62,7 @@ function CharacterTile({
       className={COLORS[owner]}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
     ></motion.use>
   )
 }

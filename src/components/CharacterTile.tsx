@@ -34,22 +34,16 @@ function CharacterTile({
   const calcX = x * tileWidth
   const calcY = y * tileHeight
 
-  function handleMouseEnter(
-    e: React.MouseEvent<SVGUseElement, MouseEvent>
-  ): void {
-    const characterId = e.target instanceof Element ? e.target.id : undefined
-    if (!characterId) return
-    onMouseEnter(characterId)
+  function handleMouseEnter(): void {
+    onMouseEnter(id)
   }
 
   function handleMouseLeave(): void {
     onMouseLeave()
   }
 
-  function handleClick(e: React.MouseEvent<SVGUseElement, MouseEvent>): void {
-    const characterId = e.target instanceof Element ? e.target.id : undefined
-    if (!characterId) return
-    onClick(characterId)
+  function handleClick(): void {
+    onClick(id)
   }
 
   return (

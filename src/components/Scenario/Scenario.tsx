@@ -1,5 +1,10 @@
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
-import { useAiCharactersList, useGrid, usePlayerCharactersList } from '@/store'
+import {
+  useAiCharactersList,
+  useCharacter,
+  useGrid,
+  usePlayerCharactersList
+} from '@/store'
 import Svg from '@/components/Svg'
 import Background from '@/components/Background'
 import Tiles from '@/components/Tiles'
@@ -20,6 +25,7 @@ import pathToIdPath from './pathToIdPath'
 import useHighlightedCharacter from './useHighlightedCharacter'
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut'
 import { useCallback } from 'react'
+import useMode from './modeReducer'
 
 const tileCssSize: [number, number] = [TILE_CSS.WIDTH, TILE_CSS.HEIGHT]
 
@@ -36,13 +42,17 @@ function Scenario({ scenarioData }: ScenarioProps) {
   const [setHoveredCharacterId, clearHoveredCharacterId, hoveredCharacter] =
     useHighlightedCharacter()
   const hasHoveredCharacter = !!hoveredCharacter
-  const [setSelectedCharacterId, clearSelectedCharacterId, selectedCharacter] =
-    useHighlightedCharacter()
-  const hasSelectedCharacter = !!selectedCharacter
+
+  const [mode, dispatch] = useMode()
+
+  const selectedCharacter = useCharacter(
+    mode.name === 'selectedCharacter' ? mode.characterId : ''
+  )
+  const hasSelectedCharacter2 = !!selectedCharacter
 
   const onEscapePressed = useCallback(() => {
-    clearSelectedCharacterId()
-  }, [clearSelectedCharacterId])
+    dispatch({ type: 'cancel' })
+  }, [dispatch])
   useKeyboardShortcut({ key: 'Escape', onKeyPressed: onEscapePressed })
 
   function handleMouseEnterCharacter(characterId: string): void {
@@ -53,12 +63,8 @@ function Scenario({ scenarioData }: ScenarioProps) {
     clearHoveredCharacterId()
   }
 
-  function handleClickCharacter(characterId: string): void {
-    if (selectedCharacter?.id === characterId) {
-      clearSelectedCharacterId()
-      return
-    }
-    setSelectedCharacterId(characterId)
+  function handleClickPlayerCharacter(characterId: string): void {
+    dispatch({ type: 'selectCharacter', characterId })
   }
 
   function handleClickAiCharacter(characterId: string): void {
@@ -72,7 +78,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
   return (
     <div className="relative h-full">
       {hasHoveredCharacter && <CharacterInfoBox character={hoveredCharacter} />}
-      {hasSelectedCharacter && (
+      {hasSelectedCharacter2 && (
         <SelectedCharacterPanel character={selectedCharacter} />
       )}
       <TransformWrapper
@@ -133,7 +139,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
                   owner={char.owner}
                   onMouseEnter={handleMouseEnterCharacter}
                   onMouseLeave={handleMouseLeaveCharacter}
-                  onClick={handleClickCharacter}
+                  onClick={handleClickPlayerCharacter}
                 />
               ))}
             </CharacterTiles>

@@ -1,5 +1,5 @@
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
-import { useCharactersList, useGrid } from '@/store'
+import { useAiCharactersList, useGrid, usePlayerCharactersList } from '@/store'
 import Svg from '@/components/Svg'
 import Background from '@/components/Background'
 import Tiles from '@/components/Tiles'
@@ -10,6 +10,7 @@ import CharacterTile from '@/components/CharacterTile'
 import CharacterInfoBox from '@/components/CharacterInfoBox'
 import PathSegments from '@/components/PathSegments'
 import PathSegment from '@/components/PathSegment'
+import SelectedCharacterPanel from '@/components/SelectedCharacterPanel'
 import { map2D } from '@/utils'
 import { ScenarioData } from '@/types'
 import { TILE_CSS, DEBUG } from '@/config'
@@ -27,11 +28,15 @@ type ScenarioProps = {
 function Scenario({ scenarioData }: ScenarioProps) {
   const isInitialized = useInit(scenarioData)
   const grid = useGrid()
-  const characters = useCharactersList()
+  const playerCharacters = usePlayerCharactersList()
+  const aiCharacters = useAiCharactersList()
   const [initialX, initialY] = useInitialPosition()
   const [setHoveredCharacterId, clearHoveredCharacterId, hoveredCharacter] =
     useHighlightedCharacter()
   const hasHoveredCharacter = !!hoveredCharacter
+  const [setSelectedCharacterId, clearSelectedCharacterId, selectedCharacter] =
+    useHighlightedCharacter()
+  const hasSelectedCharacter = !!selectedCharacter
 
   function handleMouseEnterCharacter(characterId: string): void {
     setHoveredCharacterId(characterId)
@@ -41,6 +46,18 @@ function Scenario({ scenarioData }: ScenarioProps) {
     clearHoveredCharacterId()
   }
 
+  function handleClickCharacter(characterId: string): void {
+    if (selectedCharacter?.id === characterId) {
+      clearSelectedCharacterId()
+      return
+    }
+    setSelectedCharacterId(characterId)
+  }
+
+  function handleClickAiCharacter(characterId: string): void {
+    console.log('Click ai character ' + characterId)
+  }
+
   if (!isInitialized) {
     return <div>Waiting to initialize scenario</div>
   }
@@ -48,6 +65,9 @@ function Scenario({ scenarioData }: ScenarioProps) {
   return (
     <div className="relative h-full">
       {hasHoveredCharacter && <CharacterInfoBox character={hoveredCharacter} />}
+      {hasSelectedCharacter && (
+        <SelectedCharacterPanel character={selectedCharacter} />
+      )}
       <TransformWrapper
         initialPositionX={initialX}
         initialPositionY={initialY}
@@ -69,21 +89,35 @@ function Scenario({ scenarioData }: ScenarioProps) {
             </Tiles>
             <GridLines />
             {DEBUG && (
-              <PathSegments>
-                {characters
-                  .map(pathToIdPath)
-                  .flat()
-                  .map((pathSegment) => (
-                    <PathSegment
-                      key={pathSegment.id}
-                      x={pathSegment.position[0]}
-                      y={pathSegment.position[1]}
-                    />
-                  ))}
-              </PathSegments>
+              <>
+                <PathSegments>
+                  {playerCharacters
+                    .map(pathToIdPath)
+                    .flat()
+                    .map((pathSegment) => (
+                      <PathSegment
+                        key={pathSegment.id}
+                        x={pathSegment.position[0]}
+                        y={pathSegment.position[1]}
+                      />
+                    ))}
+                </PathSegments>
+                <PathSegments>
+                  {aiCharacters
+                    .map(pathToIdPath)
+                    .flat()
+                    .map((pathSegment) => (
+                      <PathSegment
+                        key={pathSegment.id}
+                        x={pathSegment.position[0]}
+                        y={pathSegment.position[1]}
+                      />
+                    ))}
+                </PathSegments>
+              </>
             )}
             <CharacterTiles>
-              {characters.map((char) => (
+              {playerCharacters.map((char) => (
                 <CharacterTile
                   key={char.id}
                   id={char.id}
@@ -92,6 +126,21 @@ function Scenario({ scenarioData }: ScenarioProps) {
                   owner={char.owner}
                   onMouseEnter={handleMouseEnterCharacter}
                   onMouseLeave={handleMouseLeaveCharacter}
+                  onClick={handleClickCharacter}
+                />
+              ))}
+            </CharacterTiles>
+            <CharacterTiles>
+              {aiCharacters.map((char) => (
+                <CharacterTile
+                  key={char.id}
+                  id={char.id}
+                  x={char.position[0]}
+                  y={char.position[1]}
+                  owner={char.owner}
+                  onMouseEnter={handleMouseEnterCharacter}
+                  onMouseLeave={handleMouseLeaveCharacter}
+                  onClick={handleClickAiCharacter}
                 />
               ))}
             </CharacterTiles>

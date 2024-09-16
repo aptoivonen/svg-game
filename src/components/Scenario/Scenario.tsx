@@ -158,8 +158,6 @@ function Scenario({ scenarioData }: ScenarioProps) {
                   onClick={handleClickPlayerCharacter}
                 />
               ))}
-            </CharacterTiles>
-            <CharacterTiles>
               {aiCharacters.map((char) => (
                 <CharacterTile
                   key={char.id}

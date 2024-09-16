@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import {
   useAiCharactersList,
@@ -24,7 +25,6 @@ import useInitialPosition from './useInitialPosition'
 import pathToIdPath from './pathToIdPath'
 import useHighlightedCharacter from './useHighlightedCharacter'
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut'
-import { useCallback } from 'react'
 import useMode from './useMode'
 
 const tileCssSize: [number, number] = [TILE_CSS.WIDTH, TILE_CSS.HEIGHT]
@@ -55,13 +55,16 @@ function Scenario({ scenarioData }: ScenarioProps) {
   }, [dispatch])
   useKeyboardShortcut({ key: 'Escape', onKeyPressed: onEscapePressed })
 
-  function handleMouseEnterCharacter(characterId: string): void {
-    setHoveredCharacterId(characterId)
-  }
+  const handleMouseEnterCharacter = useCallback(
+    (characterId: string) => {
+      setHoveredCharacterId(characterId)
+    },
+    [setHoveredCharacterId]
+  )
 
-  function handleMouseLeaveCharacter(): void {
+  const handleMouseLeaveCharacter = useCallback(() => {
     clearHoveredCharacterId()
-  }
+  }, [clearHoveredCharacterId])
 
   function handleClickPlayerCharacter(characterId: string): void {
     dispatch({ type: 'selectCharacter', characterId })
@@ -70,6 +73,17 @@ function Scenario({ scenarioData }: ScenarioProps) {
   function handleClickAiCharacter(characterId: string): void {
     console.log('Click ai character ' + characterId)
   }
+
+  const handleMouseEnterTile = useCallback(
+    (x: number, y: number) => {
+      dispatch({ type: 'enterTile', x, y })
+    },
+    [dispatch]
+  )
+
+  const handleMouseLeaveTile = useCallback(() => {
+    dispatch({ type: 'leaveTile' })
+  }, [dispatch])
 
   if (!isInitialized) {
     return <div>Waiting to initialize scenario</div>
@@ -97,6 +111,8 @@ function Scenario({ scenarioData }: ScenarioProps) {
                   terrainSymbol={terrainSymbol}
                   x={x}
                   y={y}
+                  onMouseEnter={handleMouseEnterTile}
+                  onMouseLeave={handleMouseLeaveTile}
                 ></Tile>
               ))}
             </Tiles>

@@ -9,7 +9,7 @@ type CharacterProps = {
   x: number
   y: number
   owner: Owner
-  onMouseEnter: (id: string) => void
+  onMouseEnter: (id: string, x: number, y: number) => void
   onMouseLeave: () => void
   onClick: (id: string) => void
 }
@@ -35,7 +35,7 @@ function CharacterTile({
   const calcY = y * tileHeight
 
   function handleMouseEnter(): void {
-    onMouseEnter(id)
+    onMouseEnter(id, x, y)
   }
 
   function handleMouseLeave(): void {

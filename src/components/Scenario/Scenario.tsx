@@ -72,6 +72,30 @@ function Scenario({ scenarioData }: ScenarioProps) {
     clearHoveredCharacterId()
   }, [clearHoveredCharacterId])
 
+  const handleMouseEnterPlayerCharacter = useCallback(
+    (characterId: string) => {
+      handleMouseEnterCharacter(characterId)
+    },
+    [handleMouseEnterCharacter]
+  )
+
+  const handleMouseLeavePlayerCharacter = useCallback(() => {
+    handleMouseLeaveCharacter()
+  }, [handleMouseLeaveCharacter])
+
+  const handleMouseEnterAiCharacter = useCallback(
+    (characterId: string, x: number, y: number) => {
+      handleMouseEnterCharacter(characterId)
+      enterTile(x, y)
+    },
+    [handleMouseEnterCharacter, enterTile]
+  )
+
+  const handleMouseLeaveAiCharacter = useCallback(() => {
+    handleMouseLeaveCharacter()
+    leaveTile()
+  }, [handleMouseLeaveCharacter, leaveTile])
+
   function handleClickPlayerCharacter(characterId: string): void {
     selectCharacter(characterId)
   }
@@ -172,8 +196,8 @@ function Scenario({ scenarioData }: ScenarioProps) {
                   x={char.position[0]}
                   y={char.position[1]}
                   owner={char.owner}
-                  onMouseEnter={handleMouseEnterCharacter}
-                  onMouseLeave={handleMouseLeaveCharacter}
+                  onMouseEnter={handleMouseEnterPlayerCharacter}
+                  onMouseLeave={handleMouseLeavePlayerCharacter}
                   onClick={handleClickPlayerCharacter}
                 />
               ))}
@@ -184,8 +208,8 @@ function Scenario({ scenarioData }: ScenarioProps) {
                   x={char.position[0]}
                   y={char.position[1]}
                   owner={char.owner}
-                  onMouseEnter={handleMouseEnterCharacter}
-                  onMouseLeave={handleMouseLeaveCharacter}
+                  onMouseEnter={handleMouseEnterAiCharacter}
+                  onMouseLeave={handleMouseLeaveAiCharacter}
                   onClick={handleClickAiCharacter}
                 />
               ))}

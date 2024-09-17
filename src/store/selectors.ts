@@ -1,5 +1,5 @@
-import type { Character, Path, Position, Store } from '@/types'
-import { useStore } from './store'
+import type { Character, Path, Position } from '@/types'
+import { Store, useStore } from './store'
 import { createSelector } from 'reselect'
 
 export const selectGrid = (state: Store) => state.grid

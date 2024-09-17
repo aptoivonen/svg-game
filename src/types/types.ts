@@ -7,41 +7,6 @@ import {
 } from './schemas'
 import { TERRAIN } from '@/config'
 
-export type Store = {
-  name: string
-  grid: TerrainSymbol[][]
-  characters: Map<string, Character>
-  mode: ModeState
-  init: (scenarioData: ScenarioData) => void
-  selectCharacter: (id: string) => void
-  cancel: () => void
-  leaveTile: () => void
-  enterTile: (x: number, y: number) => void
-  setPath: (id: string, path: Path) => void
-  clearPath: (id: string) => void
-  executeSelectedCharacterPath: () => Promise<void>
-  executeAiCharacterPath: (id: string) => Promise<void>
-}
-
-export type ModeState =
-  | {
-      name: 'viewing'
-    }
-  | {
-      name: 'selectedCharacter'
-      characterId: string
-      tileX?: number
-      tileY?: number
-      path?: Path
-    }
-  | {
-      name: 'aiTurn'
-    }
-  | {
-      name: 'executing'
-      characterId: string
-    }
-
 export type TerrainSymbol = keyof typeof TERRAIN
 
 export type Entity = {

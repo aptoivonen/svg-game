@@ -1,5 +1,11 @@
 import { create } from 'zustand'
-import type { Path, Position, ScenarioData, Store } from '@/types'
+import type {
+  Character,
+  Path,
+  Position,
+  ScenarioData,
+  TerrainSymbol
+} from '@/types'
 import {
   selectCharacter,
   selectCharacters,
@@ -9,6 +15,41 @@ import {
 } from './selectors'
 import { initTerrain, initCharacters, executePath } from './helpers'
 import { path } from '@/utils'
+
+export type Store = {
+  name: string
+  grid: TerrainSymbol[][]
+  characters: Map<string, Character>
+  mode: ModeState
+  init: (scenarioData: ScenarioData) => void
+  selectCharacter: (id: string) => void
+  cancel: () => void
+  leaveTile: () => void
+  enterTile: (x: number, y: number) => void
+  setPath: (id: string, path: Path) => void
+  clearPath: (id: string) => void
+  executeSelectedCharacterPath: () => Promise<void>
+  executeAiCharacterPath: (id: string) => Promise<void>
+}
+
+type ModeState =
+  | {
+      name: 'viewing'
+    }
+  | {
+      name: 'selectedCharacter'
+      characterId: string
+      tileX?: number
+      tileY?: number
+      path?: Path
+    }
+  | {
+      name: 'aiTurn'
+    }
+  | {
+      name: 'executing'
+      characterId: string
+    }
 
 const useStore = create<Store>((set, get) => ({
   name: '',

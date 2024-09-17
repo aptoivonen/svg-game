@@ -1,8 +1,9 @@
-import type { Character, Position, Store, TerrainSymbol } from '@/types'
+import type { Character, Position, TerrainSymbol } from '@/types'
 import { CharactersDataSchema } from '@/types'
 import { selectCharacter, selectCharacters, selectPath } from './selectors'
 import { wait } from '@/utils'
 import { CHARACTER_MOVE_DELAY_SECONDS } from '@/config'
+import { Store } from './store'
 
 export function initTerrain(grid: string[]): TerrainSymbol[][] {
   return grid.map((row) => row.split('')) as TerrainSymbol[][]

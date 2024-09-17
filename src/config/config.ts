@@ -16,4 +16,4 @@ export const TILE_CSS = {
   HEIGHT: 40
 }
 
-export const CHARACTER_MOVE_DELAY_SECONDS = 0.7
+export const CHARACTER_MOVE_DELAY_SECONDS = 0.3

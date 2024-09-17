@@ -4,7 +4,9 @@ import {
   useAiCharactersList,
   useCharacter,
   useGrid,
-  usePlayerCharactersList
+  useMode,
+  usePlayerCharactersList,
+  useStore
 } from '@/store'
 import Svg from '@/components/Svg'
 import Background from '@/components/Background'
@@ -22,10 +24,9 @@ import { ScenarioData } from '@/types'
 import { TILE_CSS, DEBUG } from '@/config'
 import useInit from './useInit'
 import useInitialPosition from './useInitialPosition'
-import pathToIdPath from './pathToIdPath'
+import { characterPathToIdPath, pathToIdPath } from './pathToIdPath'
 import useHighlightedCharacter from './useHighlightedCharacter'
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut'
-import useMode from './useMode'
 
 const tileCssSize: [number, number] = [TILE_CSS.WIDTH, TILE_CSS.HEIGHT]
 
@@ -42,17 +43,22 @@ function Scenario({ scenarioData }: ScenarioProps) {
   const [setHoveredCharacterId, clearHoveredCharacterId, hoveredCharacter] =
     useHighlightedCharacter()
   const hasHoveredCharacter = !!hoveredCharacter
-
-  const [mode, dispatch] = useMode()
-
+  const mode = useMode()
   const selectedCharacter = useCharacter(
     mode.name === 'selectedCharacter' ? mode.characterId : ''
   )
+  const selectedCharacterPath = mode.name === 'selectedCharacter' && mode.path
   const hasSelectedCharacter = !!selectedCharacter
+  const hasSelectedCharacterPath = !!selectedCharacterPath
+
+  const cancel = useStore((state) => state.cancel)
+  const selectCharacter = useStore((state) => state.selectCharacter)
+  const enterTile = useStore((state) => state.enterTile)
+  const leaveTile = useStore((state) => state.leaveTile)
 
   const onEscapePressed = useCallback(() => {
-    dispatch({ type: 'cancel' })
-  }, [dispatch])
+    cancel()
+  }, [cancel])
   useKeyboardShortcut({ key: 'Escape', onKeyPressed: onEscapePressed })
 
   const handleMouseEnterCharacter = useCallback(
@@ -67,7 +73,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
   }, [clearHoveredCharacterId])
 
   function handleClickPlayerCharacter(characterId: string): void {
-    dispatch({ type: 'selectCharacter', characterId })
+    selectCharacter(characterId)
   }
 
   function handleClickAiCharacter(characterId: string): void {
@@ -76,14 +82,14 @@ function Scenario({ scenarioData }: ScenarioProps) {
 
   const handleMouseEnterTile = useCallback(
     (x: number, y: number) => {
-      dispatch({ type: 'enterTile', x, y })
+      enterTile(x, y)
     },
-    [dispatch]
+    [enterTile]
   )
 
   const handleMouseLeaveTile = useCallback(() => {
-    dispatch({ type: 'leaveTile' })
-  }, [dispatch])
+    leaveTile
+  }, [leaveTile])
 
   if (!isInitialized) {
     return <div>Waiting to initialize scenario</div>
@@ -121,7 +127,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
               <>
                 <PathSegments>
                   {playerCharacters
-                    .map(pathToIdPath)
+                    .map(characterPathToIdPath)
                     .flat()
                     .map((pathSegment) => (
                       <PathSegment
@@ -133,7 +139,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
                 </PathSegments>
                 <PathSegments>
                   {aiCharacters
-                    .map(pathToIdPath)
+                    .map(characterPathToIdPath)
                     .flat()
                     .map((pathSegment) => (
                       <PathSegment
@@ -144,6 +150,19 @@ function Scenario({ scenarioData }: ScenarioProps) {
                     ))}
                 </PathSegments>
               </>
+            )}
+            {hasSelectedCharacterPath && (
+              <PathSegments>
+                {pathToIdPath(mode.characterId, selectedCharacterPath).map(
+                  (pathSegment) => (
+                    <PathSegment
+                      key={pathSegment.id}
+                      x={pathSegment.position[0]}
+                      y={pathSegment.position[1]}
+                    />
+                  )
+                )}
+              </PathSegments>
             )}
             <CharacterTiles>
               {playerCharacters.map((char) => (

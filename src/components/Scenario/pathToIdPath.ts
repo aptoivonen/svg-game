@@ -1,12 +1,17 @@
-import { Character, PathSegment } from '@/types'
+import { Character, Path, PathSegment } from '@/types'
 
-export default function pathToIdPath(
+export function characterPathToIdPath(
   character: Character
 ): Array<PathSegment & { id: string }> {
-  return character.path
-    ? character.path.map((pathSegment) => ({
-        ...pathSegment,
-        id: `${character.id}-${pathSegment.position[0]}-${pathSegment.position[1]}`
-      }))
-    : []
+  return character.path ? pathToIdPath(character.id, character.path) : []
+}
+
+export function pathToIdPath(
+  characterId: string,
+  path: Path
+): Array<PathSegment & { id: string }> {
+  return path.map((pathSegment) => ({
+    ...pathSegment,
+    id: `${characterId}-${pathSegment.position[0]}-${pathSegment.position[1]}`
+  }))
 }

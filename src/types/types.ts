@@ -17,10 +17,10 @@ export type Store = {
   cancel: () => void
   leaveTile: () => void
   enterTile: (x: number, y: number) => void
-  setPosition: (id: string, position: Position) => void
   setPath: (id: string, path: Path) => void
   clearPath: (id: string) => void
-  executePath: (id: string) => Promise<void>
+  executeSelectedCharacterPath: () => Promise<void>
+  executeAiCharacterPath: (id: string) => Promise<void>
 }
 
 export type ModeState =

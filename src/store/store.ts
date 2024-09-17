@@ -5,12 +5,10 @@ import {
   selectCharacters,
   selectCharactersList,
   selectGrid,
-  selectMode,
-  selectPath
+  selectMode
 } from './selectors'
-import { initTerrain, initCharacters } from './helpers'
-import { path, wait } from '@/utils'
-import { CHARACTER_MOVE_DELAY_SECONDS } from '@/config'
+import { initTerrain, initCharacters, executePath } from './helpers'
+import { path } from '@/utils'
 
 const useStore = create<Store>((set, get) => ({
   name: '',
@@ -83,17 +81,6 @@ const useStore = create<Store>((set, get) => ({
         }
       }
     }),
-  setPosition: (id: string, position: Position) =>
-    set((state) => {
-      const char = selectCharacter(state, id)
-      if (!char) return state
-      return {
-        characters: new Map(selectCharacters(state)).set(id, {
-          ...char,
-          position
-        })
-      }
-    }),
   setPath: (id: string, path: Path) => {
     set((state) => {
       const char = selectCharacter(state, id)
@@ -118,15 +105,33 @@ const useStore = create<Store>((set, get) => ({
       }
     })
   },
-  executePath: async (id: string) => {
-    const char = selectCharacter(get(), id)
-    if (!char) return
-    const path = selectPath(get(), id)
-    if (!path) return
-    for (const pathSegment of path) {
-      get().setPosition(id, pathSegment.position)
-      await wait(CHARACTER_MOVE_DELAY_SECONDS * 1000)
+  executeSelectedCharacterPath: async () => {
+    const mode = selectMode(get())
+    const canExecutePath = mode.name === 'selectedCharacter'
+    if (!canExecutePath) {
+      return
     }
+    const { characterId } = mode
+    const selectedCharacterPath = mode.path
+    if (!selectedCharacterPath) {
+      return
+    }
+    set(() => {
+      return { mode: { name: 'executing', characterId } }
+    })
+    get().setPath(characterId, selectedCharacterPath)
+    await executePath(characterId, get, set)
+    set(() => {
+      return { mode: { name: 'selectedCharacter', characterId } }
+    })
+  },
+  executeAiCharacterPath: async (id: string) => {
+    const mode = selectMode(get())
+    const canExecutePath = mode.name === 'aiTurn'
+    if (!canExecutePath) {
+      return
+    }
+    executePath(id, get, set)
   }
 }))
 

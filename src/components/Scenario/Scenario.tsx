@@ -16,15 +16,13 @@ import GridLines from '@/components/GridLines'
 import CharacterTiles from '@/components/CharacterTiles'
 import CharacterTile from '@/components/CharacterTile'
 import CharacterInfoBox from '@/components/CharacterInfoBox'
-import PathSegments from '@/components/PathSegments'
-import PathSegment from '@/components/PathSegment'
 import SelectedCharacterPanel from '@/components/SelectedCharacterPanel'
+import CharacterPath from '@/components/CharacterPath'
 import { map2D } from '@/utils'
 import { ScenarioData } from '@/types'
 import { TILE_CSS, DEBUG } from '@/config'
 import useInit from './useInit'
 import useInitialPosition from './useInitialPosition'
-import { characterPathToIdPath, pathToIdPath } from './pathToIdPath'
 import useHighlightedCharacter from './useHighlightedCharacter'
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut'
 
@@ -47,7 +45,8 @@ function Scenario({ scenarioData }: ScenarioProps) {
   const selectedCharacter = useCharacter(
     mode.name === 'selectedCharacter' ? mode.characterId : ''
   )
-  const selectedCharacterPath = mode.name === 'selectedCharacter' && mode.path
+  const selectedCharacterPath =
+    mode.name === 'selectedCharacter' && selectedCharacter && mode.path
   const hasSelectedCharacter = !!selectedCharacter
   const hasSelectedCharacterPath = !!selectedCharacterPath
 
@@ -159,45 +158,24 @@ function Scenario({ scenarioData }: ScenarioProps) {
             </Tiles>
             <GridLines />
             {DEBUG && (
-              <>
-                <PathSegments>
-                  {playerCharacters
-                    .map(characterPathToIdPath)
-                    .flat()
-                    .map((pathSegment) => (
-                      <PathSegment
-                        key={pathSegment.id}
-                        x={pathSegment.position[0]}
-                        y={pathSegment.position[1]}
-                      />
-                    ))}
-                </PathSegments>
-                <PathSegments>
-                  {aiCharacters
-                    .map(characterPathToIdPath)
-                    .flat()
-                    .map((pathSegment) => (
-                      <PathSegment
-                        key={pathSegment.id}
-                        x={pathSegment.position[0]}
-                        y={pathSegment.position[1]}
-                      />
-                    ))}
-                </PathSegments>
-              </>
+              <g id="aiCharacterPaths">
+                {aiCharacters.map((char) => (
+                  <CharacterPath
+                    key={char.id}
+                    characterPosition={char.position}
+                    path={char.path}
+                    owner="ai"
+                  />
+                ))}
+              </g>
             )}
             {hasSelectedCharacterPath && (
-              <PathSegments>
-                {pathToIdPath(mode.characterId, selectedCharacterPath).map(
-                  (pathSegment) => (
-                    <PathSegment
-                      key={pathSegment.id}
-                      x={pathSegment.position[0]}
-                      y={pathSegment.position[1]}
-                    />
-                  )
-                )}
-              </PathSegments>
+              <g id="characterPath">
+                <CharacterPath
+                  characterPosition={selectedCharacter.position}
+                  path={selectedCharacterPath}
+                />
+              </g>
             )}
             <CharacterTiles>
               {playerCharacters.map((char) => (

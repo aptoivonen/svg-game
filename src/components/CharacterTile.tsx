@@ -52,7 +52,7 @@ function CharacterTile({
       href={`#${characterProtoId}`}
       animate={{ x: calcX, y: calcY }}
       initial={false}
-      transition={{ duration: CHARACTER_MOVE_DELAY_SECONDS }}
+      transition={{ duration: CHARACTER_MOVE_DELAY_SECONDS, ease: 'linear' }}
       className={COLORS[owner]}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

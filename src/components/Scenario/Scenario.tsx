@@ -112,7 +112,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
   )
 
   const handleMouseLeaveTile = useCallback(() => {
-    leaveTile
+    leaveTile()
   }, [leaveTile])
 
   if (!isInitialized) {

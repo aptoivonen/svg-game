@@ -8,6 +8,8 @@ export const selectGridWidth = (state: Store) => selectGrid(state)[0].length
 
 export const selectGridHeight = (state: Store) => selectGrid(state).length
 
+export const selectMode = (state: Store) => state.mode
+
 export const selectCharacters = (state: Store) => state.characters
 
 export const selectPlayerCharacters: (state: Store) => Map<string, Character> =
@@ -76,6 +78,7 @@ export const selectHasPath = (state: Store, id: string) => {
 export const useGrid = () => useStore(selectGrid)
 export const useGridWidth = () => useStore(selectGridWidth)
 export const useGridHeight = () => useStore(selectGridHeight)
+export const useMode = () => useStore(selectMode)
 export const useCharacters = () => useStore(selectCharacters)
 export const usePlayerCharacters = () => useStore(selectPlayerCharacters)
 export const useAiCharacters = () => useStore(selectAiCharacters)

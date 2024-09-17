@@ -16,9 +16,17 @@ type TileProps = {
   terrainSymbol: TerrainSymbol
   onMouseEnter: (x: number, y: number) => void
   onMouseLeave: () => void
+  onClick: (x: number, y: number) => void
 }
 
-function Tile({ x, y, terrainSymbol, onMouseEnter, onMouseLeave }: TileProps) {
+function Tile({
+  x,
+  y,
+  terrainSymbol,
+  onMouseEnter,
+  onMouseLeave,
+  onClick
+}: TileProps) {
   const [tileWidth, tileHeight] = useTileSize()
   const calcX = x * tileWidth
   const calcY = y * tileHeight
@@ -26,6 +34,10 @@ function Tile({ x, y, terrainSymbol, onMouseEnter, onMouseLeave }: TileProps) {
 
   function handleMouseEnter() {
     onMouseEnter(x, y)
+  }
+
+  function handleClick() {
+    onClick(x, y)
   }
 
   return (
@@ -36,6 +48,7 @@ function Tile({ x, y, terrainSymbol, onMouseEnter, onMouseLeave }: TileProps) {
       className={TILE_CLASSES[terrainSymbol] ?? ERROR_NO_TERRAIN_CLASS}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={onMouseLeave}
+      onClick={handleClick}
     ></use>
   )
 }

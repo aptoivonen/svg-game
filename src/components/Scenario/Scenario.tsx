@@ -55,6 +55,9 @@ function Scenario({ scenarioData }: ScenarioProps) {
   const selectCharacter = useStore((state) => state.selectCharacter)
   const enterTile = useStore((state) => state.enterTile)
   const leaveTile = useStore((state) => state.leaveTile)
+  const executeSelectedCharacterPath = useStore(
+    (state) => state.executeSelectedCharacterPath
+  )
 
   const onEscapePressed = useCallback(() => {
     cancel()
@@ -96,13 +99,16 @@ function Scenario({ scenarioData }: ScenarioProps) {
     leaveTile()
   }, [handleMouseLeaveCharacter, leaveTile])
 
-  function handleClickPlayerCharacter(characterId: string): void {
-    selectCharacter(characterId)
-  }
+  const handleClickPlayerCharacter = useCallback(
+    (characterId: string) => {
+      selectCharacter(characterId)
+    },
+    [selectCharacter]
+  )
 
-  function handleClickAiCharacter(characterId: string): void {
-    console.log('Click ai character ' + characterId)
-  }
+  const handleClickAiCharacter = useCallback(() => {
+    executeSelectedCharacterPath()
+  }, [executeSelectedCharacterPath])
 
   const handleMouseEnterTile = useCallback(
     (x: number, y: number) => {
@@ -114,6 +120,10 @@ function Scenario({ scenarioData }: ScenarioProps) {
   const handleMouseLeaveTile = useCallback(() => {
     leaveTile()
   }, [leaveTile])
+
+  const handleClickTile = useCallback(() => {
+    executeSelectedCharacterPath()
+  }, [executeSelectedCharacterPath])
 
   if (!isInitialized) {
     return <div>Waiting to initialize scenario</div>
@@ -143,6 +153,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
                   y={y}
                   onMouseEnter={handleMouseEnterTile}
                   onMouseLeave={handleMouseLeaveTile}
+                  onClick={handleClickTile}
                 ></Tile>
               ))}
             </Tiles>

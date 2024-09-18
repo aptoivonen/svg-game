@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion'
+import { ActionPointIcon } from '@/components'
 import { Character, Owner } from '@/types'
 import { useTileSize } from './Svg'
 import { useCharacterProtoId } from './CharacterTiles'
 import { CHARACTER_MOVE_DELAY_SECONDS } from '@/config'
-import ActionPointIcon from './ActionPointIcon'
 
 type CharacterProps = {
   character: Character

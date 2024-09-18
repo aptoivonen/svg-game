@@ -1,5 +1,5 @@
 import { Character } from '@/types'
-import ActionPointIcon from './ActionPointIcon'
+import { ActionPointIcon } from '@/components'
 
 type SelectedCharacterPanelProps = {
   character: Character

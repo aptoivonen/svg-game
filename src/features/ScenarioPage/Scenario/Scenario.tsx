@@ -192,6 +192,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
                   x={char.position[0]}
                   y={char.position[1]}
                   owner={char.owner}
+                  currentActionPoints={char.currentActionPoints}
                   onMouseEnter={handleMouseEnterPlayerCharacter}
                   onMouseLeave={handleMouseLeavePlayerCharacter}
                   onClick={handleClickPlayerCharacter}
@@ -204,6 +205,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
                   x={char.position[0]}
                   y={char.position[1]}
                   owner={char.owner}
+                  currentActionPoints={char.currentActionPoints}
                   onMouseEnter={handleMouseEnterAiCharacter}
                   onMouseLeave={handleMouseLeaveAiCharacter}
                   onClick={handleClickAiCharacter}

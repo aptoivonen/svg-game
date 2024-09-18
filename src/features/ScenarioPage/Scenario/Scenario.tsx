@@ -28,6 +28,7 @@ import useInit from './useInit'
 import useInitialPosition from './useInitialPosition'
 import useHighlightedCharacter from './useHighlightedCharacter'
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut'
+import SelectedCharacterHighlight from '../components/SelectedCharacterHighlight'
 
 const tileCssSize: [number, number] = [TILE_CSS.WIDTH, TILE_CSS.HEIGHT]
 
@@ -177,6 +178,11 @@ function Scenario({ scenarioData }: ScenarioProps) {
                   path={selectedCharacterPath}
                 />
               </g>
+            )}
+            {hasSelectedCharacter && (
+              <SelectedCharacterHighlight
+                position={selectedCharacter.position}
+              />
             )}
             <CharacterTiles>
               {playerCharacters.map((char) => (

@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { Owner } from '@/types'
-import { useTileSize } from '@/components/Svg'
-import { useCharacterProtoId } from '@/components/CharacterTiles'
+import { useTileSize } from './Svg'
+import { useCharacterProtoId } from './CharacterTiles'
 import { CHARACTER_MOVE_DELAY_SECONDS } from '@/config'
 
 type CharacterProps = {

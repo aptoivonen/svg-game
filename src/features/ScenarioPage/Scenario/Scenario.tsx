@@ -20,7 +20,7 @@ import {
   CharacterPath,
   ZoomPanPinchWrapper,
   ZoomPanPinchComponent
-} from '@/components'
+} from '../components'
 import { map2D } from '@/utils'
 import { ScenarioData } from '@/types'
 import { TILE_CSS, DEBUG } from '@/config'

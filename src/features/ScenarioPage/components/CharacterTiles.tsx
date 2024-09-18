@@ -1,5 +1,5 @@
 import { createContext, memo, useContext } from 'react'
-import { useTileSize } from '@/components/Svg'
+import { useTileSize } from './Svg'
 
 const CHARACTER_PROTO_ID = 'characterProto'
 

@@ -1,5 +1,5 @@
 import { createContext, memo, useContext } from 'react'
-import { useTileSize } from '@/components/Svg'
+import { useTileSize } from './Svg'
 
 const TILE_PROTO_ID = 'tileProto'
 

@@ -1,5 +1,4 @@
 import { useCallback } from 'react'
-import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import {
   useAiCharactersList,
   useCharacter,
@@ -18,7 +17,9 @@ import {
   CharacterTile,
   CharacterInfoBox,
   SelectedCharacterPanel,
-  CharacterPath
+  CharacterPath,
+  ZoomPanPinchWrapper,
+  ZoomPanPinchComponent
 } from '@/components'
 import { map2D } from '@/utils'
 import { ScenarioData } from '@/types'
@@ -136,13 +137,11 @@ function Scenario({ scenarioData }: ScenarioProps) {
       {hasSelectedCharacter && (
         <SelectedCharacterPanel character={selectedCharacter} />
       )}
-      <TransformWrapper
+      <ZoomPanPinchWrapper
         initialPositionX={initialX}
         initialPositionY={initialY}
-        limitToBounds={false}
-        minScale={0.5}
       >
-        <TransformComponent wrapperStyle={{ height: '100%', width: '100%' }}>
+        <ZoomPanPinchComponent>
           <Svg tileCssSize={tileCssSize}>
             <Background />
             <Tiles>
@@ -206,8 +205,8 @@ function Scenario({ scenarioData }: ScenarioProps) {
               ))}
             </CharacterTiles>
           </Svg>
-        </TransformComponent>
-      </TransformWrapper>
+        </ZoomPanPinchComponent>
+      </ZoomPanPinchWrapper>
     </div>
   )
 }

@@ -8,16 +8,18 @@ import {
   usePlayerCharactersList,
   useStore
 } from '@/store'
-import Svg from '@/components/Svg'
-import Background from '@/components/Background'
-import Tiles from '@/components/Tiles'
-import Tile from '@/components/Tile'
-import GridLines from '@/components/GridLines'
-import CharacterTiles from '@/components/CharacterTiles'
-import CharacterTile from '@/components/CharacterTile'
-import CharacterInfoBox from '@/components/CharacterInfoBox'
-import SelectedCharacterPanel from '@/components/SelectedCharacterPanel'
-import CharacterPath from '@/components/CharacterPath'
+import {
+  Svg,
+  Background,
+  Tiles,
+  Tile,
+  GridLines,
+  CharacterTiles,
+  CharacterTile,
+  CharacterInfoBox,
+  SelectedCharacterPanel,
+  CharacterPath
+} from '@/components'
 import { map2D } from '@/utils'
 import { ScenarioData } from '@/types'
 import { TILE_CSS, DEBUG } from '@/config'

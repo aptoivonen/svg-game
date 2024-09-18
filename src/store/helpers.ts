@@ -24,7 +24,9 @@ export function initCharacters(characters: unknown[]): Map<string, Character> {
         owner: character.owner,
         position: character.position,
         movementPoints: character.movementPoints,
-        path: null
+        path: null,
+        currentActionPoints: 3,
+        currentMovementActionPoints: 2
       }
     ])
   )

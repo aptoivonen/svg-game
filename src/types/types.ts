@@ -17,6 +17,8 @@ export type BaseCharacter = {
   name: string
   owner: Owner
   movementPoints: number
+  currentActionPoints: number
+  currentMovementActionPoints: number
 }
 
 export type Positioned = {

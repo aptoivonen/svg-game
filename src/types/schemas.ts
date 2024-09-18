@@ -11,7 +11,8 @@ export const CharacterDataSchema = z.object({
   id: z.string(),
   name: z.string(),
   position: PositionSchema,
-  owner: OwnerSchema
+  owner: OwnerSchema,
+  movementPoints: z.number().int().nonnegative()
 })
 
 export const CharactersDataSchema = z.array(CharacterDataSchema)

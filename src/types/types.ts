@@ -16,6 +16,7 @@ export type Entity = {
 export type BaseCharacter = {
   name: string
   owner: Owner
+  movementPoints: number
 }
 
 export type Positioned = {

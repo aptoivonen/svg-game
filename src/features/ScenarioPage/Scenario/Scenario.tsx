@@ -188,11 +188,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
               {playerCharacters.map((char) => (
                 <CharacterTile
                   key={char.id}
-                  id={char.id}
-                  x={char.position[0]}
-                  y={char.position[1]}
-                  owner={char.owner}
-                  currentActionPoints={char.currentActionPoints}
+                  character={char}
                   onMouseEnter={handleMouseEnterPlayerCharacter}
                   onMouseLeave={handleMouseLeavePlayerCharacter}
                   onClick={handleClickPlayerCharacter}
@@ -201,11 +197,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
               {aiCharacters.map((char) => (
                 <CharacterTile
                   key={char.id}
-                  id={char.id}
-                  x={char.position[0]}
-                  y={char.position[1]}
-                  owner={char.owner}
-                  currentActionPoints={char.currentActionPoints}
+                  character={char}
                   onMouseEnter={handleMouseEnterAiCharacter}
                   onMouseLeave={handleMouseLeaveAiCharacter}
                   onClick={handleClickAiCharacter}

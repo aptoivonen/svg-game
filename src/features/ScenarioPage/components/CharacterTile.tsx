@@ -1,16 +1,12 @@
 import { motion } from 'framer-motion'
-import { Owner } from '@/types'
+import { Character, Owner } from '@/types'
 import { useTileSize } from './Svg'
 import { useCharacterProtoId } from './CharacterTiles'
 import { CHARACTER_MOVE_DELAY_SECONDS } from '@/config'
 import ActionPointIcon from './ActionPointIcon'
 
 type CharacterProps = {
-  id: string
-  x: number
-  y: number
-  owner: Owner
-  currentActionPoints: number
+  character: Character
   onMouseEnter: (id: string, x: number, y: number) => void
   onMouseLeave: () => void
   onClick: (id: string) => void
@@ -22,11 +18,7 @@ const COLORS: Record<Owner, string> = {
 }
 
 function CharacterTile({
-  id,
-  x,
-  y,
-  owner,
-  currentActionPoints,
+  character,
   onMouseEnter,
   onMouseLeave,
   onClick
@@ -34,13 +26,15 @@ function CharacterTile({
   const [tileWidth, tileHeight] = useTileSize()
   const characterProtoId = useCharacterProtoId()
 
+  const [x, y] = character.position
+  const { id, owner, currentActionPoints } = character
   const calcX = x * tileWidth
   const calcY = y * tileHeight
   const actionPointIconSize = tileWidth / 5
-  const icon1X = calcX + tileWidth / 2 - 1.5 * actionPointIconSize
-  const icon2X = calcX + tileWidth / 2 - 0.5 * actionPointIconSize
-  const icon3X = calcX + tileWidth / 2 + 0.5 * actionPointIconSize
-  const iconY = calcY + tileHeight - actionPointIconSize
+  const icon1X = tileWidth / 2 - 1.5 * actionPointIconSize
+  const icon2X = tileWidth / 2 - 0.5 * actionPointIconSize
+  const icon3X = tileWidth / 2 + 0.5 * actionPointIconSize
+  const iconY = tileHeight - actionPointIconSize
 
   function handleMouseEnter(): void {
     onMouseEnter(id, x, y)
@@ -55,18 +49,23 @@ function CharacterTile({
   }
 
   return (
-    <>
-      <motion.use
+    <motion.g
+      animate={{ x: calcX, y: calcY }}
+      width={tileWidth}
+      height={tileHeight}
+      initial={false}
+      transition={{ duration: CHARACTER_MOVE_DELAY_SECONDS, ease: 'linear' }}
+    >
+      <use
         id={id}
         href={`#${characterProtoId}`}
-        animate={{ x: calcX, y: calcY }}
-        initial={false}
-        transition={{ duration: CHARACTER_MOVE_DELAY_SECONDS, ease: 'linear' }}
+        x={0}
+        y={0}
         className={COLORS[owner]}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onClick={handleClick}
-      ></motion.use>
+      ></use>
       {owner === 'player' && currentActionPoints >= 1 && (
         <ActionPointIcon
           x={icon1X}
@@ -91,7 +90,7 @@ function CharacterTile({
           height={actionPointIconSize}
         />
       )}
-    </>
+    </motion.g>
   )
 }
 

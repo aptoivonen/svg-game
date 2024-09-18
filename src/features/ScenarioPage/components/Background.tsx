@@ -1,4 +1,4 @@
-import { useViewboxSize } from '@/components/Svg'
+import { useViewboxSize } from './Svg'
 
 function Background() {
   const [viewBoxWidth, viewBoxHeight] = useViewboxSize()

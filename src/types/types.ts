@@ -5,25 +5,24 @@ import {
   CharacterDataSchema,
   ScenarioDataSchema
 } from './schemas'
+import { TERRAIN } from '@/config'
 
-export type Store = {
-  name: string
-  grid: TerrainSymbol[][]
-  characters: Map<string, Character>
-  init: (scenarioData: ScenarioData) => void
-  setPosition: (id: string, position: Position) => void
-  setPath: (id: string, path: Path) => void
-  executePath: (id: string) => Promise<void>
-}
+export type TerrainSymbol = keyof typeof TERRAIN
 
 export type Entity = {
   id: string
 }
 
-export type TerrainSymbol = '.' | 'w' | 'f'
+export type BaseCharacter = {
+  name: string
+  owner: Owner
+}
 
-export type Movable = {
+export type Positioned = {
   position: Position
+}
+
+export type HasPath = {
   path: Path | null
 }
 
@@ -34,11 +33,7 @@ export type PathSegment = {
 
 export type Path = Array<PathSegment>
 
-export type Character = {
-  name: string
-  owner: Owner
-} & Movable &
-  Entity
+export type Character = BaseCharacter & Positioned & HasPath & Entity
 
 export type Owner = z.infer<typeof OwnerSchema>
 

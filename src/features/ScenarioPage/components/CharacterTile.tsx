@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { Owner } from '@/types'
-import { useTileSize } from '@/components/Svg'
-import { useCharacterProtoId } from '@/components/CharacterTiles'
+import { useTileSize } from './Svg'
+import { useCharacterProtoId } from './CharacterTiles'
 import { CHARACTER_MOVE_DELAY_SECONDS } from '@/config'
 
 type CharacterProps = {
@@ -9,8 +9,9 @@ type CharacterProps = {
   x: number
   y: number
   owner: Owner
-  onMouseEnter: (id: string) => void
+  onMouseEnter: (id: string, x: number, y: number) => void
   onMouseLeave: () => void
+  onClick: (id: string) => void
 }
 
 const COLORS: Record<Owner, string> = {
@@ -24,7 +25,8 @@ function CharacterTile({
   y,
   owner,
   onMouseEnter,
-  onMouseLeave
+  onMouseLeave,
+  onClick
 }: CharacterProps) {
   const [tileWidth, tileHeight] = useTileSize()
   const characterProtoId = useCharacterProtoId()
@@ -32,16 +34,16 @@ function CharacterTile({
   const calcX = x * tileWidth
   const calcY = y * tileHeight
 
-  function handleMouseEnter(
-    e: React.MouseEvent<SVGUseElement, MouseEvent>
-  ): void {
-    const characterId = e.target instanceof Element ? e.target.id : undefined
-    if (!characterId) return
-    onMouseEnter(characterId)
+  function handleMouseEnter(): void {
+    onMouseEnter(id, x, y)
   }
 
   function handleMouseLeave(): void {
     onMouseLeave()
+  }
+
+  function handleClick(): void {
+    onClick(id)
   }
 
   return (
@@ -50,10 +52,11 @@ function CharacterTile({
       href={`#${characterProtoId}`}
       animate={{ x: calcX, y: calcY }}
       initial={false}
-      transition={{ duration: CHARACTER_MOVE_DELAY_SECONDS }}
+      transition={{ duration: CHARACTER_MOVE_DELAY_SECONDS, ease: 'linear' }}
       className={COLORS[owner]}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
     ></motion.use>
   )
 }

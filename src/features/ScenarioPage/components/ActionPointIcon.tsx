@@ -1,21 +1,9 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
 type ActionPointIconProps = unknown & ComponentPropsWithoutRef<'svg'>
-export default function ActionPointIcon({
-  x,
-  y,
-  width,
-  height
-}: ActionPointIconProps) {
+export default function ActionPointIcon(props: ActionPointIconProps) {
   return (
-    <svg
-      viewBox="0 0 20 20"
-      xmlns="http://www.w3.org/2000/svg"
-      x={x}
-      y={y}
-      width={width}
-      height={height}
-    >
+    <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" {...props}>
       <defs>
         <radialGradient id="blueWhiteGradient">
           <stop offset="20%" stopColor="rgb(224 242 254)" />

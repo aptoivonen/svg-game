@@ -133,11 +133,9 @@ function Scenario({ scenarioData }: ScenarioProps) {
   }
 
   return (
-    <div className="relative h-full">
+    <div className="relative h-full overflow-hidden">
       {hasHoveredCharacter && <CharacterInfoBox character={hoveredCharacter} />}
-      {hasSelectedCharacter && (
-        <SelectedCharacterPanel character={selectedCharacter} />
-      )}
+      <SelectedCharacterPanel character={selectedCharacter} />
       <ZoomPanPinchWrapper
         initialPositionX={initialX}
         initialPositionY={initialY}

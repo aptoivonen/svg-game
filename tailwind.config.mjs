@@ -3,7 +3,11 @@
 export default {
   content: ['./index.html', './src/**/*.{mjs,js,ts,jsx,tsx}'],
   theme: {
-    extend: {}
+    extend: {
+      fontFamily: {
+        display: ['Almendra']
+      }
+    }
   },
   plugins: []
 }

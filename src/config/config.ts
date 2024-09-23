@@ -3,6 +3,10 @@ export const TERRAIN = {
   w: { movementCost: 0, name: 'Water' }
 } as const
 
+export const TERRAIN_FEATURES = {
+  t: { name: 'Tree', blocks: true }
+} as const
+
 export const TILE_DATA_TERRAIN = {
   '.': { id: 'grass', x: 22, y: 3 },
   w: { id: 'water', x: 10, y: 12 }
@@ -21,6 +25,10 @@ export const TILE_DATA_TERRAIN_EDGES = {
   waterWNWN: { x: 10, y: 9 },
   waterNNEE: { x: 11, y: 9 },
   waterESES: { x: 11, y: 10 }
+}
+
+export const TILE_DATA_TERRAIN_FEATURES = {
+  t: { id: 'tree', x: 0, y: 0 }
 }
 
 /** Terrain tile size in original tile set */

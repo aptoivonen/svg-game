@@ -5,17 +5,17 @@ export const TERRAIN = {
 } as const
 
 export const TILE_DATA = {
-  '.': { id: 'grass', indexX: 17, indexY: 1 },
-  f: { id: 'forest', indexX: 31, indexY: 12 },
-  w: { id: 'water', indexX: 7, indexY: 1 }
+  '.': { id: 'grass', indexX: 22, indexY: 3 },
+  w: { id: 'water', indexX: 10, indexY: 12 },
+  f: { id: 'forest', indexX: 31, indexY: 12 }
 }
 
 /** Terrain tile size in original tile set */
-export const TILE_IMAGE_SIZE = 20
+export const TILE_IMAGE_SIZE = 32
 
 export const TILESET_IMAGE_DIMENSIONS = {
-  WIDTH: 640,
-  HEIGHT: 780
+  WIDTH: 1024,
+  HEIGHT: 1024
 }
 
 /** Terrain tile visual size in css pixels */

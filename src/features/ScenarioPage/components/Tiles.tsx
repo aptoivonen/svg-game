@@ -1,28 +1,37 @@
 import { createContext, memo, useContext } from 'react'
-import { useTileSize } from './Svg'
+import image from '@/assets/tileset.png'
+import { TILE_DATA, TILE_IMAGE_SIZE, TILESET_IMAGE_DIMENSIONS } from '@/config'
 
-const TILE_PROTO_ID = 'tileProto'
-
-const ProtoIdContext = createContext<string>(TILE_PROTO_ID)
-export const useTileProtoId = () => useContext(ProtoIdContext)
+const IMAGE_PROTO_ID = 'imageProto'
+const ProtoIdContext = createContext<string>(IMAGE_PROTO_ID)
+export const useImageProtoId = () => useContext(ProtoIdContext)
 
 type TilesProps = {
   children: React.ReactNode
 }
 
 function Tiles({ children }: TilesProps) {
-  const [tileWidth, tileHeight] = useTileSize()
   return (
-    <ProtoIdContext.Provider value={TILE_PROTO_ID}>
+    <ProtoIdContext.Provider value={IMAGE_PROTO_ID}>
       <g id="tiles">
-        <symbol
-          width={tileWidth}
-          height={tileHeight}
-          id={TILE_PROTO_ID}
-          viewBox="0 0 1 1"
-        >
-          <rect width={1} height={1} x={0} y={0}></rect>
-        </symbol>
+        <defs>
+          <image
+            id={IMAGE_PROTO_ID}
+            href={image}
+            width={TILESET_IMAGE_DIMENSIONS.WIDTH}
+            height={TILESET_IMAGE_DIMENSIONS.HEIGHT}
+          />
+          {Object.values(TILE_DATA).map((tileData) => (
+            <clipPath key={tileData.id} id={tileData.id}>
+              <rect
+                x={tileData.indexX * TILE_IMAGE_SIZE}
+                y={tileData.indexY * TILE_IMAGE_SIZE}
+                width={TILE_IMAGE_SIZE}
+                height={TILE_IMAGE_SIZE}
+              />
+            </clipPath>
+          ))}
+        </defs>
         {children}
       </g>
     </ProtoIdContext.Provider>

@@ -1,14 +1,8 @@
-import { TerrainSymbol } from '@/types'
 import { memo } from 'react'
+import { TerrainSymbol } from '@/types'
 import { useTileSize } from './Svg'
-import { useTileProtoId } from './Tiles'
-
-const TILE_CLASSES: Record<TerrainSymbol, string> = {
-  '.': 'fill-[#6bb00c]',
-  f: 'fill-[#256317]',
-  w: 'fill-[#358ec9]'
-}
-const ERROR_NO_TERRAIN_CLASS = 'fill-red-500'
+import { TILE_DATA } from '@/config'
+import { useImageProtoId } from './Tiles'
 
 type TileProps = {
   x: number
@@ -28,9 +22,11 @@ function Tile({
   onClick
 }: TileProps) {
   const [tileWidth, tileHeight] = useTileSize()
-  const calcX = x * tileWidth
-  const calcY = y * tileHeight
-  const tileProtoId = useTileProtoId()
+  const imageProtoId = useImageProtoId()
+  const imageId = `#${imageProtoId}`
+  const clipPath = `url(#${TILE_DATA[terrainSymbol].id})`
+  const calcX = (x - TILE_DATA[terrainSymbol].indexX) * tileWidth
+  const calcY = (y - TILE_DATA[terrainSymbol].indexY) * tileHeight
 
   function handleMouseEnter() {
     onMouseEnter(x, y)
@@ -42,10 +38,12 @@ function Tile({
 
   return (
     <use
-      href={`#${tileProtoId}`}
+      href={imageId}
+      clipPath={clipPath}
       x={calcX}
       y={calcY}
-      className={TILE_CLASSES[terrainSymbol] ?? ERROR_NO_TERRAIN_CLASS}
+      width={tileWidth}
+      height={tileHeight}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={handleClick}

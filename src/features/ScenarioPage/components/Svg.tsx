@@ -1,8 +1,8 @@
 import { createContext, useContext, useMemo } from 'react'
 import { useGridHeight, useGridWidth } from '@/store'
-import { TILE } from '@/config'
+import { TILE_IMAGE_SIZE } from '@/config'
 
-const tileSize: [number, number] = [TILE.WIDTH, TILE.HEIGHT]
+const tileSize: [number, number] = [TILE_IMAGE_SIZE, TILE_IMAGE_SIZE]
 
 const TileSizeContext = createContext<[number, number]>(tileSize)
 export const useTileSize = () => useContext(TileSizeContext)
@@ -20,8 +20,8 @@ function Svg({ tileCssSize, children }: SvgProps) {
   const gridWidth = useGridWidth()
   const gridHeight = useGridHeight()
   const svgCssWidth = tileCssWidth * gridWidth
-  const viewBoxWidth = gridWidth * TILE.WIDTH
-  const viewBoxHeight = gridHeight * TILE.HEIGHT
+  const viewBoxWidth = gridWidth * TILE_IMAGE_SIZE
+  const viewBoxHeight = gridHeight * TILE_IMAGE_SIZE
   const viewBoxSize: [number, number] = useMemo(
     () => [viewBoxWidth, viewBoxHeight],
     [viewBoxWidth, viewBoxHeight]

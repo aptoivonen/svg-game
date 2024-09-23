@@ -1,13 +1,11 @@
 export const TERRAIN = {
   '.': { movementCost: 100, name: 'Grass' },
-  w: { movementCost: 0, name: 'Water' },
-  f: { movementCost: 200, name: 'Forest' }
+  w: { movementCost: 0, name: 'Water' }
 } as const
 
 export const TILE_DATA_TERRAIN = {
   '.': { id: 'grass', x: 22, y: 3 },
-  w: { id: 'water', x: 10, y: 12 },
-  f: { id: 'forest', x: 31, y: 12 }
+  w: { id: 'water', x: 10, y: 12 }
 }
 
 export const TILE_DATA_EDGES = {

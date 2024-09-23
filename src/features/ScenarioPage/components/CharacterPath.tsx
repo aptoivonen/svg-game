@@ -45,7 +45,7 @@ function CharacterPath({
         y={tileHeight * lastPositionY}
         width={tileWidth}
         height={tileHeight}
-        className={`${colorClass[owner]} fill-none stroke-[0.5]`}
+        className={`${colorClass[owner]} fill-none stroke-[3]`}
       ></rect>
       <path
         d={pathString}

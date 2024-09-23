@@ -17,7 +17,7 @@ function SelectedCharacterHighlight({
       y={tileHeight * y}
       width={tileWidth}
       height={tileHeight}
-      className="fill-none stroke-yellow-300 stroke-[0.5]"
+      className="fill-none stroke-yellow-300 stroke-[3]"
     ></rect>
   )
 }

@@ -4,10 +4,25 @@ export const TERRAIN = {
   f: { movementCost: 200, name: 'Forest' }
 } as const
 
-export const TILE_DATA = {
+export const TILE_DATA_TERRAIN = {
   '.': { id: 'grass', indexX: 22, indexY: 3 },
   w: { id: 'water', indexX: 10, indexY: 12 },
   f: { id: 'forest', indexX: 31, indexY: 12 }
+}
+
+export const TILE_DATA_EDGES = {
+  waterSE: { x: 9, y: 11 },
+  waterSW: { x: 11, y: 11 },
+  waterNE: { x: 9, y: 13 },
+  waterNW: { x: 11, y: 13 },
+  waterE: { x: 9, y: 12 },
+  waterW: { x: 11, y: 12 },
+  waterN: { x: 10, y: 13 },
+  waterS: { x: 10, y: 11 },
+  waterWSWS: { x: 10, y: 10 },
+  waterWNWN: { x: 10, y: 9 },
+  waterNNEE: { x: 11, y: 9 },
+  waterESES: { x: 11, y: 10 }
 }
 
 /** Terrain tile size in original tile set */

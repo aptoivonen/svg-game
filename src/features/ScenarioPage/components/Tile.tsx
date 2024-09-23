@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { TerrainSymbol } from '@/types'
 import { useTileSize } from './Svg'
-import { TILE_DATA } from '@/config'
+import { TILE_DATA_TERRAIN } from '@/config'
 import { useImageProtoId } from './Tiles'
 
 type TileProps = {
@@ -24,9 +24,9 @@ function Tile({
   const [tileWidth, tileHeight] = useTileSize()
   const imageProtoId = useImageProtoId()
   const imageId = `#${imageProtoId}`
-  const clipPath = `url(#${TILE_DATA[terrainSymbol].id})`
-  const calcX = (x - TILE_DATA[terrainSymbol].indexX) * tileWidth
-  const calcY = (y - TILE_DATA[terrainSymbol].indexY) * tileHeight
+  const clipPath = `url(#${TILE_DATA_TERRAIN[terrainSymbol].id})`
+  const calcX = (x - TILE_DATA_TERRAIN[terrainSymbol].indexX) * tileWidth
+  const calcY = (y - TILE_DATA_TERRAIN[terrainSymbol].indexY) * tileHeight
 
   function handleMouseEnter() {
     onMouseEnter(x, y)

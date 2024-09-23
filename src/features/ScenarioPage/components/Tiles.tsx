@@ -1,6 +1,10 @@
 import { createContext, memo, useContext } from 'react'
 import image from '@/assets/tileset.png'
-import { TILE_DATA, TILE_IMAGE_SIZE, TILESET_IMAGE_DIMENSIONS } from '@/config'
+import {
+  TILE_DATA_TERRAIN,
+  TILE_IMAGE_SIZE,
+  TILESET_IMAGE_DIMENSIONS
+} from '@/config'
 
 const IMAGE_PROTO_ID = 'imageProto'
 const ProtoIdContext = createContext<string>(IMAGE_PROTO_ID)
@@ -21,7 +25,7 @@ function Tiles({ children }: TilesProps) {
             width={TILESET_IMAGE_DIMENSIONS.WIDTH}
             height={TILESET_IMAGE_DIMENSIONS.HEIGHT}
           />
-          {Object.values(TILE_DATA).map((tileData) => (
+          {Object.values(TILE_DATA_TERRAIN).map((tileData) => (
             <clipPath key={tileData.id} id={tileData.id}>
               <rect
                 x={tileData.indexX * TILE_IMAGE_SIZE}

@@ -47,21 +47,8 @@ function hasTwoOppositeWaterNeighbors(
     !(x === 0 || x === gridWidth - 1) &&
     isWater(getTile(x - 1, y, grid)) &&
     isWater(getTile(x + 1, y, grid))
-  const hasSouthWestNorthEastWaterNeighbors =
-    !(x === 0 || y === 0 || x === gridWidth - 1 || y === gridHeight - 1) &&
-    isWater(getTile(x - 1, y - 1, grid)) &&
-    isWater(getTile(x + 1, y + 1, grid))
-  const hasSouthEastNorthWestWaterNeighbors =
-    !(x === gridWidth - 1 || y === 0 || x === 0 || y === gridHeight - 1) &&
-    isWater(getTile(x - 1, y + 1, grid)) &&
-    isWater(getTile(x + 1, y - 1, grid))
 
-  return (
-    hasNorthSouthWaterNeighbors ||
-    hasWestEastWaterNeighbors ||
-    hasSouthWestNorthEastWaterNeighbors ||
-    hasSouthEastNorthWestWaterNeighbors
-  )
+  return hasNorthSouthWaterNeighbors || hasWestEastWaterNeighbors
 }
 
 function getWaterEdgeIcon(

@@ -1,12 +1,18 @@
-import type { Character, Path, Position } from '@/types'
+import type { Character, Path, Position, TerrainSymbol } from '@/types'
 import { Store, useStore } from './store'
 import { createSelector } from 'reselect'
 
 export const selectGrid = (state: Store) => state.grid
 
-export const selectGridWidth = (state: Store) => selectGrid(state)[0].length
+export const getGridWidth = (grid: TerrainSymbol[][]) => grid[0].length
+export const selectGridWidth = (state: Store) => getGridWidth(selectGrid(state))
 
-export const selectGridHeight = (state: Store) => selectGrid(state).length
+export const getGridHeight = (grid: TerrainSymbol[][]) => grid.length
+export const selectGridHeight = (state: Store) =>
+  getGridHeight(selectGrid(state))
+
+export const getTile = (x: number, y: number, grid: TerrainSymbol[][]) =>
+  grid[y][x]
 
 export const selectMode = (state: Store) => state.mode
 

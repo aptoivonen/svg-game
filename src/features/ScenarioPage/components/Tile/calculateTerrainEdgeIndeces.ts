@@ -1,4 +1,4 @@
-import { TILE_DATA_EDGES } from '@/config'
+import { TILE_DATA_TERRAIN_EDGES } from '@/config'
 import { getGridHeight, getGridWidth, getTile } from '@/store'
 import { TerrainSymbol } from '@/types'
 
@@ -76,27 +76,31 @@ function getWaterEdgeIcon(
     !(x === 0 || y === gridHeight - 1) && isWater(getTile(x - 1, y + 1, grid))
   // overlay with water in three quarters
   if (hasWaterInNorth && hasWaterInWest)
-    return { ...TILE_DATA_EDGES['waterWNWN'], id: 'waterWNWN' }
+    return { ...TILE_DATA_TERRAIN_EDGES['waterWNWN'], id: 'waterWNWN' }
   if (hasWaterInSouth && hasWaterInWest)
-    return { ...TILE_DATA_EDGES['waterWSWS'], id: 'waterWSWS' }
+    return { ...TILE_DATA_TERRAIN_EDGES['waterWSWS'], id: 'waterWSWS' }
   if (hasWaterInNorth && hasWaterInEast)
-    return { ...TILE_DATA_EDGES['waterNNEE'], id: 'waterNNEE' }
+    return { ...TILE_DATA_TERRAIN_EDGES['waterNNEE'], id: 'waterNNEE' }
   if (hasWaterInSouth && hasWaterInEast)
-    return { ...TILE_DATA_EDGES['waterESES'], id: 'waterESES' }
+    return { ...TILE_DATA_TERRAIN_EDGES['waterESES'], id: 'waterESES' }
   // overlay with water in two quarters
-  if (hasWaterInSouth) return { ...TILE_DATA_EDGES['waterS'], id: 'waterS' }
-  if (hasWaterInNorth) return { ...TILE_DATA_EDGES['waterN'], id: 'waterN' }
-  if (hasWaterInWest) return { ...TILE_DATA_EDGES['waterW'], id: 'waterW' }
-  if (hasWaterInEast) return { ...TILE_DATA_EDGES['waterE'], id: 'waterE' }
+  if (hasWaterInSouth)
+    return { ...TILE_DATA_TERRAIN_EDGES['waterS'], id: 'waterS' }
+  if (hasWaterInNorth)
+    return { ...TILE_DATA_TERRAIN_EDGES['waterN'], id: 'waterN' }
+  if (hasWaterInWest)
+    return { ...TILE_DATA_TERRAIN_EDGES['waterW'], id: 'waterW' }
+  if (hasWaterInEast)
+    return { ...TILE_DATA_TERRAIN_EDGES['waterE'], id: 'waterE' }
   // overlay with water in one quarter
   if (hasWaterInNorthWest)
-    return { ...TILE_DATA_EDGES['waterNW'], id: 'waterNW' }
+    return { ...TILE_DATA_TERRAIN_EDGES['waterNW'], id: 'waterNW' }
   if (hasWaterInNorthEast)
-    return { ...TILE_DATA_EDGES['waterNE'], id: 'waterNE' }
+    return { ...TILE_DATA_TERRAIN_EDGES['waterNE'], id: 'waterNE' }
   if (hasWaterInSouthWest)
-    return { ...TILE_DATA_EDGES['waterSW'], id: 'waterSW' }
+    return { ...TILE_DATA_TERRAIN_EDGES['waterSW'], id: 'waterSW' }
   if (hasWaterInSouthEast)
-    return { ...TILE_DATA_EDGES['waterSE'], id: 'waterSE' }
+    return { ...TILE_DATA_TERRAIN_EDGES['waterSE'], id: 'waterSE' }
 
   return null
 }

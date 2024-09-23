@@ -8,7 +8,7 @@ export const TILE_DATA_TERRAIN = {
   w: { id: 'water', x: 10, y: 12 }
 }
 
-export const TILE_DATA_EDGES = {
+export const TILE_DATA_TERRAIN_EDGES = {
   waterSE: { x: 9, y: 11 },
   waterSW: { x: 11, y: 11 },
   waterNE: { x: 9, y: 13 },

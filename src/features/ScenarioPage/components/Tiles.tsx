@@ -1,7 +1,7 @@
 import { createContext, memo, useContext } from 'react'
 import image from '@/assets/tileset.png'
 import {
-  TILE_DATA_EDGES,
+  TILE_DATA_TERRAIN_EDGES,
   TILE_DATA_TERRAIN,
   TILE_IMAGE_SIZE,
   TILESET_IMAGE_DIMENSIONS
@@ -36,7 +36,7 @@ function Tiles({ children }: TilesProps) {
               />
             </clipPath>
           ))}
-          {Object.entries(TILE_DATA_EDGES).map(([id, tileData]) => (
+          {Object.entries(TILE_DATA_TERRAIN_EDGES).map(([id, tileData]) => (
             <clipPath key={id} id={id}>
               <rect
                 x={tileData.x * TILE_IMAGE_SIZE}

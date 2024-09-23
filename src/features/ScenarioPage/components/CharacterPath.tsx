@@ -49,7 +49,7 @@ function CharacterPath({
       ></rect>
       <path
         d={pathString}
-        className={`${colorClass[owner]} fill-none stroke-[0.5] [stroke-dasharray:1,1] [stroke-dashoffset:1]`}
+        className={`${colorClass[owner]} fill-none stroke-[3] [stroke-dasharray:6,6] [stroke-dashoffset:1]`}
       ></path>
     </g>
   )

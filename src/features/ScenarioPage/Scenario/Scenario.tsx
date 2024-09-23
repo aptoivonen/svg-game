@@ -148,6 +148,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
                 <Tile
                   key={`${x}-${y}`}
                   terrainSymbol={terrainSymbol}
+                  grid={grid}
                   x={x}
                   y={y}
                   onMouseEnter={handleMouseEnterTile}

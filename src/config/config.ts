@@ -5,9 +5,9 @@ export const TERRAIN = {
 } as const
 
 export const TILE_DATA_TERRAIN = {
-  '.': { id: 'grass', indexX: 22, indexY: 3 },
-  w: { id: 'water', indexX: 10, indexY: 12 },
-  f: { id: 'forest', indexX: 31, indexY: 12 }
+  '.': { id: 'grass', x: 22, y: 3 },
+  w: { id: 'water', x: 10, y: 12 },
+  f: { id: 'forest', x: 31, y: 12 }
 }
 
 export const TILE_DATA_EDGES = {

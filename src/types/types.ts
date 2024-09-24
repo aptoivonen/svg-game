@@ -5,9 +5,10 @@ import {
   CharacterDataSchema,
   ScenarioDataSchema
 } from './schemas'
-import { TERRAIN } from '@/config'
+import { TERRAIN, TILE_DATA_TERRAIN_EDGE_DIFFS } from '@/config'
 
 export type TerrainSymbol = keyof typeof TERRAIN
+export type EdgeKey = keyof typeof TILE_DATA_TERRAIN_EDGE_DIFFS
 
 export type Entity = {
   id: string

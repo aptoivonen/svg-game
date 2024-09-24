@@ -1,5 +1,4 @@
 // movementCost 0 means not passable
-
 export const TERRAIN = {
   '.': { name: 'Grass', movementCost: 100 },
   w: { name: 'Water', movementCost: 0 },
@@ -15,19 +14,20 @@ export const TERRAIN = {
   h: { name: 'Hay', movementCost: 200 }
 } as const
 
+// edge level denotes which terrain has priority of 'encrouching' on neighboring tiles
 export const TILE_DATA_TERRAIN = {
-  '.': { id: 'grass', x: 22, y: 3 },
-  w: { id: 'water', x: 10, y: 12 },
-  s: { id: 'swamp', x: 7, y: 27 },
-  m: { id: 'mud', x: 4, y: 29 },
-  a: { id: 'sand', x: 1, y: 12 },
-  d: { id: 'dry', x: 16, y: 3 },
-  u: { id: 'burrow', x: 25, y: 3 },
-  t: { id: 'tunnel', x: 28, y: 3 },
-  l: { id: 'lava', x: 16, y: 9 },
-  b: { id: 'burnt', x: 19, y: 9 },
-  e: { id: 'wheat', x: 1, y: 29 },
-  h: { id: 'hay', x: 1, y: 23 }
+  '.': { id: 'grass', x: 22, y: 3, edgeLevel: 0 },
+  w: { id: 'water', x: 10, y: 12, edgeLevel: 100 },
+  s: { id: 'swamp', x: 7, y: 27, edgeLevel: 60 },
+  m: { id: 'mud', x: 4, y: 29, edgeLevel: 65 },
+  a: { id: 'sand', x: 1, y: 12, edgeLevel: 1 },
+  d: { id: 'dry', x: 16, y: 3, edgeLevel: 2 },
+  u: { id: 'burrow', x: 25, y: 3, edgeLevel: 95 },
+  t: { id: 'tunnel', x: 28, y: 3, edgeLevel: 93 },
+  l: { id: 'lava', x: 16, y: 9, edgeLevel: 70 },
+  b: { id: 'burnt', x: 19, y: 9, edgeLevel: 3 },
+  e: { id: 'wheat', x: 1, y: 29, edgeLevel: 90 },
+  h: { id: 'hay', x: 1, y: 23, edgeLevel: 80 }
 }
 
 // Optional movementCost to reset tile's movementCost
@@ -39,20 +39,20 @@ export const TILE_DATA_TERRAIN_FEATURES = {
   t: { id: 'tree', x: 23, y: 18 }
 }
 
-export const TILE_DATA_TERRAIN_EDGES = {
-  waterSE: { x: 9, y: 11 },
-  waterSW: { x: 11, y: 11 },
-  waterNE: { x: 9, y: 13 },
-  waterNW: { x: 11, y: 13 },
-  waterE: { x: 9, y: 12 },
-  waterW: { x: 11, y: 12 },
-  waterN: { x: 10, y: 13 },
-  waterS: { x: 10, y: 11 },
-  waterWSWS: { x: 10, y: 10 },
-  waterWNWN: { x: 10, y: 9 },
-  waterNNEE: { x: 11, y: 9 },
-  waterESES: { x: 11, y: 10 }
-}
+export const TILE_DATA_TERRAIN_EDGE_DIFFS = {
+  SE: { dx: -1, dy: -1 },
+  SW: { dx: 1, dy: -1 },
+  NE: { dx: -1, dy: 1 },
+  NW: { dx: 1, dy: 1 },
+  E: { dx: -1, dy: 0 },
+  W: { dx: 1, dy: 0 },
+  N: { dx: 0, dy: 1 },
+  S: { dx: 0, dy: -1 },
+  WSWS: { dx: 0, dy: -2 },
+  WNWN: { dx: 0, dy: -3 },
+  NNEE: { dx: 1, dy: -3 },
+  ESES: { dx: 1, dy: -2 }
+} as const
 
 /** Terrain tile size in original tile set */
 export const TILE_IMAGE_SIZE = 32

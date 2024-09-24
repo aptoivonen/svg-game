@@ -1,7 +1,7 @@
-import { createContext, memo, useContext } from 'react'
+import { createContext, Fragment, memo, useContext } from 'react'
 import image from '@/assets/tileset.png'
 import {
-  TILE_DATA_TERRAIN_EDGES,
+  TILE_DATA_TERRAIN_EDGE_DIFFS,
   TILE_DATA_TERRAIN,
   TILE_IMAGE_SIZE,
   TILESET_IMAGE_DIMENSIONS
@@ -27,24 +27,31 @@ function Tiles({ children }: TilesProps) {
             height={TILESET_IMAGE_DIMENSIONS.HEIGHT}
           />
           {Object.values(TILE_DATA_TERRAIN).map((tileData) => (
-            <clipPath key={tileData.id} id={tileData.id}>
-              <rect
-                x={tileData.x * TILE_IMAGE_SIZE}
-                y={tileData.y * TILE_IMAGE_SIZE}
-                width={TILE_IMAGE_SIZE}
-                height={TILE_IMAGE_SIZE}
-              />
-            </clipPath>
-          ))}
-          {Object.entries(TILE_DATA_TERRAIN_EDGES).map(([id, tileData]) => (
-            <clipPath key={id} id={id}>
-              <rect
-                x={tileData.x * TILE_IMAGE_SIZE}
-                y={tileData.y * TILE_IMAGE_SIZE}
-                width={TILE_IMAGE_SIZE}
-                height={TILE_IMAGE_SIZE}
-              />
-            </clipPath>
+            <Fragment key={tileData.id}>
+              <clipPath id={tileData.id}>
+                <rect
+                  x={tileData.x * TILE_IMAGE_SIZE}
+                  y={tileData.y * TILE_IMAGE_SIZE}
+                  width={TILE_IMAGE_SIZE}
+                  height={TILE_IMAGE_SIZE}
+                />
+              </clipPath>
+              {Object.entries(TILE_DATA_TERRAIN_EDGE_DIFFS).map(
+                ([edgeKey, { dx, dy }]) => (
+                  <clipPath
+                    key={`${tileData.id}${edgeKey}`}
+                    id={`${tileData.id}${edgeKey}`}
+                  >
+                    <rect
+                      x={(tileData.x + dx) * TILE_IMAGE_SIZE}
+                      y={(tileData.y + dy) * TILE_IMAGE_SIZE}
+                      width={TILE_IMAGE_SIZE}
+                      height={TILE_IMAGE_SIZE}
+                    />
+                  </clipPath>
+                )
+              )}
+            </Fragment>
           ))}
         </defs>
         {children}

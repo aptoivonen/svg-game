@@ -30,12 +30,15 @@ export const TILE_DATA_TERRAIN = {
   h: { id: 'hay', x: 1, y: 23, edgeLevel: 80 }
 }
 
-// Optional movementCost to reset tile's movementCost
+// Optional blocksMovement
 export const TERRAIN_FEATURES = {
-  t: { name: 'Tree', movementCost: 0 }
+  '.': { name: null },
+  t: { name: 'Tree', blocksMovement: true }
 } as const
 
+// '.' means no feature on tile
 export const TILE_DATA_TERRAIN_FEATURES = {
+  '.': { id: '', x: 0, y: 0 },
   t: { id: 'tree', x: 23, y: 18 }
 }
 

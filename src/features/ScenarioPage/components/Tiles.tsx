@@ -4,7 +4,8 @@ import {
   TILE_DATA_TERRAIN_EDGE_DIFFS,
   TILE_DATA_TERRAIN,
   TILE_IMAGE_SIZE,
-  TILESET_IMAGE_DIMENSIONS
+  TILESET_IMAGE_DIMENSIONS,
+  TILE_DATA_TERRAIN_FEATURES
 } from '@/config'
 
 const IMAGE_PROTO_ID = 'imageProto'
@@ -53,6 +54,19 @@ function Tiles({ children }: TilesProps) {
               )}
             </Fragment>
           ))}
+          {Object.values(TILE_DATA_TERRAIN_FEATURES).map((tileData) => {
+            if (tileData.id === '') return null
+            return (
+              <clipPath key={tileData.id} id={tileData.id}>
+                <rect
+                  x={tileData.x * TILE_IMAGE_SIZE}
+                  y={tileData.y * TILE_IMAGE_SIZE}
+                  width={TILE_IMAGE_SIZE}
+                  height={TILE_IMAGE_SIZE}
+                />
+              </clipPath>
+            )
+          })}
         </defs>
         {children}
       </g>

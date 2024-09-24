@@ -4,6 +4,7 @@ import type {
   Path,
   Position,
   ScenarioData,
+  TerrainFeatureSymbol,
   TerrainSymbol
 } from '@/types'
 import {
@@ -13,12 +14,18 @@ import {
   selectGrid,
   selectMode
 } from './selectors'
-import { initTerrain, initCharacters, executePath } from './helpers'
+import {
+  initTerrain,
+  initCharacters,
+  executePath,
+  initTerrainFeatureGrid
+} from './helpers'
 import { path } from '@/utils'
 
 export type Store = {
   name: string
   grid: TerrainSymbol[][]
+  terrainFeatureGrid: TerrainFeatureSymbol[][]
   characters: Map<string, Character>
   mode: ModeState
   init: (scenarioData: ScenarioData) => void
@@ -54,12 +61,16 @@ type ModeState =
 const useStore = create<Store>((set, get) => ({
   name: '',
   grid: [[]],
+  terrainFeatureGrid: [[]],
   mode: { name: 'viewing' },
   characters: new Map(),
   init: (scenarioData: ScenarioData) =>
     set(() => ({
       name: scenarioData.name,
       grid: initTerrain(scenarioData.grid),
+      terrainFeatureGrid: initTerrainFeatureGrid(
+        scenarioData.terrainFeatureGrid
+      ),
       characters: initCharacters(scenarioData.characters)
     })),
   selectCharacter: (id: string) =>

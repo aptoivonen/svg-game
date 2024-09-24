@@ -1,7 +1,7 @@
 import { memo } from 'react'
-import { TerrainSymbol } from '@/types'
+import { TerrainFeatureSymbol, TerrainSymbol } from '@/types'
 import { useTileSize } from '../Svg'
-import { TILE_DATA_TERRAIN } from '@/config'
+import { TILE_DATA_TERRAIN, TILE_DATA_TERRAIN_FEATURES } from '@/config'
 import { useImageProtoId } from '../Tiles'
 import calculateTerrainEdgeIndeces from './calculateTerrainEdgeIndeces'
 
@@ -9,6 +9,7 @@ type TileProps = {
   x: number
   y: number
   terrainSymbol: TerrainSymbol
+  terrainFeatureSymbol: TerrainFeatureSymbol
   grid: TerrainSymbol[][]
   onMouseEnter: (x: number, y: number) => void
   onMouseLeave: () => void
@@ -19,6 +20,7 @@ function Tile({
   x,
   y,
   terrainSymbol,
+  terrainFeatureSymbol,
   grid,
   onMouseEnter,
   onMouseLeave,
@@ -38,6 +40,7 @@ function Tile({
     terrainSymbol,
     grid
   })
+  const hasTerrainEdge = !!terrainEdge
   const {
     x: terrainEdgeX,
     y: terrainEdgeY,
@@ -46,6 +49,16 @@ function Tile({
   const edgeClipPath = `url(#${terrainEdgeId})`
   const calcEdgeX = (x - terrainEdgeX) * tileWidth
   const calcEdgeY = (y - terrainEdgeY) * tileWidth
+  const hasTerrainFeature =
+    TILE_DATA_TERRAIN_FEATURES[terrainFeatureSymbol].id !== ''
+  const {
+    x: terrainFeatureX,
+    y: terrainFeatureY,
+    id: terrainFeatureId
+  } = TILE_DATA_TERRAIN_FEATURES[terrainFeatureSymbol]
+  const calcTerrainFeatureX = (x - terrainFeatureX) * tileWidth
+  const calcTerrainFeatureY = (y - terrainFeatureY) * tileWidth
+  const terrainFeatureClipPath = `url(#${terrainFeatureId})`
 
   function handleMouseEnter() {
     onMouseEnter(x, y)
@@ -68,12 +81,23 @@ function Tile({
         onMouseLeave={onMouseLeave}
         onClick={handleClick}
       />
-      {!!terrainEdge && (
+      {hasTerrainEdge && (
         <use
           href={imageId}
           clipPath={edgeClipPath}
           x={calcEdgeX}
           y={calcEdgeY}
+          width={tileWidth}
+          height={tileHeight}
+          className="pointer-events-none"
+        />
+      )}
+      {hasTerrainFeature && (
+        <use
+          href={imageId}
+          clipPath={terrainFeatureClipPath}
+          x={calcTerrainFeatureX}
+          y={calcTerrainFeatureY}
           width={tileWidth}
           height={tileHeight}
           className="pointer-events-none"

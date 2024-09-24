@@ -22,5 +22,6 @@ export const GridDataSchema = z.array(z.string())
 export const ScenarioDataSchema = z.object({
   name: z.string(),
   grid: GridDataSchema,
+  terrainFeatureGrid: GridDataSchema,
   characters: CharactersDataSchema
 })

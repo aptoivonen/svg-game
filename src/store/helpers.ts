@@ -1,4 +1,9 @@
-import type { Character, Position, TerrainSymbol } from '@/types'
+import type {
+  Character,
+  Position,
+  TerrainFeatureSymbol,
+  TerrainSymbol
+} from '@/types'
 import { CharactersDataSchema } from '@/types'
 import { selectCharacter, selectCharacters, selectPath } from './selectors'
 import { wait } from '@/utils'
@@ -7,6 +12,14 @@ import { Store } from './store'
 
 export function initTerrain(grid: string[]): TerrainSymbol[][] {
   return grid.map((row) => row.split('')) as TerrainSymbol[][]
+}
+
+export function initTerrainFeatureGrid(
+  terrainFeatureGrid: string[]
+): TerrainFeatureSymbol[][] {
+  return terrainFeatureGrid.map((row) =>
+    row.split('')
+  ) as TerrainFeatureSymbol[][]
 }
 
 export function initCharacters(characters: unknown[]): Map<string, Character> {

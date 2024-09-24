@@ -1,11 +1,13 @@
 import { useCallback } from 'react'
 import {
+  getTerrainFeatureSymbol,
   useAiCharactersList,
   useCharacter,
   useGrid,
   useMode,
   usePlayerCharactersList,
-  useStore
+  useStore,
+  useTerrainFeatureGrid
 } from '@/store'
 import {
   Svg,
@@ -39,6 +41,7 @@ type ScenarioProps = {
 function Scenario({ scenarioData }: ScenarioProps) {
   const isInitialized = useInit(scenarioData)
   const grid = useGrid()
+  const terrainFeatureGrid = useTerrainFeatureGrid()
   const playerCharacters = usePlayerCharactersList()
   const aiCharacters = useAiCharactersList()
   const [initialX, initialY] = useInitialPosition()
@@ -148,6 +151,11 @@ function Scenario({ scenarioData }: ScenarioProps) {
                 <Tile
                   key={`${x}-${y}`}
                   terrainSymbol={terrainSymbol}
+                  terrainFeatureSymbol={getTerrainFeatureSymbol(
+                    x,
+                    y,
+                    terrainFeatureGrid
+                  )}
                   grid={grid}
                   x={x}
                   y={y}

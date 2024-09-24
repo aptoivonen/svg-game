@@ -21,6 +21,11 @@ export const selectGridHeight = (state: Store) =>
 
 export const getTile = (x: number, y: number, grid: TerrainSymbol[][]) =>
   grid[y][x]
+export const getTerrainFeature = (
+  x: number,
+  y: number,
+  terrainFeatureGrid: TerrainFeatureSymbol[][]
+) => terrainFeatureGrid[y][x]
 export const getTerrainFeatureSymbol = (
   x: number,
   y: number,

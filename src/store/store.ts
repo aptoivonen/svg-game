@@ -12,7 +12,8 @@ import {
   selectCharacters,
   selectCharactersList,
   selectGrid,
-  selectMode
+  selectMode,
+  selectTerrainFeatureGrid
 } from './selectors'
 import {
   initTerrain,
@@ -116,11 +117,13 @@ const useStore = create<Store>((set, get) => ({
         return state
       }
       const grid = selectGrid(state)
+      const terrainFeatureGrid = selectTerrainFeatureGrid(state)
       const charactersList = selectCharactersList(state)
       const characterPath = path({
         targetPosition,
         characterToMove,
         grid,
+        terrainFeatureGrid,
         charactersList
       })
       return {

@@ -1,7 +1,13 @@
-import { TERRAIN } from '@/config'
+import { TERRAIN, TERRAIN_FEATURES } from '@/config'
 import Graph from './Graph'
 import search from './search'
-import type { Path, Position, TerrainSymbol, Positioned } from '@/types'
+import type {
+  Path,
+  Position,
+  TerrainSymbol,
+  Positioned,
+  TerrainFeatureSymbol
+} from '@/types'
 import { isEqual } from '@/utils'
 
 /**
@@ -10,6 +16,7 @@ import { isEqual } from '@/utils'
  * @param {Position} params.targetPosition
  * @param {Positioned} params.characterToMove
  * @param {TerrainSymbol[][]} params.grid
+ * @param {TerrainFeatureSymbol[][]} params.terrainFeatureGrid
  * @param {Positioned[]} params.charactersList
  * @returns
  */
@@ -17,11 +24,13 @@ export default function path({
   targetPosition,
   characterToMove,
   grid,
+  terrainFeatureGrid,
   charactersList
 }: {
   targetPosition: Position
   characterToMove: Positioned
   grid: TerrainSymbol[][]
+  terrainFeatureGrid: TerrainFeatureSymbol[][]
   charactersList: Positioned[]
 }): Path {
   const [startX, startY] = characterToMove.position
@@ -29,6 +38,7 @@ export default function path({
 
   const movementCostGrid: number[][] = getMovementCostGrid(grid)
 
+  mutateSetBlockingTerrainFeatures(movementCostGrid, terrainFeatureGrid)
   mutateSetCharacterPositions(movementCostGrid, charactersList, targetPosition)
 
   const graph = new Graph(movementCostGrid)
@@ -54,6 +64,22 @@ function getMovementCostGrid(terrainGrid: TerrainSymbol[][]): number[][] {
   return terrainGrid.map((row) =>
     row.map((terrainSymbol) => TERRAIN[terrainSymbol].movementCost)
   )
+}
+
+function mutateSetBlockingTerrainFeatures(
+  movementCostGrid: number[][],
+  terrainFeatureGrid: TerrainFeatureSymbol[][]
+): void {
+  for (let row = 0; row < movementCostGrid.length; row++) {
+    for (let col = 0; col < movementCostGrid[0].length; col++) {
+      const terrainFeature = TERRAIN_FEATURES[terrainFeatureGrid[row][col]]
+      const isBlockingMovement =
+        'blocksMovement' in terrainFeature && terrainFeature.blocksMovement
+      if (isBlockingMovement) {
+        movementCostGrid[row][col] = 0
+      }
+    }
+  }
 }
 
 /** set character positions. 0 means position taken */

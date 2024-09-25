@@ -31,6 +31,7 @@ import useInitialPosition from './useInitialPosition'
 import useHighlightedCharacter from './useHighlightedCharacter'
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut'
 import SelectedCharacterHighlight from '../components/SelectedCharacterHighlight'
+import PointerTile from '../components/PointerTile'
 
 const tileCssSize: [number, number] = [TILE_CSS.WIDTH, TILE_CSS.HEIGHT]
 
@@ -159,9 +160,6 @@ function Scenario({ scenarioData }: ScenarioProps) {
                   grid={grid}
                   x={x}
                   y={y}
-                  onMouseEnter={handleMouseEnterTile}
-                  onMouseLeave={handleMouseLeaveTile}
-                  onClick={handleClickTile}
                 ></Tile>
               ))}
             </Tiles>
@@ -195,6 +193,19 @@ function Scenario({ scenarioData }: ScenarioProps) {
                 position={selectedCharacter.position}
               />
             )}
+
+            <g id="pointerTiles">
+              {map2D(grid, (_, x, y) => (
+                <PointerTile
+                  key={`${x}-${y}`}
+                  x={x}
+                  y={y}
+                  onMouseEnter={() => handleMouseEnterTile(x, y)}
+                  onMouseLeave={handleMouseLeaveTile}
+                  onClick={handleClickTile}
+                />
+              ))}
+            </g>
             <CharacterTiles>
               {playerCharacters.map((char) => (
                 <CharacterTile

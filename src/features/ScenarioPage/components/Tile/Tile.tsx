@@ -11,21 +11,9 @@ type TileProps = {
   terrainSymbol: TerrainSymbol
   terrainFeatureSymbol: TerrainFeatureSymbol
   grid: TerrainSymbol[][]
-  onMouseEnter: (x: number, y: number) => void
-  onMouseLeave: () => void
-  onClick: (x: number, y: number) => void
 }
 
-function Tile({
-  x,
-  y,
-  terrainSymbol,
-  terrainFeatureSymbol,
-  grid,
-  onMouseEnter,
-  onMouseLeave,
-  onClick
-}: TileProps) {
+function Tile({ x, y, terrainSymbol, terrainFeatureSymbol, grid }: TileProps) {
   const [tileWidth, tileHeight] = useTileSize()
   const imageProtoId = useImageProtoId()
   const imageId = `#${imageProtoId}`
@@ -60,14 +48,6 @@ function Tile({
   const calcTerrainFeatureY = (y - terrainFeatureY) * tileWidth
   const terrainFeatureClipPath = `url(#${terrainFeatureId})`
 
-  function handleMouseEnter() {
-    onMouseEnter(x, y)
-  }
-
-  function handleClick() {
-    onClick(x, y)
-  }
-
   return (
     <>
       <use
@@ -77,9 +57,6 @@ function Tile({
         y={calcY}
         width={tileWidth}
         height={tileHeight}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={onMouseLeave}
-        onClick={handleClick}
       />
       {hasTerrainEdge && (
         <use
@@ -89,7 +66,6 @@ function Tile({
           y={calcEdgeY}
           width={tileWidth}
           height={tileHeight}
-          className="pointer-events-none"
         />
       )}
       {hasTerrainFeature && (
@@ -100,7 +76,6 @@ function Tile({
           y={calcTerrainFeatureY}
           width={tileWidth}
           height={tileHeight}
-          className="pointer-events-none"
         />
       )}
     </>

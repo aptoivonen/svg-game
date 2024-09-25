@@ -19,7 +19,7 @@ function GridLines() {
     <g id="gridLines">
       <path
         d={pathString}
-        className="stroke-[rgba(255,_255,_255,_0.2)] stroke-[0.5]"
+        className="fill-none stroke-[rgba(255,_255,_255,_0.2)] stroke-[0.5]"
       ></path>
     </g>
   )

@@ -132,7 +132,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
   }, [executeSelectedCharacterPath])
 
   if (!isInitialized) {
-    return <div>Waiting to initialize scenario</div>
+    return <p className="text-white">Waiting to initialize scenario</p>
   }
 
   return (

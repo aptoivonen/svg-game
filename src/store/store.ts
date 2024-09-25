@@ -9,7 +9,6 @@ import type {
 } from '@/types'
 import {
   selectCharacter,
-  selectCharacters,
   selectCharactersList,
   selectGrid,
   selectMode,
@@ -19,7 +18,8 @@ import {
   initTerrain,
   initCharacters,
   executePath,
-  initTerrainFeatureGrid
+  initTerrainFeatureGrid,
+  setCharacterProp
 } from './helpers'
 import { path } from '@/utils'
 
@@ -119,9 +119,12 @@ const useStore = create<Store>((set, get) => ({
       const grid = selectGrid(state)
       const terrainFeatureGrid = selectTerrainFeatureGrid(state)
       const charactersList = selectCharactersList(state)
+      const maxMovementPoints = 2 * 100 * characterToMove.movementPoints
+      // TODO: fix max movement points
       const characterPath = path({
         targetPosition,
         characterToMove,
+        maxMovementPoints,
         grid,
         terrainFeatureGrid,
         charactersList
@@ -137,28 +140,10 @@ const useStore = create<Store>((set, get) => ({
       }
     }),
   setPath: (id: string, path: Path) => {
-    set((state) => {
-      const char = selectCharacter(state, id)
-      if (!char) return state
-      return {
-        characters: new Map(selectCharacters(state)).set(id, {
-          ...char,
-          path
-        })
-      }
-    })
+    setCharacterProp(id, { path }, set)
   },
   clearPath: (id: string) => {
-    set((state) => {
-      const char = selectCharacter(state, id)
-      if (!char) return state
-      return {
-        characters: new Map(selectCharacters(state)).set(id, {
-          ...char,
-          path: null
-        })
-      }
-    })
+    setCharacterProp(id, { path: null }, set)
   },
   executeSelectedCharacterPath: async () => {
     const mode = selectMode(get())

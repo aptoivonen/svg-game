@@ -13,6 +13,7 @@ import { isEqual } from '@/utils'
 type PathProps = {
   targetPosition: Position
   characterToMove: Positioned
+  maxMovementPoints: number
   grid: TerrainSymbol[][]
   terrainFeatureGrid: TerrainFeatureSymbol[][]
   charactersList: Positioned[]
@@ -31,6 +32,7 @@ type PathProps = {
 export default function path({
   targetPosition,
   characterToMove,
+  maxMovementPoints,
   grid,
   terrainFeatureGrid,
   charactersList
@@ -49,12 +51,14 @@ export default function path({
   const startNode = graph.grid[startY][startX]
   const endNode = graph.grid[endY][endX]
 
-  const resultPath = search(graph, startNode, endNode, { closest: false }).map(
-    (node) => ({
+  const resultPath = search(graph, startNode, endNode, {
+    closest: false
+  })
+    .map((node) => ({
       pathCost: node.pathCost,
       position: [node.y, node.x] as [number, number]
-    })
-  )
+    }))
+    .filter((pathSegment) => pathSegment.pathCost <= maxMovementPoints)
 
   mutateSetDropLastSegmentIfOccupied(resultPath, targetPosition, charactersList)
 

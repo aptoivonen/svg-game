@@ -173,6 +173,8 @@ function Scenario({ scenarioData }: ScenarioProps) {
                     key={char.id}
                     characterPosition={char.position}
                     path={char.path}
+                    movementPoints={char.movementPoints}
+                    currentActionPoints={char.currentActionPoints}
                     owner="ai"
                   />
                 ))}
@@ -183,6 +185,8 @@ function Scenario({ scenarioData }: ScenarioProps) {
                 <CharacterPath
                   characterPosition={selectedCharacter.position}
                   path={selectedCharacterPath}
+                  movementPoints={selectedCharacter.movementPoints}
+                  currentActionPoints={selectedCharacter.currentActionPoints}
                 />
               </g>
             )}

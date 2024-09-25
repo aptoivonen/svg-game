@@ -1,9 +1,12 @@
 import { Owner, Path, Position } from '@/types'
 import { useTileSize } from './Svg'
+import ActionPointsLeftIcon from './ActionPointsLeftIcon'
 
 type CharacterPathProps = {
   characterPosition: Position
   path: Path | null
+  movementPoints: number
+  currentActionPoints: number
   owner?: Owner
 }
 
@@ -15,6 +18,8 @@ const colorClass = {
 function CharacterPath({
   characterPosition,
   path,
+  movementPoints,
+  currentActionPoints,
   owner = 'player'
 }: CharacterPathProps) {
   const [tileWidth, tileHeight] = useTileSize()
@@ -37,6 +42,12 @@ function CharacterPath({
       .join(' ')
 
   const [lastPositionX, lastPositionY] = positions[positions.length - 1]
+  const stepRequiresSecondMovementPoint = path.find(
+    (segment) => segment.pathCost > movementPoints * 100
+  )
+  const [secondMovementPointTileX, secondMovementPointTileY] =
+    stepRequiresSecondMovementPoint?.position ?? [0, 0]
+  const actionPointsLeftAfterSecondMovement = currentActionPoints - 1
 
   return (
     <g>
@@ -51,6 +62,16 @@ function CharacterPath({
         d={pathString}
         className={`${colorClass[owner]} fill-none stroke-[3] [stroke-dasharray:6,6] [stroke-dashoffset:1]`}
       ></path>
+      {!!stepRequiresSecondMovementPoint && (
+        <ActionPointsLeftIcon
+          x={secondMovementPointTileX}
+          y={secondMovementPointTileY}
+          actionPointsLeftAfterSecondMovement={
+            actionPointsLeftAfterSecondMovement
+          }
+          tileSize={tileWidth}
+        />
+      )}
     </g>
   )
 }

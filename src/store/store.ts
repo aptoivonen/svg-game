@@ -156,14 +156,10 @@ const useStore = create<Store>((set, get) => ({
     if (!selectedCharacterPath) {
       return
     }
-    set(() => {
-      return { mode: { name: 'executing', characterId } }
-    })
+    set(() => ({ mode: { name: 'executing', characterId } }))
     get().setPath(characterId, selectedCharacterPath)
     await executePath(characterId, get, set)
-    set(() => {
-      return { mode: { name: 'selectedCharacter', characterId } }
-    })
+    set(() => ({ mode: { name: 'selectedCharacter', characterId } }))
   },
   executeAiCharacterPath: async (id: string) => {
     const mode = selectMode(get())

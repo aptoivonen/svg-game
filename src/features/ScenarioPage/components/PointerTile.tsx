@@ -1,14 +1,15 @@
+import { memo, useCallback } from 'react'
 import { useTileSize } from './Svg'
 
 type PointerTileProps = {
   x: number
   y: number
-  onMouseEnter: () => void
+  onMouseEnter: (x: number, y: number) => void
   onMouseLeave: () => void
   onClick: () => void
 }
 
-export default function PointerTile({
+function PointerTile({
   x,
   y,
   onMouseEnter,
@@ -16,6 +17,10 @@ export default function PointerTile({
   onClick
 }: PointerTileProps) {
   const [tileWidth, tileHeight] = useTileSize()
+  const handleMouseEnter = useCallback(
+    () => onMouseEnter(x, y),
+    [onMouseEnter, x, y]
+  )
 
   return (
     <rect
@@ -24,10 +29,12 @@ export default function PointerTile({
       y={y * tileHeight}
       width={tileWidth}
       height={tileHeight}
-      onMouseEnter={onMouseEnter}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={onClick}
       className="fill-transparent"
     />
   )
 }
+
+export default memo(PointerTile)

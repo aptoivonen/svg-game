@@ -193,14 +193,13 @@ function Scenario({ scenarioData }: ScenarioProps) {
                 position={selectedCharacter.position}
               />
             )}
-
             <g id="pointerTiles">
               {map2D(grid, (_, x, y) => (
                 <PointerTile
                   key={`${x}-${y}`}
                   x={x}
                   y={y}
-                  onMouseEnter={() => handleMouseEnterTile(x, y)}
+                  onMouseEnter={handleMouseEnterTile}
                   onMouseLeave={handleMouseLeaveTile}
                   onClick={handleClickTile}
                 />

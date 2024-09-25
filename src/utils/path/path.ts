@@ -10,6 +10,14 @@ import type {
 } from '@/types'
 import { isEqual } from '@/utils'
 
+type PathProps = {
+  targetPosition: Position
+  characterToMove: Positioned
+  grid: TerrainSymbol[][]
+  terrainFeatureGrid: TerrainFeatureSymbol[][]
+  charactersList: Positioned[]
+}
+
 /**
  * Finds path to end position. If no path, returns path to position closest to end.
  * @param {Object} params
@@ -26,13 +34,7 @@ export default function path({
   grid,
   terrainFeatureGrid,
   charactersList
-}: {
-  targetPosition: Position
-  characterToMove: Positioned
-  grid: TerrainSymbol[][]
-  terrainFeatureGrid: TerrainFeatureSymbol[][]
-  charactersList: Positioned[]
-}): Path {
+}: PathProps): Path {
   const [startX, startY] = characterToMove.position
   const [endX, endY] = targetPosition
 

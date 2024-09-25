@@ -105,6 +105,11 @@ export const getHasMovementActionPoint = (character: Character) =>
 export const getMaxMovementPoints = (character: Character) =>
   character.currentMovementActionPoints * 100 * character.movementPoints
 
+export const getPathCostRequiresTwoMoveActions = (
+  character: Character,
+  pathCost: number
+) => pathCost > 100 * character.movementPoints
+
 export const useGrid = () => useStore(selectGrid)
 export const useGridWidth = () => useStore(selectGridWidth)
 export const useGridHeight = () => useStore(selectGridHeight)

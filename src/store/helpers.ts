@@ -7,6 +7,7 @@ import type {
 import { CharactersDataSchema } from '@/types'
 import {
   getHasMovementActionPoint,
+  getPathCostRequiresTwoMoveActions,
   selectCharacter,
   selectCharacters,
   selectPath
@@ -98,7 +99,7 @@ export async function executePath(id: string, get: Get, set: Set) {
     }))
     accumulatedPathCost += step.pathCost
     const isSecondMoveAction =
-      accumulatedPathCost > 100 * char.movementPoints &&
+      getPathCostRequiresTwoMoveActions(char, accumulatedPathCost) &&
       char.currentMovementActionPoints === 1
     if (isSecondMoveAction) {
       setDecrementMovementActionPoint(id, get, set)

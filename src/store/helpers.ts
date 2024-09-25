@@ -5,7 +5,12 @@ import type {
   TerrainSymbol
 } from '@/types'
 import { CharactersDataSchema } from '@/types'
-import { selectCharacter, selectCharacters, selectPath } from './selectors'
+import {
+  getHasMovementActionPoint,
+  selectCharacter,
+  selectCharacters,
+  selectPath
+} from './selectors'
 import { wait } from '@/utils'
 import { CHARACTER_MOVE_DELAY_SECONDS } from '@/config'
 import { Store } from './store'
@@ -69,23 +74,37 @@ export function setCharacterProp(
 }
 
 export async function executePath(id: string, get: Get, set: Set) {
-  const char = selectCharacter(get(), id)
-  if (!char) {
-    return
-  }
+  let char = selectCharacter(get(), id)
+  if (!char) return
+
   const path = selectPath(get(), id)
-  if (!path) {
-    return
-  }
+  if (!path) return
+
+  if (!getHasMovementActionPoint(char)) return
+
+  setDecrementMovementActionPoint(id, get, set)
+  char = selectCharacter(get(), id)
 
   let remainingPath = path
+  let accumulatedPathCost = 0
   while (remainingPath.length > 0) {
+    if (!char) return
+
     const step = remainingPath[0]
 
     remainingPath = remainingPath.slice(1).map((pathSegment) => ({
       pathCost: pathSegment.pathCost - step.pathCost,
       position: pathSegment.position
     }))
+    accumulatedPathCost += step.pathCost
+    const isSecondMoveAction =
+      accumulatedPathCost > 100 * char.movementPoints &&
+      char.currentMovementActionPoints === 1
+    if (isSecondMoveAction) {
+      setDecrementMovementActionPoint(id, get, set)
+      char = selectCharacter(get(), id)
+    }
+
     get().setPath(id, remainingPath)
     await setPosition(id, step.position, set)
   }
@@ -96,4 +115,21 @@ export async function executePath(id: string, get: Get, set: Set) {
 async function setPosition(id: string, position: Position, set: Set) {
   setCharacterProp(id, { position }, set)
   await wait(CHARACTER_MOVE_DELAY_SECONDS * 1000)
+}
+
+function setDecrementMovementActionPoint(id: string, get: Get, set: Set) {
+  const char = selectCharacter(get(), id)
+  if (!char) {
+    return
+  }
+  const newCurrentActionPoints = char.currentActionPoints - 1
+  const newCurrentMovementActionPoints = char.currentMovementActionPoints - 1
+  setCharacterProp(
+    id,
+    {
+      currentActionPoints: newCurrentActionPoints,
+      currentMovementActionPoints: newCurrentMovementActionPoints
+    },
+    set
+  )
 }

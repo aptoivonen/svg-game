@@ -8,6 +8,8 @@ import type {
   TerrainSymbol
 } from '@/types'
 import {
+  getHasMovementActionPoint,
+  getMaxMovementPoints,
   selectCharacter,
   selectCharactersList,
   selectGrid,
@@ -119,8 +121,18 @@ const useStore = create<Store>((set, get) => ({
       const grid = selectGrid(state)
       const terrainFeatureGrid = selectTerrainFeatureGrid(state)
       const charactersList = selectCharactersList(state)
-      const maxMovementPoints = 2 * 100 * characterToMove.movementPoints
-      // TODO: fix max movement points
+
+      if (!getHasMovementActionPoint(characterToMove))
+        return {
+          mode: {
+            name: 'selectedCharacter',
+            characterId: mode.characterId,
+            tileX: x,
+            tileY: y
+          }
+        }
+
+      const maxMovementPoints = getMaxMovementPoints(characterToMove)
       const characterPath = path({
         targetPosition,
         characterToMove,

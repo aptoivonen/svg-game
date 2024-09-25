@@ -99,6 +99,12 @@ export const selectHasPath = (state: Store, id: string) => {
   return !!char.path
 }
 
+export const getHasMovementActionPoint = (character: Character) =>
+  character.currentMovementActionPoints > 0
+
+export const getMaxMovementPoints = (character: Character) =>
+  character.currentMovementActionPoints * 100 * character.movementPoints
+
 export const useGrid = () => useStore(selectGrid)
 export const useGridWidth = () => useStore(selectGridWidth)
 export const useGridHeight = () => useStore(selectGridHeight)

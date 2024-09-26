@@ -1,6 +1,6 @@
 import { createContext, useContext, useMemo } from 'react'
 import { useGridHeight, useGridWidth } from '@/store'
-import { TILE_IMAGE_SIZE } from '@/config'
+import { TILE_IMAGE_SIZE, TILE_OFFSET } from '@/config'
 
 const tileSize: [number, number] = [TILE_IMAGE_SIZE, TILE_IMAGE_SIZE]
 
@@ -20,8 +20,9 @@ function Svg({ tileCssSize, children }: SvgProps) {
   const gridWidth = useGridWidth()
   const gridHeight = useGridHeight()
   const svgCssWidth = tileCssWidth * gridWidth
-  const viewBoxWidth = gridWidth * TILE_IMAGE_SIZE
-  const viewBoxHeight = gridHeight * TILE_IMAGE_SIZE
+  const offset = TILE_OFFSET
+  const viewBoxWidth = gridWidth * TILE_IMAGE_SIZE + offset * gridWidth
+  const viewBoxHeight = gridHeight * TILE_IMAGE_SIZE + offset * gridHeight
   const viewBoxSize: [number, number] = useMemo(
     () => [viewBoxWidth, viewBoxHeight],
     [viewBoxWidth, viewBoxHeight]

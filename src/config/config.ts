@@ -60,6 +60,8 @@ export const TILE_DATA_TERRAIN_EDGE_DIFFS = {
 /** Terrain tile size in original tile set */
 export const TILE_IMAGE_SIZE = 32
 
+export const TILE_OFFSET = -5
+
 export const TILESET_IMAGE_DIMENSIONS = {
   WIDTH: 1024,
   HEIGHT: 1024
@@ -67,8 +69,8 @@ export const TILESET_IMAGE_DIMENSIONS = {
 
 /** Terrain tile visual size in css pixels */
 export const TILE_CSS = {
-  WIDTH: 40,
-  HEIGHT: 40
+  WIDTH: 32,
+  HEIGHT: 32
 }
 
 export const CHARACTER_MOVE_DELAY_SECONDS = 0.3

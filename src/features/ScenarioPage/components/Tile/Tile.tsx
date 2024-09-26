@@ -1,7 +1,11 @@
 import { memo } from 'react'
 import { TerrainFeatureSymbol, TerrainSymbol } from '@/types'
 import { useTileSize } from '../Svg'
-import { TILE_DATA_TERRAIN, TILE_DATA_TERRAIN_FEATURES } from '@/config'
+import {
+  TILE_DATA_TERRAIN,
+  TILE_DATA_TERRAIN_FEATURES,
+  TILE_OFFSET
+} from '@/config'
 import { useImageProtoId } from '../Tiles'
 import calculateTerrainEdgeIndeces from './calculateTerrainEdgeIndeces'
 
@@ -20,8 +24,9 @@ function Tile({ x, y, terrainSymbol, terrainFeatureSymbol, grid }: TileProps) {
   const clipPath = `url(#${TILE_DATA_TERRAIN[terrainSymbol].id})`
   const iconX = TILE_DATA_TERRAIN[terrainSymbol].x
   const iconY = TILE_DATA_TERRAIN[terrainSymbol].y
-  const calcX = (x - iconX) * tileWidth
-  const calcY = (y - iconY) * tileHeight
+  const offset = TILE_OFFSET
+  const calcX = (x - iconX) * tileWidth + offset * x
+  const calcY = (y - iconY) * tileHeight + offset * y
   const terrainEdge = calculateTerrainEdgeIndeces({
     x,
     y,
@@ -35,8 +40,8 @@ function Tile({ x, y, terrainSymbol, terrainFeatureSymbol, grid }: TileProps) {
     id: terrainEdgeId
   } = terrainEdge ?? { x: 0, y: 0, id: '' }
   const edgeClipPath = `url(#${terrainEdgeId})`
-  const calcEdgeX = (x - terrainEdgeX) * tileWidth
-  const calcEdgeY = (y - terrainEdgeY) * tileWidth
+  const calcEdgeX = (x - terrainEdgeX) * tileWidth + offset * x
+  const calcEdgeY = (y - terrainEdgeY) * tileWidth + offset * y
   const hasTerrainFeature =
     TILE_DATA_TERRAIN_FEATURES[terrainFeatureSymbol].id !== ''
   const {
@@ -44,8 +49,8 @@ function Tile({ x, y, terrainSymbol, terrainFeatureSymbol, grid }: TileProps) {
     y: terrainFeatureY,
     id: terrainFeatureId
   } = TILE_DATA_TERRAIN_FEATURES[terrainFeatureSymbol]
-  const calcTerrainFeatureX = (x - terrainFeatureX) * tileWidth
-  const calcTerrainFeatureY = (y - terrainFeatureY) * tileWidth
+  const calcTerrainFeatureX = (x - terrainFeatureX) * tileWidth + offset * x
+  const calcTerrainFeatureY = (y - terrainFeatureY) * tileWidth + offset * y
   const terrainFeatureClipPath = `url(#${terrainFeatureId})`
 
   return (

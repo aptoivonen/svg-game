@@ -23,7 +23,7 @@ import {
   initTerrainFeatureGrid,
   setCharacterProp
 } from './helpers'
-import { path } from '@/utils'
+import { isEqual, last, path } from '@/utils'
 
 export type Store = {
   name: string
@@ -122,14 +122,17 @@ const useStore = create<Store>((set, get) => ({
       const terrainFeatureGrid = selectTerrainFeatureGrid(state)
       const charactersList = selectCharactersList(state)
 
+      const resultModePartialWithoutPath = {
+        name: 'selectedCharacter',
+        characterId: mode.characterId,
+        tileX: x,
+        tileY: y
+      } as const
+
+      // No movement action points left => don't show a path
       if (!getHasMovementActionPoint(characterToMove))
         return {
-          mode: {
-            name: 'selectedCharacter',
-            characterId: mode.characterId,
-            tileX: x,
-            tileY: y
-          }
+          mode: resultModePartialWithoutPath
         }
 
       const maxMovementPoints = getMaxMovementPoints(characterToMove)
@@ -141,14 +144,19 @@ const useStore = create<Store>((set, get) => ({
         terrainFeatureGrid,
         charactersList
       })
-      return {
-        mode: {
-          name: 'selectedCharacter',
-          characterId: mode.characterId,
-          tileX: x,
-          tileY: y,
-          path: characterPath
+
+      // hovering outside a path's length => don't show a path
+      if (
+        characterPath.length === 0 ||
+        !isEqual(last(characterPath).position, [x, y])
+      ) {
+        return {
+          mode: resultModePartialWithoutPath
         }
+      }
+
+      return {
+        mode: { ...resultModePartialWithoutPath, path: characterPath }
       }
     }),
   setPath: (id: string, path: Path) => {

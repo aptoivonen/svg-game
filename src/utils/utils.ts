@@ -24,6 +24,10 @@ export function isEqual(position1: Position, position2: Position) {
   return pos1X === pos2X && pos1Y === pos2Y
 }
 
+export function last<T>(array: T[]): T {
+  return array[array.length - 1]
+}
+
 export function distance(position1: Position, position2: Position) {
   return diagonalHeuristics.distance(position1, position2)
 }

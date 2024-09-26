@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import {
   getTerrainFeatureSymbol,
   useAiCharactersList,
@@ -130,6 +130,42 @@ function Scenario({ scenarioData }: ScenarioProps) {
     executeSelectedCharacterPath()
   }, [executeSelectedCharacterPath])
 
+  // memoize for perf gains
+  const renderTiles = useMemo(
+    () =>
+      map2D(grid, (terrainSymbol, x, y) => (
+        <Tile
+          key={`${x}-${y}`}
+          terrainSymbol={terrainSymbol}
+          terrainFeatureSymbol={getTerrainFeatureSymbol(
+            x,
+            y,
+            terrainFeatureGrid
+          )}
+          grid={grid}
+          x={x}
+          y={y}
+        ></Tile>
+      )),
+    [grid, terrainFeatureGrid]
+  )
+
+  // memoize for perf gains
+  const renderPointerTiles = useMemo(
+    () =>
+      map2D(grid, (_, x, y) => (
+        <PointerTile
+          key={`${x}-${y}`}
+          x={x}
+          y={y}
+          onMouseEnter={handleMouseEnterTile}
+          onMouseLeave={handleMouseLeaveTile}
+          onClick={handleClickTile}
+        />
+      )),
+    [grid, handleMouseEnterTile, handleMouseLeaveTile, handleClickTile]
+  )
+
   if (!isInitialized) {
     return <p className="text-white">Waiting to initialize scenario</p>
   }
@@ -145,22 +181,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
         <ZoomPanPinchComponent>
           <Svg tileCssSize={tileCssSize}>
             <Background />
-            <Tiles>
-              {map2D(grid, (terrainSymbol, x, y) => (
-                <Tile
-                  key={`${x}-${y}`}
-                  terrainSymbol={terrainSymbol}
-                  terrainFeatureSymbol={getTerrainFeatureSymbol(
-                    x,
-                    y,
-                    terrainFeatureGrid
-                  )}
-                  grid={grid}
-                  x={x}
-                  y={y}
-                ></Tile>
-              ))}
-            </Tiles>
+            <Tiles>{renderTiles}</Tiles>
             <GridLines />
             {DEBUG && (
               <g id="aiCharacterPaths">
@@ -191,18 +212,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
                 position={selectedCharacter.position}
               />
             )}
-            <g id="pointerTiles">
-              {map2D(grid, (_, x, y) => (
-                <PointerTile
-                  key={`${x}-${y}`}
-                  x={x}
-                  y={y}
-                  onMouseEnter={handleMouseEnterTile}
-                  onMouseLeave={handleMouseLeaveTile}
-                  onClick={handleClickTile}
-                />
-              ))}
-            </g>
+            <g id="pointerTiles">{renderPointerTiles}</g>
             <CharacterTiles>
               {playerCharacters.map((char) => (
                 <CharacterTile

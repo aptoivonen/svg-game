@@ -2,7 +2,6 @@ import { useCallback } from 'react'
 import {
   getTerrainFeatureSymbol,
   useAiCharactersList,
-  useCharacter,
   useGrid,
   useMode,
   usePlayerCharactersList,
@@ -32,6 +31,7 @@ import useHighlightedCharacter from './useHighlightedCharacter'
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut'
 import SelectedCharacterHighlight from '../components/SelectedCharacterHighlight'
 import PointerTile from '../components/PointerTile'
+import useSelectedCharacter from './useSelectedCharacter'
 
 const tileCssSize: [number, number] = [TILE_CSS.WIDTH, TILE_CSS.HEIGHT]
 
@@ -50,13 +50,11 @@ function Scenario({ scenarioData }: ScenarioProps) {
     useHighlightedCharacter()
   const hasHoveredCharacter = !!hoveredCharacter
   const mode = useMode()
-  const selectedCharacter = useCharacter(
-    mode.name === 'selectedCharacter' ? mode.characterId : ''
-  )
-  const selectedCharacterPath =
-    mode.name === 'selectedCharacter' && selectedCharacter && mode.path
+  const [selectedCharacter, selectedCharacterPath] = useSelectedCharacter()
   const hasSelectedCharacter = !!selectedCharacter
   const hasSelectedCharacterPath = !!selectedCharacterPath
+  const isShowSelectedCharacterHighlight =
+    hasSelectedCharacter && mode.name === 'selectedCharacter'
 
   const cancel = useStore((state) => state.cancel)
   const selectCharacter = useStore((state) => state.selectCharacter)
@@ -188,7 +186,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
                 />
               </g>
             )}
-            {hasSelectedCharacter && (
+            {isShowSelectedCharacterHighlight && (
               <SelectedCharacterHighlight
                 position={selectedCharacter.position}
               />

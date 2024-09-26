@@ -5,7 +5,7 @@ import { ActionPointIcon } from '@/components'
 const DURATION_SECONDS = 0.2
 
 type SelectedCharacterPanelProps = {
-  character: Character | undefined
+  character: Character | null
 }
 
 function SelectedCharacterPanel({ character }: SelectedCharacterPanelProps) {

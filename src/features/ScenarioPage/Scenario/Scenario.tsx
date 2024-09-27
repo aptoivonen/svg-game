@@ -21,8 +21,7 @@ import {
   SelectedCharacterPanel,
   SelectedCharacterHighlight,
   CharacterPath,
-  ZoomPanPinchWrapper,
-  ZoomPanPinchComponent
+  ZoomPanPinchWrapper
 } from '../components'
 import { map2D } from '@/utils'
 import { ScenarioData } from '@/types'
@@ -200,66 +199,62 @@ function Scenario({ scenarioData }: ScenarioProps) {
         initialPositionX={initialX}
         initialPositionY={initialY}
       >
-        <ZoomPanPinchComponent>
-          <Svg tileCssSize={tileCssSize}>
-            <Background />
-            <Tiles>
-              <g id="terrain-tiles">{renderTiles}</g>
-              <g id="terrain-edge-tiles">{renderTerrainEdgeTiles}</g>
-              <g id="terrain-feature-tiles">{renderTerrainFeatureTiles}</g>
-            </Tiles>
-            {DEBUG && (
-              <g id="aiCharacterPaths">
-                {aiCharacters.map((char) => (
-                  <CharacterPath
-                    key={char.id}
-                    characterPosition={char.position}
-                    path={char.path}
-                    movementPoints={char.movementPoints}
-                    currentActionPoints={char.currentActionPoints}
-                    owner="ai"
-                  />
-                ))}
-              </g>
-            )}
-            {hasSelectedCharacterPath && (
-              <g id="characterPath">
-                <CharacterPath
-                  characterPosition={selectedCharacter.position}
-                  path={selectedCharacterPath}
-                  movementPoints={selectedCharacter.movementPoints}
-                  currentActionPoints={selectedCharacter.currentActionPoints}
-                />
-              </g>
-            )}
-            {isShowSelectedCharacterHighlight && (
-              <SelectedCharacterHighlight
-                position={selectedCharacter.position}
-              />
-            )}
-            <g id="pointerTiles">{renderPointerTiles}</g>
-            <CharacterTiles>
-              {playerCharacters.map((char) => (
-                <CharacterTile
-                  key={char.id}
-                  character={char}
-                  onMouseEnter={handleMouseEnterPlayerCharacter}
-                  onMouseLeave={handleMouseLeavePlayerCharacter}
-                  onClick={handleClickPlayerCharacter}
-                />
-              ))}
+        <Svg tileCssSize={tileCssSize}>
+          <Background />
+          <Tiles>
+            <g id="terrain-tiles">{renderTiles}</g>
+            <g id="terrain-edge-tiles">{renderTerrainEdgeTiles}</g>
+            <g id="terrain-feature-tiles">{renderTerrainFeatureTiles}</g>
+          </Tiles>
+          {DEBUG && (
+            <g id="aiCharacterPaths">
               {aiCharacters.map((char) => (
-                <CharacterTile
+                <CharacterPath
                   key={char.id}
-                  character={char}
-                  onMouseEnter={handleMouseEnterAiCharacter}
-                  onMouseLeave={handleMouseLeaveAiCharacter}
-                  onClick={handleClickAiCharacter}
+                  characterPosition={char.position}
+                  path={char.path}
+                  movementPoints={char.movementPoints}
+                  currentActionPoints={char.currentActionPoints}
+                  owner="ai"
                 />
               ))}
-            </CharacterTiles>
-          </Svg>
-        </ZoomPanPinchComponent>
+            </g>
+          )}
+          {hasSelectedCharacterPath && (
+            <g id="characterPath">
+              <CharacterPath
+                characterPosition={selectedCharacter.position}
+                path={selectedCharacterPath}
+                movementPoints={selectedCharacter.movementPoints}
+                currentActionPoints={selectedCharacter.currentActionPoints}
+              />
+            </g>
+          )}
+          {isShowSelectedCharacterHighlight && (
+            <SelectedCharacterHighlight position={selectedCharacter.position} />
+          )}
+          <g id="pointerTiles">{renderPointerTiles}</g>
+          <CharacterTiles>
+            {playerCharacters.map((char) => (
+              <CharacterTile
+                key={char.id}
+                character={char}
+                onMouseEnter={handleMouseEnterPlayerCharacter}
+                onMouseLeave={handleMouseLeavePlayerCharacter}
+                onClick={handleClickPlayerCharacter}
+              />
+            ))}
+            {aiCharacters.map((char) => (
+              <CharacterTile
+                key={char.id}
+                character={char}
+                onMouseEnter={handleMouseEnterAiCharacter}
+                onMouseLeave={handleMouseLeaveAiCharacter}
+                onClick={handleClickAiCharacter}
+              />
+            ))}
+          </CharacterTiles>
+        </Svg>
       </ZoomPanPinchWrapper>
     </div>
   )

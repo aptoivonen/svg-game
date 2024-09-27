@@ -1,4 +1,5 @@
 import { TransformWrapper } from 'react-zoom-pan-pinch'
+import ZoomPanPinchComponent from './ZoomPanPinchComponent'
 
 type ZoomPanPinchWrapperProps = {
   initialPositionX: number
@@ -33,7 +34,7 @@ function ZoomPanPinchWrapper({
       doubleClick={{ disabled: DEFAULTS.DBL_CLICK_ZOOM_DISABLED }}
       panning={{ velocityDisabled: DEFAULTS.PANNING_VELOCITY_DISABLED }}
     >
-      {children}
+      <ZoomPanPinchComponent>{children}</ZoomPanPinchComponent>
     </TransformWrapper>
   )
 }

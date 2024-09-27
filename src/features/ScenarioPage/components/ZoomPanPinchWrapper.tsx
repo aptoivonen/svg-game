@@ -10,7 +10,9 @@ const DEFAULTS = {
   LIMIT_TO_BOUNDS: false,
   MAX_SCALE: 2,
   MIN_SCALE: 0.5,
-  SMOOTH_SCROLL: false
+  SMOOTH_SCROLL: false,
+  ZOOM_STEP: 0.5,
+  DBL_CLICK_ZOOM_DISABLED: true
 }
 
 function ZoomPanPinchWrapper({
@@ -26,7 +28,8 @@ function ZoomPanPinchWrapper({
       maxScale={DEFAULTS.MAX_SCALE}
       minScale={DEFAULTS.MIN_SCALE}
       smooth={DEFAULTS.SMOOTH_SCROLL}
-      wheel={{ step: 0.5 }}
+      wheel={{ step: DEFAULTS.ZOOM_STEP }}
+      doubleClick={{ disabled: DEFAULTS.DBL_CLICK_ZOOM_DISABLED }}
     >
       {children}
     </TransformWrapper>

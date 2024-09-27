@@ -156,6 +156,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
       map2D(grid, (_, x, y) => (
         <PointerTile
           key={`${x}-${y}`}
+          id={`${x}-${y}`}
           x={x}
           y={y}
           onMouseEnter={handleMouseEnterTile}

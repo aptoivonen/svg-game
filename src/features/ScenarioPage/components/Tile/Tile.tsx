@@ -25,6 +25,7 @@ function Tile({ x, y, terrainSymbol, terrainFeatureSymbol, grid }: TileProps) {
   const iconX = TILE_DATA_TERRAIN[terrainSymbol].x
   const iconY = TILE_DATA_TERRAIN[terrainSymbol].y
   const offset = TILE_OFFSET
+
   const calcX = (x - iconX) * tileWidth + offset * x
   const calcY = (y - iconY) * tileHeight + offset * y
   const terrainEdge = calculateTerrainEdgeIndeces({
@@ -33,6 +34,7 @@ function Tile({ x, y, terrainSymbol, terrainFeatureSymbol, grid }: TileProps) {
     terrainSymbol,
     grid
   })
+
   const hasTerrainEdge = !!terrainEdge
   const {
     x: terrainEdgeX,
@@ -42,6 +44,7 @@ function Tile({ x, y, terrainSymbol, terrainFeatureSymbol, grid }: TileProps) {
   const edgeClipPath = `url(#${terrainEdgeId})`
   const calcEdgeX = (x - terrainEdgeX) * tileWidth + offset * x
   const calcEdgeY = (y - terrainEdgeY) * tileWidth + offset * y
+
   const hasTerrainFeature =
     TILE_DATA_TERRAIN_FEATURES[terrainFeatureSymbol].id !== ''
   const {

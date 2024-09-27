@@ -4,6 +4,7 @@ import { useTileSize } from './Svg'
 type PointerTileProps = {
   x: number
   y: number
+  id: string
   onMouseEnter: (x: number, y: number) => void
   onMouseLeave: () => void
   onClick: () => void
@@ -12,6 +13,7 @@ type PointerTileProps = {
 function PointerTile({
   x,
   y,
+  id,
   onMouseEnter,
   onMouseLeave,
   onClick
@@ -24,7 +26,7 @@ function PointerTile({
 
   return (
     <rect
-      key={`${x}-${y}`}
+      id={id}
       x={x * tileWidth}
       y={y * tileHeight}
       width={tileWidth}

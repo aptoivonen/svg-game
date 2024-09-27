@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from 'react'
 import {
-  getTerrainFeatureSymbol,
   useAiCharactersList,
   useGrid,
   useMode,
@@ -12,12 +11,16 @@ import {
   Svg,
   Background,
   Tiles,
-  Tile,
+  TerrainTile,
+  TerrainEdgeTile,
+  TerrainFeatureTile,
+  PointerTile,
   GridLines,
   CharacterTiles,
   CharacterTile,
   CharacterInfoBox,
   SelectedCharacterPanel,
+  SelectedCharacterHighlight,
   CharacterPath,
   ZoomPanPinchWrapper,
   ZoomPanPinchComponent
@@ -29,8 +32,6 @@ import useInit from './useInit'
 import useInitialPosition from './useInitialPosition'
 import useHighlightedCharacter from './useHighlightedCharacter'
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut'
-import SelectedCharacterHighlight from '../components/SelectedCharacterHighlight'
-import PointerTile from '../components/PointerTile'
 import useSelectedCharacter from './useSelectedCharacter'
 
 const tileCssSize: [number, number] = [TILE_CSS.WIDTH, TILE_CSS.HEIGHT]
@@ -134,18 +135,39 @@ function Scenario({ scenarioData }: ScenarioProps) {
   const renderTiles = useMemo(
     () =>
       map2D(grid, (terrainSymbol, x, y) => (
-        <Tile
-          key={`${x}-${y}`}
+        <TerrainTile
+          key={`terrain-tile-${x}-${y}`}
           terrainSymbol={terrainSymbol}
-          terrainFeatureSymbol={getTerrainFeatureSymbol(
-            x,
-            y,
-            terrainFeatureGrid
-          )}
+          x={x}
+          y={y}
+        ></TerrainTile>
+      )),
+    [grid]
+  )
+
+  const renderTerrainEdgeTiles = useMemo(
+    () =>
+      map2D(grid, (terrainSymbol, x, y) => (
+        <TerrainEdgeTile
+          key={`terrain-edge-tile-${x}-${y}`}
+          terrainSymbol={terrainSymbol}
           grid={grid}
           x={x}
           y={y}
-        ></Tile>
+        ></TerrainEdgeTile>
+      )),
+    [grid]
+  )
+
+  const renderTerrainFeatureTiles = useMemo(
+    () =>
+      map2D(grid, (_, x, y) => (
+        <TerrainFeatureTile
+          key={`terrain-feature-tile-${x}-${y}`}
+          terrainFeatureGrid={terrainFeatureGrid}
+          x={x}
+          y={y}
+        ></TerrainFeatureTile>
       )),
     [grid, terrainFeatureGrid]
   )
@@ -182,7 +204,11 @@ function Scenario({ scenarioData }: ScenarioProps) {
         <ZoomPanPinchComponent>
           <Svg tileCssSize={tileCssSize}>
             <Background />
-            <Tiles>{renderTiles}</Tiles>
+            <Tiles>
+              {renderTiles}
+              {renderTerrainEdgeTiles}
+              {renderTerrainFeatureTiles}
+            </Tiles>
             <GridLines />
             {DEBUG && (
               <g id="aiCharacterPaths">

@@ -12,7 +12,8 @@ const DEFAULTS = {
   MIN_SCALE: 0.5,
   SMOOTH_SCROLL: false,
   ZOOM_STEP: 0.5,
-  DBL_CLICK_ZOOM_DISABLED: true
+  DBL_CLICK_ZOOM_DISABLED: true,
+  PANNING_VELOCITY_DISABLED: true
 }
 
 function ZoomPanPinchWrapper({
@@ -30,6 +31,7 @@ function ZoomPanPinchWrapper({
       smooth={DEFAULTS.SMOOTH_SCROLL}
       wheel={{ step: DEFAULTS.ZOOM_STEP }}
       doubleClick={{ disabled: DEFAULTS.DBL_CLICK_ZOOM_DISABLED }}
+      panning={{ velocityDisabled: DEFAULTS.PANNING_VELOCITY_DISABLED }}
     >
       {children}
     </TransformWrapper>

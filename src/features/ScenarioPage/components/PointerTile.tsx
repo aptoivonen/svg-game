@@ -23,12 +23,14 @@ function PointerTile({
     () => onMouseEnter(x, y),
     [onMouseEnter, x, y]
   )
+  const calcX = x * tileWidth
+  const calcY = y * tileHeight
 
   return (
     <rect
       id={id}
-      x={x * tileWidth}
-      y={y * tileHeight}
+      x={calcX}
+      y={calcY}
       width={tileWidth}
       height={tileHeight}
       onMouseEnter={handleMouseEnter}

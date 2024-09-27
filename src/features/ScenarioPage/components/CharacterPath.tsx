@@ -27,10 +27,11 @@ function CharacterPath({
   if (!path) return null
   if (path.length === 0) return null
 
+  const [characterPositionX, characterPositionY] = characterPosition
   const positions = path.map((segment) => segment.position)
   const pathString =
-    `M ${tileWidth * characterPosition[0] + tileWidth / 2} ${
-      tileHeight * characterPosition[1] + tileHeight / 2
+    `M ${tileWidth * characterPositionX + tileWidth / 2} ${
+      tileHeight * characterPositionY + tileHeight / 2
     } ` +
     positions
       .map(
@@ -42,6 +43,8 @@ function CharacterPath({
       .join(' ')
 
   const [lastPositionX, lastPositionY] = positions[positions.length - 1]
+  const calcPathEndHightLightX = tileWidth * lastPositionX
+  const calcPathEndHightLightY = tileWidth * lastPositionY
   const stepRequiresSecondMovementPoint = path.find(
     (segment) => segment.pathCost > movementPoints * 100
   )
@@ -52,8 +55,8 @@ function CharacterPath({
   return (
     <g>
       <rect
-        x={tileWidth * lastPositionX}
-        y={tileHeight * lastPositionY}
+        x={calcPathEndHightLightX}
+        y={calcPathEndHightLightY}
         width={tileWidth}
         height={tileHeight}
         className={`${colorClass[owner]} fill-none stroke-[3]`}

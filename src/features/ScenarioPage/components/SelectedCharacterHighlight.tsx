@@ -10,11 +10,13 @@ function SelectedCharacterHighlight({
 }: SelectedCharacterHighlightProps) {
   const [tileWidth, tileHeight] = useTileSize()
   const [x, y] = position
+  const calcX = tileWidth * x
+  const calcY = tileHeight * y
 
   return (
     <rect
-      x={tileWidth * x}
-      y={tileHeight * y}
+      x={calcX}
+      y={calcY}
       width={tileWidth}
       height={tileHeight}
       className="fill-none stroke-yellow-300 stroke-[3]"

@@ -15,7 +15,6 @@ import {
   TerrainEdgeTile,
   TerrainFeatureTile,
   PointerTile,
-  GridLines,
   CharacterTiles,
   CharacterTile,
   CharacterInfoBox,
@@ -205,11 +204,10 @@ function Scenario({ scenarioData }: ScenarioProps) {
           <Svg tileCssSize={tileCssSize}>
             <Background />
             <Tiles>
-              {renderTiles}
-              {renderTerrainEdgeTiles}
-              {renderTerrainFeatureTiles}
+              <g id="terrain-tiles">{renderTiles}</g>
+              <g id="terrain-edge-tiles">{renderTerrainEdgeTiles}</g>
+              <g id="terrain-feature-tiles">{renderTerrainFeatureTiles}</g>
             </Tiles>
-            <GridLines />
             {DEBUG && (
               <g id="aiCharacterPaths">
                 {aiCharacters.map((char) => (

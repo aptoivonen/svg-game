@@ -63,6 +63,7 @@ function Tile({ x, y, terrainSymbol, terrainFeatureSymbol, grid }: TileProps) {
         clipPath={clipPath}
         x={calcX}
         y={calcY}
+        id={`terrain-tile-${x}-${y}`}
         width={tileWidth}
         height={tileHeight}
       />
@@ -72,6 +73,7 @@ function Tile({ x, y, terrainSymbol, terrainFeatureSymbol, grid }: TileProps) {
           clipPath={edgeClipPath}
           x={calcEdgeX}
           y={calcEdgeY}
+          id={`edge-tile-${x}-${y}`}
           width={tileWidth}
           height={tileHeight}
         />
@@ -82,6 +84,7 @@ function Tile({ x, y, terrainSymbol, terrainFeatureSymbol, grid }: TileProps) {
           clipPath={terrainFeatureClipPath}
           x={calcTerrainFeatureX}
           y={calcTerrainFeatureY}
+          id={`feature-tile-${x}-${y}`}
           width={tileWidth}
           height={tileHeight}
         />

@@ -19,8 +19,8 @@ function TerrainTile({ x, y, terrainSymbol }: TerrainTileProps) {
   const iconY = TILE_DATA_TERRAIN[terrainSymbol].y
   const offset = TILE_OFFSET
 
-  const calcX = (x - iconX) * tileWidth + offset * x
-  const calcY = (y - iconY) * tileHeight + offset * y
+  const calcX = (x - iconX) * tileWidth + offset
+  const calcY = (y - iconY) * tileHeight + offset
 
   return (
     <use

@@ -32,8 +32,8 @@ function TerrainEdgeTile({ x, y, terrainSymbol, grid }: TerrainEdgeTileProps) {
     id: terrainEdgeId
   } = terrainEdge ?? { x: 0, y: 0, id: '' }
   const edgeClipPath = `url(#${terrainEdgeId})`
-  const calcEdgeX = (x - terrainEdgeX) * tileWidth + offset * x
-  const calcEdgeY = (y - terrainEdgeY) * tileWidth + offset * y
+  const calcEdgeX = (x - terrainEdgeX) * tileWidth + offset
+  const calcEdgeY = (y - terrainEdgeY) * tileWidth + offset
 
   return (
     hasTerrainEdge && (

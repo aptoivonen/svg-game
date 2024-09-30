@@ -23,8 +23,10 @@ import {
   SelectedCharacterPanel,
   SelectedCharacterHighlight,
   CharacterPath,
-  ZoomPanPinchWrapper
+  ZoomPanPinchWrapper,
+  TriggerCenterOnSelectedCharacter
 } from '../components'
+import FullScreenMessage from '@/components/FullScreenMessage'
 import { map2D } from '@/utils'
 import { ScenarioData } from '@/types'
 import { DEBUG } from '@/config'
@@ -32,8 +34,6 @@ import useInit from './useInit'
 import useHighlightedCharacter from './useHighlightedCharacter'
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut'
 import useSelectedCharacter from './useSelectedCharacter'
-import TriggerCenterOnSelectedCharacter from '../components/TriggerCenterOnSelectedCharacter'
-import FullScreenMessage from '@/components/FullScreenMessage'
 
 type ScenarioProps = {
   scenarioData: ScenarioData

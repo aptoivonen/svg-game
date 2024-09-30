@@ -1,6 +1,6 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
-type ActionPointIconProps = unknown & ComponentPropsWithoutRef<'svg'>
+type ActionPointIconProps = ComponentPropsWithoutRef<'svg'>
 export default function ActionPointIcon(props: ActionPointIconProps) {
   return (
     <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" {...props}>

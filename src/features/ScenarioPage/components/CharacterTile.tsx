@@ -1,9 +1,8 @@
 import { motion } from 'framer-motion'
 import { ActionPointIcon } from '@/components'
 import { Character, Owner } from '@/types'
-import { useTileSize } from './Svg'
 import { useCharacterProtoId } from './CharacterTiles'
-import { CHARACTER_MOVE_DELAY_SECONDS } from '@/config'
+import { CHARACTER_MOVE_DELAY_SECONDS, TILE_IMAGE_SIZE } from '@/config'
 
 type CharacterProps = {
   character: Character
@@ -23,18 +22,17 @@ function CharacterTile({
   onMouseLeave,
   onClick
 }: CharacterProps) {
-  const [tileWidth, tileHeight] = useTileSize()
   const characterProtoId = useCharacterProtoId()
 
   const [x, y] = character.position
   const { id, owner, currentActionPoints } = character
-  const calcX = x * tileWidth
-  const calcY = y * tileHeight
-  const actionPointIconSize = tileWidth / 5
-  const icon1X = tileWidth / 2 - 1.5 * actionPointIconSize
-  const icon2X = tileWidth / 2 - 0.5 * actionPointIconSize
-  const icon3X = tileWidth / 2 + 0.5 * actionPointIconSize
-  const iconY = tileHeight - actionPointIconSize
+  const calcX = x * TILE_IMAGE_SIZE
+  const calcY = y * TILE_IMAGE_SIZE
+  const actionPointIconSize = TILE_IMAGE_SIZE / 5
+  const icon1X = TILE_IMAGE_SIZE / 2 - 1.5 * actionPointIconSize
+  const icon2X = TILE_IMAGE_SIZE / 2 - 0.5 * actionPointIconSize
+  const icon3X = TILE_IMAGE_SIZE / 2 + 0.5 * actionPointIconSize
+  const iconY = TILE_IMAGE_SIZE - actionPointIconSize
 
   function handleMouseEnter(): void {
     onMouseEnter(id, x, y)
@@ -51,8 +49,8 @@ function CharacterTile({
   return (
     <motion.g
       animate={{ x: calcX, y: calcY }}
-      width={tileWidth}
-      height={tileHeight}
+      width={TILE_IMAGE_SIZE}
+      height={TILE_IMAGE_SIZE}
       initial={false}
       transition={{ duration: CHARACTER_MOVE_DELAY_SECONDS, ease: 'linear' }}
     >

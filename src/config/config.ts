@@ -57,7 +57,7 @@ export const TILE_DATA_TERRAIN_EDGE_DIFFS = {
   ESES: { dx: 1, dy: -2 }
 } as const
 
-/** Terrain tile size in original tile set */
+/** Terrain tile size in original tile set and size in outer svg viewBox */
 export const TILE_IMAGE_SIZE = 32
 
 export const TILESET_IMAGE_DIMENSIONS = {

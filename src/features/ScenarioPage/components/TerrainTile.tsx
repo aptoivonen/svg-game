@@ -1,7 +1,6 @@
 import { memo } from 'react'
 import { TerrainSymbol } from '@/types'
-import { useTileSize } from './Svg'
-import { TILE_DATA_TERRAIN } from '@/config'
+import { TILE_DATA_TERRAIN, TILE_IMAGE_SIZE } from '@/config'
 import { useImageProtoId } from './Tiles'
 
 type TerrainTileProps = {
@@ -11,15 +10,14 @@ type TerrainTileProps = {
 }
 
 function TerrainTile({ x, y, terrainSymbol }: TerrainTileProps) {
-  const [tileWidth, tileHeight] = useTileSize()
   const imageProtoId = useImageProtoId()
   const imageId = `#${imageProtoId}`
   const clipPath = `url(#${TILE_DATA_TERRAIN[terrainSymbol].id})`
   const iconX = TILE_DATA_TERRAIN[terrainSymbol].x
   const iconY = TILE_DATA_TERRAIN[terrainSymbol].y
 
-  const calcX = (x - iconX) * tileWidth
-  const calcY = (y - iconY) * tileHeight
+  const calcX = (x - iconX) * TILE_IMAGE_SIZE
+  const calcY = (y - iconY) * TILE_IMAGE_SIZE
 
   return (
     <use
@@ -28,8 +26,8 @@ function TerrainTile({ x, y, terrainSymbol }: TerrainTileProps) {
       x={calcX}
       y={calcY}
       id={`terrain-tile-${x}-${y}`}
-      width={tileWidth}
-      height={tileHeight}
+      width={TILE_IMAGE_SIZE}
+      height={TILE_IMAGE_SIZE}
     />
   )
 }

@@ -1,5 +1,5 @@
+import { TILE_IMAGE_SIZE } from '@/config'
 import { Position } from '@/types'
-import { useTileSize } from './Svg'
 
 type SelectedCharacterHighlightProps = {
   position: Position
@@ -8,17 +8,16 @@ type SelectedCharacterHighlightProps = {
 function SelectedCharacterHighlight({
   position
 }: SelectedCharacterHighlightProps) {
-  const [tileWidth, tileHeight] = useTileSize()
   const [x, y] = position
-  const calcX = tileWidth * x
-  const calcY = tileHeight * y
+  const calcX = TILE_IMAGE_SIZE * x
+  const calcY = TILE_IMAGE_SIZE * y
 
   return (
     <rect
       x={calcX}
       y={calcY}
-      width={tileWidth}
-      height={tileHeight}
+      width={TILE_IMAGE_SIZE}
+      height={TILE_IMAGE_SIZE}
       className="fill-none stroke-yellow-300 stroke-[3]"
     ></rect>
   )

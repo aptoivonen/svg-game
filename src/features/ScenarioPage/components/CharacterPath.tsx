@@ -1,6 +1,6 @@
 import { Owner, Path, Position } from '@/types'
-import { useTileSize } from './Svg'
 import ActionPointsLeftIcon from './ActionPointsLeftIcon'
+import { TILE_IMAGE_SIZE } from '@/config'
 
 type CharacterPathProps = {
   characterPosition: Position
@@ -22,29 +22,27 @@ function CharacterPath({
   currentActionPoints,
   owner = 'player'
 }: CharacterPathProps) {
-  const [tileWidth, tileHeight] = useTileSize()
-
   if (!path) return null
   if (path.length === 0) return null
 
   const [characterPositionX, characterPositionY] = characterPosition
   const positions = path.map((segment) => segment.position)
   const pathString =
-    `M ${tileWidth * characterPositionX + tileWidth / 2} ${
-      tileHeight * characterPositionY + tileHeight / 2
+    `M ${TILE_IMAGE_SIZE * characterPositionX + TILE_IMAGE_SIZE / 2} ${
+      TILE_IMAGE_SIZE * characterPositionY + TILE_IMAGE_SIZE / 2
     } ` +
     positions
       .map(
         ([x, y]) =>
-          `L ${tileWidth * x + tileWidth / 2} ${
-            tileHeight * y + tileHeight / 2
+          `L ${TILE_IMAGE_SIZE * x + TILE_IMAGE_SIZE / 2} ${
+            TILE_IMAGE_SIZE * y + TILE_IMAGE_SIZE / 2
           }`
       )
       .join(' ')
 
   const [lastPositionX, lastPositionY] = positions[positions.length - 1]
-  const calcPathEndHightLightX = tileWidth * lastPositionX
-  const calcPathEndHightLightY = tileWidth * lastPositionY
+  const calcPathEndHightLightX = TILE_IMAGE_SIZE * lastPositionX
+  const calcPathEndHightLightY = TILE_IMAGE_SIZE * lastPositionY
   const stepRequiresSecondMovementPoint = path.find(
     (segment) => segment.pathCost > movementPoints * 100
   )
@@ -57,8 +55,8 @@ function CharacterPath({
       <rect
         x={calcPathEndHightLightX}
         y={calcPathEndHightLightY}
-        width={tileWidth}
-        height={tileHeight}
+        width={TILE_IMAGE_SIZE}
+        height={TILE_IMAGE_SIZE}
         className={`${colorClass[owner]} fill-none stroke-[3]`}
       ></rect>
       <path
@@ -72,7 +70,7 @@ function CharacterPath({
           actionPointsLeftAfterSecondMovement={
             actionPointsLeftAfterSecondMovement
           }
-          tileSize={tileWidth}
+          tileSize={TILE_IMAGE_SIZE}
         />
       )}
     </g>

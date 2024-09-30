@@ -1,5 +1,5 @@
+import { TILE_IMAGE_SIZE } from '@/config'
 import { memo, useCallback } from 'react'
-import { useTileSize } from './Svg'
 
 type PointerTileProps = {
   x: number
@@ -18,21 +18,20 @@ function PointerTile({
   onMouseLeave,
   onClick
 }: PointerTileProps) {
-  const [tileWidth, tileHeight] = useTileSize()
   const handleMouseEnter = useCallback(
     () => onMouseEnter(x, y),
     [onMouseEnter, x, y]
   )
-  const calcX = x * tileWidth
-  const calcY = y * tileHeight
+  const calcX = x * TILE_IMAGE_SIZE
+  const calcY = y * TILE_IMAGE_SIZE
 
   return (
     <rect
       id={id}
       x={calcX}
       y={calcY}
-      width={tileWidth}
-      height={tileHeight}
+      width={TILE_IMAGE_SIZE}
+      height={TILE_IMAGE_SIZE}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={onClick}

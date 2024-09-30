@@ -1,7 +1,6 @@
 import { memo } from 'react'
 import { TerrainFeatureSymbol } from '@/types'
-import { useTileSize } from './Svg'
-import { TILE_DATA_TERRAIN_FEATURES } from '@/config'
+import { TILE_DATA_TERRAIN_FEATURES, TILE_IMAGE_SIZE } from '@/config'
 import { useImageProtoId } from './Tiles'
 import { getTerrainFeatureSymbol } from '@/store'
 
@@ -16,7 +15,6 @@ function TerrainFeatureTile({
   y,
   terrainFeatureGrid
 }: TerrainFeatureTileProps) {
-  const [tileWidth, tileHeight] = useTileSize()
   const imageProtoId = useImageProtoId()
   const imageId = `#${imageProtoId}`
 
@@ -28,8 +26,8 @@ function TerrainFeatureTile({
     y: terrainFeatureY,
     id: terrainFeatureId
   } = TILE_DATA_TERRAIN_FEATURES[terrainFeatureSymbol]
-  const calcTerrainFeatureX = (x - terrainFeatureX) * tileWidth
-  const calcTerrainFeatureY = (y - terrainFeatureY) * tileWidth
+  const calcTerrainFeatureX = (x - terrainFeatureX) * TILE_IMAGE_SIZE
+  const calcTerrainFeatureY = (y - terrainFeatureY) * TILE_IMAGE_SIZE
   const terrainFeatureClipPath = `url(#${terrainFeatureId})`
 
   return (
@@ -40,8 +38,8 @@ function TerrainFeatureTile({
         x={calcTerrainFeatureX}
         y={calcTerrainFeatureY}
         id={`feature-tile-${x}-${y}`}
-        width={tileWidth}
-        height={tileHeight}
+        width={TILE_IMAGE_SIZE}
+        height={TILE_IMAGE_SIZE}
       />
     )
   )

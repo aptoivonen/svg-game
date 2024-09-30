@@ -2,6 +2,8 @@ import { useCallback, useMemo } from 'react'
 import {
   useAiCharactersList,
   useGrid,
+  useGridHeight,
+  useGridWidth,
   useMode,
   usePlayerCharactersList,
   useStore,
@@ -40,6 +42,8 @@ type ScenarioProps = {
 function Scenario({ scenarioData }: ScenarioProps) {
   const isInitialized = useInit(scenarioData)
   const grid = useGrid()
+  const gridWidth = useGridWidth()
+  const gridHeight = useGridHeight()
   const terrainFeatureGrid = useTerrainFeatureGrid()
   const playerCharacters = usePlayerCharactersList()
   const aiCharacters = useAiCharactersList()
@@ -195,7 +199,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
       <SelectedCharacterPanel character={selectedCharacter} />
       <ZoomPanPinchWrapper>
         <TriggerCenterOnSelectedCharacter />
-        <Svg>
+        <Svg gridWidth={gridWidth} gridHeight={gridHeight}>
           <Background />
           <Tiles>
             <g id="terrain-tiles">{renderTiles}</g>

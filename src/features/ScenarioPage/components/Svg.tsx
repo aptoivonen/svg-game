@@ -1,13 +1,12 @@
-import { useGridHeight, useGridWidth } from '@/store'
 import { TILE_CSS_SIZE, TILE_IMAGE_SIZE } from '@/config'
 
 type SvgProps = {
+  gridWidth: number
+  gridHeight: number
   children: React.ReactNode
 }
 
-function Svg({ children }: SvgProps) {
-  const gridWidth = useGridWidth()
-  const gridHeight = useGridHeight()
+function Svg({ gridWidth, gridHeight, children }: SvgProps) {
   const svgCssWidth = TILE_CSS_SIZE * gridWidth
   const viewBoxWidth = gridWidth * TILE_IMAGE_SIZE
   const viewBoxHeight = gridHeight * TILE_IMAGE_SIZE

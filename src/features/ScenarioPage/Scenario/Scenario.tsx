@@ -31,6 +31,7 @@ import useHighlightedCharacter from './useHighlightedCharacter'
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut'
 import useSelectedCharacter from './useSelectedCharacter'
 import TriggerCenterOnSelectedCharacter from '../components/TriggerCenterOnSelectedCharacter'
+import FullScreenMessage from '@/components/FullScreenMessage'
 
 const tileCssSize: [number, number] = [TILE_CSS.WIDTH, TILE_CSS.HEIGHT]
 
@@ -187,7 +188,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
   )
 
   if (!isInitialized) {
-    return <p className="text-white">Waiting to initialize scenario</p>
+    return <FullScreenMessage>Waiting to initialize scenario</FullScreenMessage>
   }
 
   return (

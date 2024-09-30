@@ -10,7 +10,8 @@ import {
   getPathCostRequiresTwoMoveActions,
   selectCharacter,
   selectCharacters,
-  selectPath
+  selectPath,
+  selectPlayerCharactersList
 } from './selectors'
 import { wait } from '@/utils'
 import { CHARACTER_MOVE_DELAY_SECONDS } from '@/config'
@@ -133,4 +134,19 @@ function setDecrementMovementActionPoint(id: string, get: Get, set: Set) {
     },
     set
   )
+}
+
+export function setSelectStartingPlayerCharacter(set: Set) {
+  set((state) => {
+    const playerCharacters = selectPlayerCharactersList(state)
+    if (playerCharacters.length === 0) return state
+    const selectedCharacterId = playerCharacters[0].id
+    return {
+      mode: {
+        name: 'selectedCharacter',
+        characterId: selectedCharacterId,
+        isStartOfTurn: true
+      }
+    }
+  })
 }

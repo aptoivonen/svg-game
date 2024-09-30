@@ -27,10 +27,10 @@ import { map2D } from '@/utils'
 import { ScenarioData } from '@/types'
 import { TILE_CSS, DEBUG } from '@/config'
 import useInit from './useInit'
-import useInitialPosition from './useInitialPosition'
 import useHighlightedCharacter from './useHighlightedCharacter'
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut'
 import useSelectedCharacter from './useSelectedCharacter'
+import TriggerCenterOnSelectedCharacter from '../components/TriggerCenterOnSelectedCharacter'
 
 const tileCssSize: [number, number] = [TILE_CSS.WIDTH, TILE_CSS.HEIGHT]
 
@@ -44,7 +44,6 @@ function Scenario({ scenarioData }: ScenarioProps) {
   const terrainFeatureGrid = useTerrainFeatureGrid()
   const playerCharacters = usePlayerCharactersList()
   const aiCharacters = useAiCharactersList()
-  const [initialX, initialY] = useInitialPosition()
   const [setHoveredCharacterId, clearHoveredCharacterId, hoveredCharacter] =
     useHighlightedCharacter()
   const hasHoveredCharacter = !!hoveredCharacter
@@ -195,10 +194,8 @@ function Scenario({ scenarioData }: ScenarioProps) {
     <div className="relative h-full overflow-hidden">
       {hasHoveredCharacter && <CharacterInfoBox character={hoveredCharacter} />}
       <SelectedCharacterPanel character={selectedCharacter} />
-      <ZoomPanPinchWrapper
-        initialPositionX={initialX}
-        initialPositionY={initialY}
-      >
+      <ZoomPanPinchWrapper>
+        <TriggerCenterOnSelectedCharacter />
         <Svg tileCssSize={tileCssSize}>
           <Background />
           <Tiles>

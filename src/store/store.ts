@@ -21,7 +21,8 @@ import {
   initCharacters,
   executePath,
   initTerrainFeatureGrid,
-  setCharacterProp
+  setCharacterProp,
+  setSelectStartingPlayerCharacter
 } from './helpers'
 import { isEqual, last, path } from '@/utils'
 
@@ -40,6 +41,7 @@ export type Store = {
   clearPath: (id: string) => void
   executeSelectedCharacterPath: () => Promise<void>
   executeAiCharacterPath: (id: string) => Promise<void>
+  startPlayerTurn: () => void
 }
 
 type ModeState =
@@ -52,6 +54,7 @@ type ModeState =
       tileX?: number
       tileY?: number
       path?: Path
+      isStartOfTurn?: boolean
     }
   | {
       name: 'aiTurn'
@@ -188,6 +191,9 @@ const useStore = create<Store>((set, get) => ({
       return
     }
     executePath(id, get, set)
+  },
+  startPlayerTurn: () => {
+    setSelectStartingPlayerCharacter(set)
   }
 }))
 

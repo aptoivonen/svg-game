@@ -2,8 +2,6 @@ import { TransformWrapper } from 'react-zoom-pan-pinch'
 import ZoomPanPinchComponent from './ZoomPanPinchComponent'
 
 type ZoomPanPinchWrapperProps = {
-  initialPositionX: number
-  initialPositionY: number
   children: React.ReactNode
 }
 
@@ -17,15 +15,9 @@ const DEFAULTS = {
   PANNING_VELOCITY_DISABLED: true
 }
 
-function ZoomPanPinchWrapper({
-  initialPositionX,
-  initialPositionY,
-  children
-}: ZoomPanPinchWrapperProps) {
+function ZoomPanPinchWrapper({ children }: ZoomPanPinchWrapperProps) {
   return (
     <TransformWrapper
-      initialPositionX={initialPositionX}
-      initialPositionY={initialPositionY}
       limitToBounds={DEFAULTS.LIMIT_TO_BOUNDS}
       maxScale={DEFAULTS.MAX_SCALE}
       minScale={DEFAULTS.MIN_SCALE}

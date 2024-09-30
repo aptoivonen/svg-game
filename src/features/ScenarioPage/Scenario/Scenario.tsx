@@ -131,7 +131,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
     executeSelectedCharacterPath()
   }, [executeSelectedCharacterPath])
 
-  // memoize for perf gains
+  // memoize renders for perf gains
   const renderTiles = useMemo(
     () =>
       map2D(grid, (terrainSymbol, x, y) => (
@@ -172,7 +172,6 @@ function Scenario({ scenarioData }: ScenarioProps) {
     [grid, terrainFeatureGrid]
   )
 
-  // memoize for perf gains
   const renderPointerTiles = useMemo(
     () =>
       map2D(grid, (_, x, y) => (

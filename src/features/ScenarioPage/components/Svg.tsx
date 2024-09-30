@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react'
 import { useGridHeight, useGridWidth } from '@/store'
-import { TILE_IMAGE_SIZE } from '@/config'
+import { TILE_CSS_SIZE, TILE_IMAGE_SIZE } from '@/config'
 
 const tileSize: [number, number] = [TILE_IMAGE_SIZE, TILE_IMAGE_SIZE]
 
@@ -8,15 +8,13 @@ const TileSizeContext = createContext<[number, number]>(tileSize)
 export const useTileSize = () => useContext(TileSizeContext)
 
 type SvgProps = {
-  tileCssSize: [number, number]
   children: React.ReactNode
 }
 
-function Svg({ tileCssSize, children }: SvgProps) {
-  const [tileCssWidth] = tileCssSize
+function Svg({ children }: SvgProps) {
   const gridWidth = useGridWidth()
   const gridHeight = useGridHeight()
-  const svgCssWidth = tileCssWidth * gridWidth
+  const svgCssWidth = TILE_CSS_SIZE * gridWidth
   const viewBoxWidth = gridWidth * TILE_IMAGE_SIZE
   const viewBoxHeight = gridHeight * TILE_IMAGE_SIZE
 

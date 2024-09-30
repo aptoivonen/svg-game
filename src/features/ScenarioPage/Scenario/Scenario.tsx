@@ -25,15 +25,13 @@ import {
 } from '../components'
 import { map2D } from '@/utils'
 import { ScenarioData } from '@/types'
-import { TILE_CSS, DEBUG } from '@/config'
+import { DEBUG } from '@/config'
 import useInit from './useInit'
 import useHighlightedCharacter from './useHighlightedCharacter'
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut'
 import useSelectedCharacter from './useSelectedCharacter'
 import TriggerCenterOnSelectedCharacter from '../components/TriggerCenterOnSelectedCharacter'
 import FullScreenMessage from '@/components/FullScreenMessage'
-
-const tileCssSize: [number, number] = [TILE_CSS.WIDTH, TILE_CSS.HEIGHT]
 
 type ScenarioProps = {
   scenarioData: ScenarioData
@@ -197,7 +195,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
       <SelectedCharacterPanel character={selectedCharacter} />
       <ZoomPanPinchWrapper>
         <TriggerCenterOnSelectedCharacter />
-        <Svg tileCssSize={tileCssSize}>
+        <Svg>
           <Background />
           <Tiles>
             <g id="terrain-tiles">{renderTiles}</g>

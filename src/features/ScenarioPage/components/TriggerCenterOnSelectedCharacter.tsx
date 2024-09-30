@@ -1,4 +1,4 @@
-import { TILE_CSS } from '@/config'
+import { TILE_CSS_SIZE } from '@/config'
 import { useCharacter, useMode } from '@/store'
 import { useEffect, useState } from 'react'
 import { useControls } from 'react-zoom-pan-pinch'
@@ -43,8 +43,8 @@ export default function TriggerCenterOnSelectedCharacter() {
       const [characterPositionX, characterPositionY] = character?.position || [
         0, 0
       ]
-      const viewX = dimensions.width / 2 - TILE_CSS.WIDTH * characterPositionX
-      const viewY = dimensions.height / 2 - TILE_CSS.HEIGHT * characterPositionY
+      const viewX = dimensions.width / 2 - TILE_CSS_SIZE * characterPositionX
+      const viewY = dimensions.height / 2 - TILE_CSS_SIZE * characterPositionY
       setTransform(viewX, viewY, scale)
     }
   }, [mode, scale, character, dimensions, setTransform])

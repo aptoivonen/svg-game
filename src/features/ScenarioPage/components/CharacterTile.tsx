@@ -16,6 +16,10 @@ const COLORS: Record<Owner, string> = {
   player: 'fill-cyan-600'
 }
 
+function calculateIconX(index: number, actionPointIconSize: number) {
+  return TILE_IMAGE_SIZE / 2 + (-1.5 + index) * actionPointIconSize
+}
+
 function CharacterTile({
   character,
   onMouseEnter,
@@ -29,9 +33,6 @@ function CharacterTile({
   const calcX = x * TILE_IMAGE_SIZE
   const calcY = y * TILE_IMAGE_SIZE
   const actionPointIconSize = TILE_IMAGE_SIZE / 5
-  const icon1X = TILE_IMAGE_SIZE / 2 - 1.5 * actionPointIconSize
-  const icon2X = TILE_IMAGE_SIZE / 2 - 0.5 * actionPointIconSize
-  const icon3X = TILE_IMAGE_SIZE / 2 + 0.5 * actionPointIconSize
   const iconY = TILE_IMAGE_SIZE - actionPointIconSize
 
   function handleMouseEnter(): void {
@@ -64,30 +65,16 @@ function CharacterTile({
         onMouseLeave={handleMouseLeave}
         onClick={handleClick}
       ></use>
-      {owner === 'player' && currentActionPoints >= 1 && (
-        <ActionPointIcon
-          x={icon1X}
-          y={iconY}
-          width={actionPointIconSize}
-          height={actionPointIconSize}
-        />
-      )}
-      {owner === 'player' && currentActionPoints >= 2 && (
-        <ActionPointIcon
-          x={icon2X}
-          y={iconY}
-          width={actionPointIconSize}
-          height={actionPointIconSize}
-        />
-      )}
-      {owner === 'player' && currentActionPoints >= 3 && (
-        <ActionPointIcon
-          x={icon3X}
-          y={iconY}
-          width={actionPointIconSize}
-          height={actionPointIconSize}
-        />
-      )}
+      {owner === 'player' &&
+        Array.from({ length: currentActionPoints }, (_, i) => (
+          <ActionPointIcon
+            key={i}
+            x={calculateIconX(i, actionPointIconSize)}
+            y={iconY}
+            width={actionPointIconSize}
+            height={actionPointIconSize}
+          />
+        ))}
     </motion.g>
   )
 }

@@ -22,9 +22,9 @@ function SelectedCharacterPanel({ character }: SelectedCharacterPanelProps) {
         >
           <p>{character.name}</p>
           <div className="flex h-[10px] gap-1">
-            {character.currentActionPoints >= 1 && <ActionPointIcon />}
-            {character.currentActionPoints >= 2 && <ActionPointIcon />}
-            {character.currentActionPoints >= 3 && <ActionPointIcon />}
+            {Array.from({ length: character.currentActionPoints }, (_, i) => (
+              <ActionPointIcon key={i} />
+            ))}
           </div>
         </motion.div>
       )}

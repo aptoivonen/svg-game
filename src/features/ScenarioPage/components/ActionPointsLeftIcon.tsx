@@ -7,6 +7,10 @@ type ActionPointsLeftIconProps = {
   tileSize: number
 }
 
+function calculateIconX(i: number, actionPointIconSize: number) {
+  return actionPointIconSize * i
+}
+
 export default function ActionPointsLeftIcon({
   x,
   y,
@@ -47,22 +51,15 @@ export default function ActionPointsLeftIcon({
         r={iconHeight / 2}
         className="fill-black"
       ></circle>
-      {actionPointsLeftAfterSecondMovement > 0 && (
+      {Array.from({ length: actionPointsLeftAfterSecondMovement }, (_, i) => (
         <ActionPointIcon
-          x={0}
+          key={i}
+          x={calculateIconX(i, actionPointIconSize)}
           y={0}
           width={actionPointIconSize}
           height={actionPointIconSize}
         />
-      )}
-      {actionPointsLeftAfterSecondMovement > 1 && (
-        <ActionPointIcon
-          x={actionPointIconSize}
-          y={0}
-          width={actionPointIconSize}
-          height={actionPointIconSize}
-        />
-      )}
+      ))}
     </svg>
   )
 }

@@ -1,9 +1,5 @@
-import { useViewboxSize } from './Svg'
-
 function Background() {
-  const [viewBoxWidth, viewBoxHeight] = useViewboxSize()
-
-  return <rect width={viewBoxWidth} height={viewBoxHeight} fill="black"></rect>
+  return <rect width="100%" height="100%" fill="black"></rect>
 }
 
 export default Background

@@ -202,8 +202,6 @@ function Scenario({ scenarioData }: ScenarioProps) {
 
   return (
     <div className="relative h-full overflow-hidden">
-      {hasHoveredCharacter && <CharacterInfoBox character={hoveredCharacter} />}
-      <SelectedCharacterPanel character={selectedCharacter} />
       <ZoomPanPinchWrapper>
         <TriggerCenterOnSelectedCharacter />
         <Svg gridWidth={gridWidth} gridHeight={gridHeight}>
@@ -263,6 +261,8 @@ function Scenario({ scenarioData }: ScenarioProps) {
           </CharacterTiles>
         </Svg>
       </ZoomPanPinchWrapper>
+      {hasHoveredCharacter && <CharacterInfoBox character={hoveredCharacter} />}
+      <SelectedCharacterPanel character={selectedCharacter} />
       <EndOfTurnButton
         onClick={handleClickEndOfTurn}
         isPlayerTurn={isPlayerTurn}

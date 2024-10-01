@@ -4,6 +4,7 @@ import {
   useGrid,
   useGridHeight,
   useGridWidth,
+  useIsPlayerTurn,
   useMode,
   usePlayerCharactersList,
   useStore,
@@ -24,7 +25,8 @@ import {
   SelectedCharacterHighlight,
   CharacterPath,
   ZoomPanPinchWrapper,
-  TriggerCenterOnSelectedCharacter
+  TriggerCenterOnSelectedCharacter,
+  EndOfTurnButton
 } from '../components'
 import FullScreenMessage from '@/components/FullScreenMessage'
 import { map2D } from '@/utils'
@@ -56,6 +58,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
   const hasSelectedCharacterPath = !!selectedCharacterPath
   const isShowSelectedCharacterHighlight =
     hasSelectedCharacter && mode.name === 'selectedCharacter'
+  const isPlayerTurn = useIsPlayerTurn()
 
   const cancel = useStore((state) => state.cancel)
   const selectCharacter = useStore((state) => state.selectCharacter)
@@ -64,6 +67,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
   const executeSelectedCharacterPath = useStore(
     (state) => state.executeSelectedCharacterPath
   )
+  const endPlayerTurn = useStore((state) => state.endPlayerTurn)
 
   const onEscapePressed = useCallback(() => {
     cancel()
@@ -130,6 +134,10 @@ function Scenario({ scenarioData }: ScenarioProps) {
   const handleClickTile = useCallback(() => {
     executeSelectedCharacterPath()
   }, [executeSelectedCharacterPath])
+
+  const handleClickEndOfTurn = useCallback(() => {
+    endPlayerTurn()
+  }, [endPlayerTurn])
 
   // memoize renders for perf gains
   const renderTiles = useMemo(
@@ -255,6 +263,10 @@ function Scenario({ scenarioData }: ScenarioProps) {
           </CharacterTiles>
         </Svg>
       </ZoomPanPinchWrapper>
+      <EndOfTurnButton
+        onClick={handleClickEndOfTurn}
+        isPlayerTurn={isPlayerTurn}
+      />
     </div>
   )
 }

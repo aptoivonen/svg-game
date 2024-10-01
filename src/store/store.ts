@@ -23,9 +23,11 @@ import {
   initTerrainFeatureGrid,
   setCharacterProp,
   setSelectStartingPlayerCharacter,
-  incrementNumberOfTurns
+  incrementNumberOfTurns,
+  recoverPlayerResources,
+  recoverAiResources
 } from './helpers'
-import { isEqual, last, path } from '@/utils'
+import { isEqual, last, path, wait } from '@/utils'
 
 export type Store = {
   name: string
@@ -44,6 +46,8 @@ export type Store = {
   executeSelectedCharacterPath: () => Promise<void>
   executeAiCharacterPath: (id: string) => Promise<void>
   startPlayerTurn: () => void
+  endPlayerTurn: () => void
+  startAiTurn: () => void
 }
 
 type ModeState =
@@ -197,7 +201,17 @@ const useStore = create<Store>((set, get) => ({
   },
   startPlayerTurn: () => {
     incrementNumberOfTurns(set)
+    recoverPlayerResources(get, set)
     setSelectStartingPlayerCharacter(set)
+  },
+  endPlayerTurn: () => {
+    get().startAiTurn()
+  },
+  startAiTurn: async () => {
+    set(() => ({ mode: { name: 'aiTurn' } }))
+    recoverAiResources(get, set)
+    await wait(3 * 1000)
+    get().startPlayerTurn()
   }
 }))
 

@@ -8,6 +8,7 @@ import { CharactersDataSchema } from '@/types'
 import {
   getHasMovementActionPoint,
   getPathCostRequiresTwoMoveActions,
+  selectAiCharactersList,
   selectCharacter,
   selectCharacters,
   selectNumberOfTurns,
@@ -72,6 +73,24 @@ export function setCharacterProp(
         ...char,
         ...prop
       })
+    }
+  })
+}
+
+export function setCharactersProp(
+  ids: string[],
+  prop: Partial<Character>,
+  set: Set
+) {
+  set((state) => {
+    const chars = ids.map((id) => selectCharacter(state, id))
+    const filteredChars = chars.filter((char): char is Character => !!char)
+    const newCharacters = new Map(selectCharacters(state))
+    filteredChars.forEach((char) =>
+      newCharacters.set(char.id, { ...char, ...prop })
+    )
+    return {
+      characters: newCharacters
     }
   })
 }
@@ -156,4 +175,22 @@ export function incrementNumberOfTurns(set: Set) {
   set((state) => ({
     numberOfTurns: selectNumberOfTurns(state) + 1
   }))
+}
+
+export function recoverPlayerResources(get: Get, set: Set) {
+  const characterIds = selectPlayerCharactersList(get()).map((char) => char.id)
+  setCharactersProp(
+    characterIds,
+    { currentActionPoints: 3, currentMovementActionPoints: 2 },
+    set
+  )
+}
+
+export function recoverAiResources(get: Get, set: Set) {
+  const characterIds = selectAiCharactersList(get()).map((char) => char.id)
+  setCharactersProp(
+    characterIds,
+    { currentActionPoints: 3, currentMovementActionPoints: 2 },
+    set
+  )
 }

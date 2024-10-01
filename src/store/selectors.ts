@@ -38,6 +38,9 @@ export const selectMode = (state: Store) => state.mode
 
 export const selectCharacters = (state: Store) => state.characters
 
+export const selectIsPlayerTurn = (state: Store) =>
+  selectMode(state).name !== 'aiTurn'
+
 export const selectPlayerCharacters: (state: Store) => Map<string, Character> =
   createSelector(
     [selectCharacters],
@@ -134,3 +137,5 @@ export const usePath = (id: string) =>
   useStore((state) => selectPath(state, id))
 export const useHasPath = (id: string) =>
   useStore((state) => selectHasPath(state, id))
+export const useIsPlayerTurn = () =>
+  useStore((state) => selectIsPlayerTurn(state))

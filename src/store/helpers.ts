@@ -10,6 +10,7 @@ import {
   getPathCostRequiresTwoMoveActions,
   selectCharacter,
   selectCharacters,
+  selectNumberOfTurns,
   selectPath,
   selectPlayerCharactersList
 } from './selectors'
@@ -149,4 +150,10 @@ export function setSelectStartingPlayerCharacter(set: Set) {
       }
     }
   })
+}
+
+export function incrementNumberOfTurns(set: Set) {
+  set((state) => ({
+    numberOfTurns: selectNumberOfTurns(state) + 1
+  }))
 }

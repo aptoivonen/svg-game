@@ -22,12 +22,14 @@ import {
   executePath,
   initTerrainFeatureGrid,
   setCharacterProp,
-  setSelectStartingPlayerCharacter
+  setSelectStartingPlayerCharacter,
+  incrementNumberOfTurns
 } from './helpers'
 import { isEqual, last, path } from '@/utils'
 
 export type Store = {
   name: string
+  numberOfTurns: number
   grid: TerrainSymbol[][]
   terrainFeatureGrid: TerrainFeatureSymbol[][]
   characters: Map<string, Character>
@@ -67,6 +69,7 @@ type ModeState =
 const useStore = create<Store>((set, get) => ({
   name: '',
   grid: [[]],
+  numberOfTurns: 0,
   terrainFeatureGrid: [[]],
   mode: { name: 'viewing' },
   characters: new Map(),
@@ -193,6 +196,7 @@ const useStore = create<Store>((set, get) => ({
     executePath(id, get, set)
   },
   startPlayerTurn: () => {
+    incrementNumberOfTurns(set)
     setSelectStartingPlayerCharacter(set)
   }
 }))

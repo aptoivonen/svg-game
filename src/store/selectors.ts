@@ -19,6 +19,8 @@ export const getGridHeight = (grid: TerrainSymbol[][]) => grid.length
 export const selectGridHeight = (state: Store) =>
   getGridHeight(selectGrid(state))
 
+export const selectNumberOfTurns = (state: Store) => state.numberOfTurns
+
 export const getTile = (x: number, y: number, grid: TerrainSymbol[][]) =>
   grid[y][x]
 export const getTerrainFeature = (

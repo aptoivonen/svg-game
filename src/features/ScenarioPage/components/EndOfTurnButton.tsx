@@ -4,16 +4,19 @@ import { GiReturnArrow } from 'react-icons/gi'
 type EndOfTurnButtonProps = {
   onClick: () => void
   isPlayerTurn: boolean
+  className?: React.ComponentProps<'button'>['className']
 }
 
 export default function EndOfTurnButton({
   onClick,
-  isPlayerTurn
+  isPlayerTurn,
+  className
 }: EndOfTurnButtonProps) {
   return (
     <button
       className={clsx(
-        'absolute bottom-1 right-1 size-20 rounded-full border-2 border-slate-500',
+        className,
+        'size-20 rounded-full border-2 border-slate-500',
         isPlayerTurn
           ? 'bg-green-600 hover:bg-green-300 active:bg-green-50'
           : 'animate-spin-slow bg-orange-600'

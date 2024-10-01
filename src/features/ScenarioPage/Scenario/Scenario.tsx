@@ -261,9 +261,18 @@ function Scenario({ scenarioData }: ScenarioProps) {
           </CharacterTiles>
         </Svg>
       </ZoomPanPinchWrapper>
-      {hasHoveredCharacter && <CharacterInfoBox character={hoveredCharacter} />}
-      <SelectedCharacterPanel character={selectedCharacter} />
+      {hasHoveredCharacter && (
+        <CharacterInfoBox
+          className="absolute right-1 top-1"
+          character={hoveredCharacter}
+        />
+      )}
+      <SelectedCharacterPanel
+        className="absolute bottom-0 left-1/2"
+        character={selectedCharacter}
+      />
       <EndOfTurnButton
+        className="absolute bottom-1 right-1"
         onClick={handleClickEndOfTurn}
         isPlayerTurn={isPlayerTurn}
       />

@@ -130,7 +130,7 @@
       "name": "Dude #1",
       "position": [18, 4],
       "owner": "player",
-      "movementPoints": 30
+      "movementPoints": 3
     },
     {
       "id": "pc-2",

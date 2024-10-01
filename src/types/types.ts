@@ -9,7 +9,7 @@ import {
   TERRAIN,
   TERRAIN_FEATURES,
   TILE_DATA_TERRAIN_EDGE_DIFFS
-} from '@/config'
+} from '@/features/ScenarioPage/constants'
 
 export type TerrainSymbol = keyof typeof TERRAIN
 export type TerrainFeatureSymbol = keyof typeof TERRAIN_FEATURES

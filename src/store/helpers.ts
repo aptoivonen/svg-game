@@ -14,7 +14,7 @@ import {
   selectPlayerCharactersList
 } from './selectors'
 import { wait } from '@/utils'
-import { CHARACTER_MOVE_DELAY_SECONDS } from '@/config'
+import { CHARACTER_MOVE_DELAY_SECONDS } from '@/features/ScenarioPage/constants'
 import { Store } from './store'
 
 type Get = () => Store

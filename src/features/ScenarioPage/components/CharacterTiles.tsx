@@ -1,4 +1,4 @@
-import { TILE_IMAGE_SIZE } from '@/config'
+import { TILE_IMAGE_SIZE } from '@/features/ScenarioPage/constants'
 import { createContext, memo, useContext } from 'react'
 
 const CHARACTER_PROTO_ID = 'characterProto'

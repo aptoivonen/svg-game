@@ -5,6 +5,7 @@ describe('path', () => {
     const calculatedPath = path({
       targetPosition: [0, 4],
       characterToMove: { position: [0, 0] },
+      maxMovementPoints: 100,
       grid: [
         ['.', '.', '.', '.'],
         ['w', 'w', '.', '.'],
@@ -36,6 +37,7 @@ describe('path', () => {
     const calculatedPath = path({
       targetPosition: [0, 4],
       characterToMove: { position: [0, 0] },
+      maxMovementPoints: 100,
       grid: [
         ['.', '.', '.', '.'],
         ['w', 'w', '.', '.'],
@@ -66,6 +68,7 @@ describe('path', () => {
     const calculatedPath = path({
       targetPosition: [0, 2],
       characterToMove: { position: [3, 0] },
+      maxMovementPoints: 100,
       grid: [
         ['.', '.', '.', '.'],
         ['w', 'w', '.', '.'],
@@ -90,6 +93,7 @@ describe('path', () => {
     const calculatedPath = path({
       targetPosition: [0, 2],
       characterToMove: { position: [3, 0] },
+      maxMovementPoints: 100,
       grid: [
         ['.', '.', '.', '.'],
         ['w', 'w', '.', '.'],
@@ -114,6 +118,7 @@ describe('path', () => {
     const calculatedPath = path({
       targetPosition: [0, 4],
       characterToMove: { position: [0, 0] },
+      maxMovementPoints: 100,
       grid: [
         ['.', '.', '.', '.'],
         ['w', 'w', '.', '.'],
@@ -145,6 +150,7 @@ describe('path', () => {
     const calculatedPath = path({
       targetPosition: [0, 2],
       characterToMove: { position: [3, 0] },
+      maxMovementPoints: 100,
       grid: [
         ['.', '.', '.', '.'],
         ['.', '.', '.', '.'],

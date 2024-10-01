@@ -1,4 +1,4 @@
-import { TILE_CSS_SIZE } from '@/config'
+import { TILE_CSS_SIZE } from '@/features/ScenarioPage/constants'
 import { useCharacter, useMode } from '@/store'
 import { useEffect, useState } from 'react'
 import { useControls } from 'react-zoom-pan-pinch'

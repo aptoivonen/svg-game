@@ -1,4 +1,4 @@
-import { TERRAIN, TERRAIN_FEATURES } from '@/config'
+import { TERRAIN, TERRAIN_FEATURES } from '@/features/ScenarioPage/constants'
 import Graph from './Graph'
 import search from './search'
 import type {

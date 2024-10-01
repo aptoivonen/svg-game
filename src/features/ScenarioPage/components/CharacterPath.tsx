@@ -1,6 +1,6 @@
 import { Owner, Path, Position } from '@/types'
 import ActionPointsLeftIcon from './ActionPointsLeftIcon'
-import { TILE_IMAGE_SIZE } from '@/config'
+import { TILE_IMAGE_SIZE } from '@/features/ScenarioPage/constants'
 
 type CharacterPathProps = {
   characterPosition: Position

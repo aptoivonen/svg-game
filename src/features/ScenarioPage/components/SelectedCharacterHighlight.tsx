@@ -1,4 +1,4 @@
-import { TILE_IMAGE_SIZE } from '@/config'
+import { TILE_IMAGE_SIZE } from '@/features/ScenarioPage/constants'
 import { Position } from '@/types'
 
 type SelectedCharacterHighlightProps = {

@@ -1,4 +1,7 @@
-import { TILE_DATA_TERRAIN, TILE_DATA_TERRAIN_EDGE_DIFFS } from '@/config'
+import {
+  TILE_DATA_TERRAIN,
+  TILE_DATA_TERRAIN_EDGE_DIFFS
+} from '@/features/ScenarioPage/constants'
 import { getGridHeight, getGridWidth, getTile } from '@/store'
 import { EdgeKey, TerrainSymbol } from '@/types'
 

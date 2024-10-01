@@ -1,4 +1,7 @@
-import { TILE_CSS_SIZE, TILE_IMAGE_SIZE } from '@/config'
+import {
+  TILE_CSS_SIZE,
+  TILE_IMAGE_SIZE
+} from '@/features/ScenarioPage/constants'
 
 type SvgProps = {
   gridWidth: number

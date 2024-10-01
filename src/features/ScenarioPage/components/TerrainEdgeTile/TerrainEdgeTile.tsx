@@ -2,7 +2,7 @@ import { memo } from 'react'
 import { TerrainSymbol } from '@/types'
 import { useImageProtoId } from '../Tiles'
 import calculateTerrainEdgeIndeces from './calculateTerrainEdgeIndeces'
-import { TILE_IMAGE_SIZE } from '@/config'
+import { TILE_IMAGE_SIZE } from '@/features/ScenarioPage/constants'
 
 type TerrainEdgeTileProps = {
   x: number

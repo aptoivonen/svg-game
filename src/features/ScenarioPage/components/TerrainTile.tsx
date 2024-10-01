@@ -1,6 +1,9 @@
 import { memo } from 'react'
 import { TerrainSymbol } from '@/types'
-import { TILE_DATA_TERRAIN, TILE_IMAGE_SIZE } from '@/config'
+import {
+  TILE_DATA_TERRAIN,
+  TILE_IMAGE_SIZE
+} from '@/features/ScenarioPage/constants'
 import { useImageProtoId } from './Tiles'
 
 type TerrainTileProps = {

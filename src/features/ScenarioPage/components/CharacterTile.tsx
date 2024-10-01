@@ -2,7 +2,10 @@ import { motion } from 'framer-motion'
 import { ActionPointIcon } from '@/components'
 import { Character, Owner } from '@/types'
 import { useCharacterProtoId } from './CharacterTiles'
-import { CHARACTER_MOVE_DELAY_SECONDS, TILE_IMAGE_SIZE } from '@/config'
+import {
+  CHARACTER_MOVE_DELAY_SECONDS,
+  TILE_IMAGE_SIZE
+} from '@/features/ScenarioPage/constants'
 
 type CharacterProps = {
   character: Character

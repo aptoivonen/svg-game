@@ -6,7 +6,7 @@ import {
   TILE_IMAGE_SIZE,
   TILESET_IMAGE_DIMENSIONS,
   TILE_DATA_TERRAIN_FEATURES
-} from '@/config'
+} from '@/features/ScenarioPage/constants'
 
 const IMAGE_PROTO_ID = 'imageProto'
 const ProtoIdContext = createContext<string>(IMAGE_PROTO_ID)

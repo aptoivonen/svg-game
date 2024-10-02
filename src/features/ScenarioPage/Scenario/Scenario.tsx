@@ -56,9 +56,12 @@ function Scenario({ scenarioData }: ScenarioProps) {
     hoveredCharacter
   ] = useHighlightedCharacter()
   const mode = useMode()
-  const [selectedCharacter, selectedCharacterPath] = useSelectedCharacter()
-  const hasSelectedCharacter = !!selectedCharacter
-  const hasSelectedCharacterPath = !!selectedCharacterPath
+  const [
+    selectedCharacter,
+    selectedCharacterPath,
+    hasSelectedCharacter,
+    hasSelectedCharacterPath
+  ] = useSelectedCharacter()
   const isShowSelectedCharacterHighlight =
     hasSelectedCharacter && mode.name === 'selectedCharacter'
   const isPlayerTurn = useIsPlayerTurn()

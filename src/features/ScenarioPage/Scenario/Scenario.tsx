@@ -1,35 +1,41 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import {
   useAiCharactersList,
-  useCharacter,
   useGrid,
+  useGridHeight,
+  useGridWidth,
+  useIsPlayerTurn,
   useMode,
   usePlayerCharactersList,
-  useStore
+  useStore,
+  useTerrainFeatureGrid
 } from '@/store'
 import {
   Svg,
   Background,
   Tiles,
-  Tile,
-  GridLines,
+  TerrainTile,
+  TerrainEdgeTile,
+  TerrainFeatureTile,
+  PointerTile,
   CharacterTiles,
   CharacterTile,
   CharacterInfoBox,
   SelectedCharacterPanel,
+  SelectedCharacterHighlight,
   CharacterPath,
   ZoomPanPinchWrapper,
-  ZoomPanPinchComponent
+  TriggerCenterOnSelectedCharacter,
+  EndOfTurnButton
 } from '../components'
+import FullScreenMessage from '@/components/FullScreenMessage'
 import { map2D } from '@/utils'
 import { ScenarioData } from '@/types'
-import { TILE_CSS, DEBUG } from '@/config'
+import { DEBUG } from '@/config'
 import useInit from './useInit'
-import useInitialPosition from './useInitialPosition'
 import useHighlightedCharacter from './useHighlightedCharacter'
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut'
-
-const tileCssSize: [number, number] = [TILE_CSS.WIDTH, TILE_CSS.HEIGHT]
+import useSelectedCharacter from './useSelectedCharacter'
 
 type ScenarioProps = {
   scenarioData: ScenarioData
@@ -38,20 +44,27 @@ type ScenarioProps = {
 function Scenario({ scenarioData }: ScenarioProps) {
   const isInitialized = useInit(scenarioData)
   const grid = useGrid()
+  const gridWidth = useGridWidth()
+  const gridHeight = useGridHeight()
+  const terrainFeatureGrid = useTerrainFeatureGrid()
   const playerCharacters = usePlayerCharactersList()
   const aiCharacters = useAiCharactersList()
-  const [initialX, initialY] = useInitialPosition()
-  const [setHoveredCharacterId, clearHoveredCharacterId, hoveredCharacter] =
-    useHighlightedCharacter()
-  const hasHoveredCharacter = !!hoveredCharacter
+  const [
+    setHoveredCharacterId,
+    clearHoveredCharacterId,
+    hasHoveredCharacter,
+    hoveredCharacter
+  ] = useHighlightedCharacter()
   const mode = useMode()
-  const selectedCharacter = useCharacter(
-    mode.name === 'selectedCharacter' ? mode.characterId : ''
-  )
-  const selectedCharacterPath =
-    mode.name === 'selectedCharacter' && selectedCharacter && mode.path
-  const hasSelectedCharacter = !!selectedCharacter
-  const hasSelectedCharacterPath = !!selectedCharacterPath
+  const [
+    selectedCharacter,
+    selectedCharacterPath,
+    hasSelectedCharacter,
+    hasSelectedCharacterPath
+  ] = useSelectedCharacter()
+  const isShowSelectedCharacterHighlight =
+    hasSelectedCharacter && mode.name === 'selectedCharacter'
+  const isPlayerTurn = useIsPlayerTurn()
 
   const cancel = useStore((state) => state.cancel)
   const selectCharacter = useStore((state) => state.selectCharacter)
@@ -60,6 +73,7 @@ function Scenario({ scenarioData }: ScenarioProps) {
   const executeSelectedCharacterPath = useStore(
     (state) => state.executeSelectedCharacterPath
   )
+  const endPlayerTurn = useStore((state) => state.endPlayerTurn)
 
   const onEscapePressed = useCallback(() => {
     cancel()
@@ -127,86 +141,147 @@ function Scenario({ scenarioData }: ScenarioProps) {
     executeSelectedCharacterPath()
   }, [executeSelectedCharacterPath])
 
+  const handleClickEndOfTurn = useCallback(() => {
+    endPlayerTurn()
+  }, [endPlayerTurn])
+
+  // memoize renders for perf gains
+  const renderTiles = useMemo(
+    () =>
+      map2D(grid, (terrainSymbol, x, y) => (
+        <TerrainTile
+          key={`terrain-tile-${x}-${y}`}
+          terrainSymbol={terrainSymbol}
+          x={x}
+          y={y}
+        ></TerrainTile>
+      )),
+    [grid]
+  )
+
+  const renderTerrainEdgeTiles = useMemo(
+    () =>
+      map2D(grid, (terrainSymbol, x, y) => (
+        <TerrainEdgeTile
+          key={`terrain-edge-tile-${x}-${y}`}
+          terrainSymbol={terrainSymbol}
+          grid={grid}
+          x={x}
+          y={y}
+        ></TerrainEdgeTile>
+      )),
+    [grid]
+  )
+
+  const renderTerrainFeatureTiles = useMemo(
+    () =>
+      map2D(grid, (_, x, y) => (
+        <TerrainFeatureTile
+          key={`terrain-feature-tile-${x}-${y}`}
+          terrainFeatureGrid={terrainFeatureGrid}
+          x={x}
+          y={y}
+        ></TerrainFeatureTile>
+      )),
+    [grid, terrainFeatureGrid]
+  )
+
+  const renderPointerTiles = useMemo(
+    () =>
+      map2D(grid, (_, x, y) => (
+        <PointerTile
+          key={`${x}-${y}`}
+          id={`${x}-${y}`}
+          x={x}
+          y={y}
+          onMouseEnter={handleMouseEnterTile}
+          onMouseLeave={handleMouseLeaveTile}
+          onClick={handleClickTile}
+        />
+      )),
+    [grid, handleMouseEnterTile, handleMouseLeaveTile, handleClickTile]
+  )
+
   if (!isInitialized) {
-    return <div>Waiting to initialize scenario</div>
+    return <FullScreenMessage>Waiting to initialize scenario</FullScreenMessage>
   }
 
   return (
-    <div className="relative h-full">
-      {hasHoveredCharacter && <CharacterInfoBox character={hoveredCharacter} />}
-      {hasSelectedCharacter && (
-        <SelectedCharacterPanel character={selectedCharacter} />
-      )}
-      <ZoomPanPinchWrapper
-        initialPositionX={initialX}
-        initialPositionY={initialY}
-      >
-        <ZoomPanPinchComponent>
-          <Svg tileCssSize={tileCssSize}>
-            <Background />
-            <Tiles>
-              {map2D(grid, (terrainSymbol, x, y) => (
-                <Tile
-                  key={`${x}-${y}`}
-                  terrainSymbol={terrainSymbol}
-                  x={x}
-                  y={y}
-                  onMouseEnter={handleMouseEnterTile}
-                  onMouseLeave={handleMouseLeaveTile}
-                  onClick={handleClickTile}
-                ></Tile>
-              ))}
-            </Tiles>
-            <GridLines />
-            {DEBUG && (
-              <g id="aiCharacterPaths">
-                {aiCharacters.map((char) => (
-                  <CharacterPath
-                    key={char.id}
-                    characterPosition={char.position}
-                    path={char.path}
-                    owner="ai"
-                  />
-                ))}
-              </g>
-            )}
-            {hasSelectedCharacterPath && (
-              <g id="characterPath">
-                <CharacterPath
-                  characterPosition={selectedCharacter.position}
-                  path={selectedCharacterPath}
-                />
-              </g>
-            )}
-            <CharacterTiles>
-              {playerCharacters.map((char) => (
-                <CharacterTile
-                  key={char.id}
-                  id={char.id}
-                  x={char.position[0]}
-                  y={char.position[1]}
-                  owner={char.owner}
-                  onMouseEnter={handleMouseEnterPlayerCharacter}
-                  onMouseLeave={handleMouseLeavePlayerCharacter}
-                  onClick={handleClickPlayerCharacter}
-                />
-              ))}
+    <div className="relative h-full overflow-hidden">
+      <ZoomPanPinchWrapper>
+        <TriggerCenterOnSelectedCharacter />
+        <Svg gridWidth={gridWidth} gridHeight={gridHeight}>
+          <Background />
+          <Tiles>
+            <g id="terrain-tiles">{renderTiles}</g>
+            <g id="terrain-edge-tiles">{renderTerrainEdgeTiles}</g>
+            <g id="terrain-feature-tiles">{renderTerrainFeatureTiles}</g>
+          </Tiles>
+          {DEBUG && (
+            <g id="aiCharacterPaths">
               {aiCharacters.map((char) => (
-                <CharacterTile
+                <CharacterPath
                   key={char.id}
-                  id={char.id}
-                  x={char.position[0]}
-                  y={char.position[1]}
-                  owner={char.owner}
-                  onMouseEnter={handleMouseEnterAiCharacter}
-                  onMouseLeave={handleMouseLeaveAiCharacter}
-                  onClick={handleClickAiCharacter}
+                  characterPosition={char.position}
+                  path={char.path}
+                  movementPoints={char.movementPoints}
+                  currentActionPoints={char.currentActionPoints}
+                  owner="ai"
                 />
               ))}
-            </CharacterTiles>
-          </Svg>
-        </ZoomPanPinchComponent>
+            </g>
+          )}
+          {hasSelectedCharacterPath && (
+            <g id="characterPath">
+              <CharacterPath
+                characterPosition={selectedCharacter.position}
+                path={selectedCharacterPath}
+                movementPoints={selectedCharacter.movementPoints}
+                currentActionPoints={selectedCharacter.currentActionPoints}
+              />
+            </g>
+          )}
+          {isShowSelectedCharacterHighlight && (
+            <SelectedCharacterHighlight position={selectedCharacter.position} />
+          )}
+          <g id="pointerTiles">{renderPointerTiles}</g>
+          <CharacterTiles>
+            {playerCharacters.map((char) => (
+              <CharacterTile
+                key={char.id}
+                character={char}
+                onMouseEnter={handleMouseEnterPlayerCharacter}
+                onMouseLeave={handleMouseLeavePlayerCharacter}
+                onClick={handleClickPlayerCharacter}
+              />
+            ))}
+            {aiCharacters.map((char) => (
+              <CharacterTile
+                key={char.id}
+                character={char}
+                onMouseEnter={handleMouseEnterAiCharacter}
+                onMouseLeave={handleMouseLeaveAiCharacter}
+                onClick={handleClickAiCharacter}
+              />
+            ))}
+          </CharacterTiles>
+        </Svg>
       </ZoomPanPinchWrapper>
+      {hasHoveredCharacter && (
+        <CharacterInfoBox
+          className="absolute right-1 top-1"
+          character={hoveredCharacter}
+        />
+      )}
+      <SelectedCharacterPanel
+        className="absolute bottom-0 left-1/2"
+        character={selectedCharacter}
+      />
+      <EndOfTurnButton
+        className="absolute bottom-1 right-1"
+        onClick={handleClickEndOfTurn}
+        isPlayerTurn={isPlayerTurn}
+      />
     </div>
   )
 }

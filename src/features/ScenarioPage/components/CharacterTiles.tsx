@@ -1,5 +1,5 @@
+import { TILE_IMAGE_SIZE } from '@/features/ScenarioPage/constants'
 import { createContext, memo, useContext } from 'react'
-import { useTileSize } from './Svg'
 
 const CHARACTER_PROTO_ID = 'characterProto'
 
@@ -11,14 +11,12 @@ type CharactersProps = {
 }
 
 function Characters({ children }: CharactersProps) {
-  const [tileWidth, tileHeight] = useTileSize()
-
   return (
     <ProtoIdContext.Provider value={CHARACTER_PROTO_ID}>
       <g id="characters">
         <symbol
-          width={tileWidth}
-          height={tileHeight}
+          width={TILE_IMAGE_SIZE}
+          height={TILE_IMAGE_SIZE}
           id={CHARACTER_PROTO_ID}
           viewBox="0 0 20 20"
         >

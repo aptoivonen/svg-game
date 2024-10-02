@@ -5,10 +5,18 @@ describe('path', () => {
     const calculatedPath = path({
       targetPosition: [0, 4],
       characterToMove: { position: [0, 0] },
+      maxMovementPoints: 100,
       grid: [
         ['.', '.', '.', '.'],
         ['w', 'w', '.', '.'],
         ['.', 'w', '.', '.'],
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.']
+      ],
+      terrainFeatureGrid: [
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.'],
         ['.', '.', '.', '.'],
         ['.', '.', '.', '.']
       ],
@@ -29,10 +37,18 @@ describe('path', () => {
     const calculatedPath = path({
       targetPosition: [0, 4],
       characterToMove: { position: [0, 0] },
+      maxMovementPoints: 100,
       grid: [
         ['.', '.', '.', '.'],
         ['w', 'w', '.', '.'],
         ['.', 'w', '.', '.'],
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.']
+      ],
+      terrainFeatureGrid: [
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.'],
         ['.', '.', '.', '.'],
         ['.', '.', '.', '.']
       ],
@@ -52,11 +68,19 @@ describe('path', () => {
     const calculatedPath = path({
       targetPosition: [0, 2],
       characterToMove: { position: [3, 0] },
+      maxMovementPoints: 100,
       grid: [
         ['.', '.', '.', '.'],
         ['w', 'w', '.', '.'],
         ['.', 'w', '.', '.'],
         ['w', 'w', '.', '.'],
+        ['.', '.', '.', '.']
+      ],
+      terrainFeatureGrid: [
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.'],
         ['.', '.', '.', '.']
       ],
       charactersList: []
@@ -69,6 +93,7 @@ describe('path', () => {
     const calculatedPath = path({
       targetPosition: [0, 2],
       characterToMove: { position: [3, 0] },
+      maxMovementPoints: 100,
       grid: [
         ['.', '.', '.', '.'],
         ['w', 'w', '.', '.'],
@@ -76,9 +101,72 @@ describe('path', () => {
         ['.', 'w', '.', '.'],
         ['.', '.', '.', '.']
       ],
+      terrainFeatureGrid: [
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.']
+      ],
       charactersList: [{ position: [0, 3] }]
     })
 
+    expect(calculatedPath.map((segment) => segment.position)).toEqual([])
+  })
+
+  test('finds route with a blocking terrain feature included', () => {
+    const calculatedPath = path({
+      targetPosition: [0, 4],
+      characterToMove: { position: [0, 0] },
+      maxMovementPoints: 100,
+      grid: [
+        ['.', '.', '.', '.'],
+        ['w', 'w', '.', '.'],
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.']
+      ],
+      terrainFeatureGrid: [
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.'],
+        ['.', 't', '.', '.'],
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.']
+      ],
+      charactersList: [{ position: [2, 1] }]
+    })
+
+    expect(calculatedPath.map((segment) => segment.position)).toEqual([
+      [1, 0],
+      [2, 0],
+      [3, 1],
+      [2, 2],
+      [1, 3],
+      [0, 4]
+    ])
+  })
+
+  test('finds no route when no path exists because of terrain features', () => {
+    const calculatedPath = path({
+      targetPosition: [0, 2],
+      characterToMove: { position: [3, 0] },
+      maxMovementPoints: 100,
+      grid: [
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.']
+      ],
+      terrainFeatureGrid: [
+        ['.', '.', '.', '.'],
+        ['t', 't', '.', '.'],
+        ['.', 't', '.', '.'],
+        ['t', 't', '.', '.'],
+        ['.', '.', '.', '.']
+      ],
+      charactersList: []
+    })
     expect(calculatedPath.map((segment) => segment.position)).toEqual([])
   })
 })

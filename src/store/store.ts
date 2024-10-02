@@ -4,21 +4,36 @@ import type {
   Path,
   Position,
   ScenarioData,
+  TerrainFeatureSymbol,
   TerrainSymbol
 } from '@/types'
 import {
+  getHasMovementActionPoint,
+  getMaxMovementPoints,
   selectCharacter,
-  selectCharacters,
   selectCharactersList,
   selectGrid,
-  selectMode
+  selectMode,
+  selectTerrainFeatureGrid
 } from './selectors'
-import { initTerrain, initCharacters, executePath } from './helpers'
-import { path } from '@/utils'
+import {
+  initTerrain,
+  initCharacters,
+  executePath,
+  initTerrainFeatureGrid,
+  setCharacterProp,
+  setSelectStartingPlayerCharacter,
+  incrementNumberOfTurns,
+  recoverPlayerResources,
+  recoverAiResources
+} from './helpers'
+import { isEqual, last, path, wait } from '@/utils'
 
 export type Store = {
   name: string
+  numberOfTurns: number
   grid: TerrainSymbol[][]
+  terrainFeatureGrid: TerrainFeatureSymbol[][]
   characters: Map<string, Character>
   mode: ModeState
   init: (scenarioData: ScenarioData) => void
@@ -30,6 +45,9 @@ export type Store = {
   clearPath: (id: string) => void
   executeSelectedCharacterPath: () => Promise<void>
   executeAiCharacterPath: (id: string) => Promise<void>
+  startPlayerTurn: () => void
+  endPlayerTurn: () => void
+  startAiTurn: () => void
 }
 
 type ModeState =
@@ -42,6 +60,7 @@ type ModeState =
       tileX?: number
       tileY?: number
       path?: Path
+      isStartOfTurn?: boolean
     }
   | {
       name: 'aiTurn'
@@ -54,12 +73,17 @@ type ModeState =
 const useStore = create<Store>((set, get) => ({
   name: '',
   grid: [[]],
+  numberOfTurns: 0,
+  terrainFeatureGrid: [[]],
   mode: { name: 'viewing' },
   characters: new Map(),
   init: (scenarioData: ScenarioData) =>
     set(() => ({
       name: scenarioData.name,
       grid: initTerrain(scenarioData.grid),
+      terrainFeatureGrid: initTerrainFeatureGrid(
+        scenarioData.terrainFeatureGrid
+      ),
       characters: initCharacters(scenarioData.characters)
     })),
   selectCharacter: (id: string) =>
@@ -105,46 +129,51 @@ const useStore = create<Store>((set, get) => ({
         return state
       }
       const grid = selectGrid(state)
+      const terrainFeatureGrid = selectTerrainFeatureGrid(state)
       const charactersList = selectCharactersList(state)
+
+      const resultModePartialWithoutPath = {
+        name: 'selectedCharacter',
+        characterId: mode.characterId,
+        tileX: x,
+        tileY: y
+      } as const
+
+      // No movement action points left => don't show a path
+      if (!getHasMovementActionPoint(characterToMove))
+        return {
+          mode: resultModePartialWithoutPath
+        }
+
+      const maxMovementPoints = getMaxMovementPoints(characterToMove)
       const characterPath = path({
         targetPosition,
         characterToMove,
+        maxMovementPoints,
         grid,
+        terrainFeatureGrid,
         charactersList
       })
-      return {
-        mode: {
-          name: 'selectedCharacter',
-          characterId: mode.characterId,
-          tileX: x,
-          tileY: y,
-          path: characterPath
+
+      // hovering outside a path's length => don't show a path
+      if (
+        characterPath.length === 0 ||
+        !isEqual(last(characterPath).position, [x, y])
+      ) {
+        return {
+          mode: resultModePartialWithoutPath
         }
+      }
+
+      return {
+        mode: { ...resultModePartialWithoutPath, path: characterPath }
       }
     }),
   setPath: (id: string, path: Path) => {
-    set((state) => {
-      const char = selectCharacter(state, id)
-      if (!char) return state
-      return {
-        characters: new Map(selectCharacters(state)).set(id, {
-          ...char,
-          path
-        })
-      }
-    })
+    setCharacterProp(id, { path }, set)
   },
   clearPath: (id: string) => {
-    set((state) => {
-      const char = selectCharacter(state, id)
-      if (!char) return state
-      return {
-        characters: new Map(selectCharacters(state)).set(id, {
-          ...char,
-          path: null
-        })
-      }
-    })
+    setCharacterProp(id, { path: null }, set)
   },
   executeSelectedCharacterPath: async () => {
     const mode = selectMode(get())
@@ -157,14 +186,10 @@ const useStore = create<Store>((set, get) => ({
     if (!selectedCharacterPath) {
       return
     }
-    set(() => {
-      return { mode: { name: 'executing', characterId } }
-    })
+    set(() => ({ mode: { name: 'executing', characterId } }))
     get().setPath(characterId, selectedCharacterPath)
     await executePath(characterId, get, set)
-    set(() => {
-      return { mode: { name: 'selectedCharacter', characterId } }
-    })
+    set(() => ({ mode: { name: 'selectedCharacter', characterId } }))
   },
   executeAiCharacterPath: async (id: string) => {
     const mode = selectMode(get())
@@ -173,6 +198,20 @@ const useStore = create<Store>((set, get) => ({
       return
     }
     executePath(id, get, set)
+  },
+  startPlayerTurn: () => {
+    incrementNumberOfTurns(set)
+    recoverPlayerResources(get, set)
+    setSelectStartingPlayerCharacter(set)
+  },
+  endPlayerTurn: () => {
+    get().startAiTurn()
+  },
+  startAiTurn: async () => {
+    set(() => ({ mode: { name: 'aiTurn' } }))
+    recoverAiResources(get, set)
+    await wait(3 * 1000)
+    get().startPlayerTurn()
   }
 }))
 

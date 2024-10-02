@@ -1,8 +1,23 @@
-import { TERRAIN } from '@/config'
+import { TERRAIN, TERRAIN_FEATURES } from '@/features/ScenarioPage/constants'
 import Graph from './Graph'
 import search from './search'
-import type { Path, Position, TerrainSymbol, Positioned } from '@/types'
+import type {
+  Path,
+  Position,
+  TerrainSymbol,
+  Positioned,
+  TerrainFeatureSymbol
+} from '@/types'
 import { isEqual } from '@/utils'
+
+type PathProps = {
+  targetPosition: Position
+  characterToMove: Positioned
+  maxMovementPoints: number
+  grid: TerrainSymbol[][]
+  terrainFeatureGrid: TerrainFeatureSymbol[][]
+  charactersList: Positioned[]
+}
 
 /**
  * Finds path to end position. If no path, returns path to position closest to end.
@@ -10,25 +25,24 @@ import { isEqual } from '@/utils'
  * @param {Position} params.targetPosition
  * @param {Positioned} params.characterToMove
  * @param {TerrainSymbol[][]} params.grid
+ * @param {TerrainFeatureSymbol[][]} params.terrainFeatureGrid
  * @param {Positioned[]} params.charactersList
  * @returns
  */
 export default function path({
   targetPosition,
   characterToMove,
+  maxMovementPoints,
   grid,
+  terrainFeatureGrid,
   charactersList
-}: {
-  targetPosition: Position
-  characterToMove: Positioned
-  grid: TerrainSymbol[][]
-  charactersList: Positioned[]
-}): Path {
+}: PathProps): Path {
   const [startX, startY] = characterToMove.position
   const [endX, endY] = targetPosition
 
   const movementCostGrid: number[][] = getMovementCostGrid(grid)
 
+  mutateSetBlockingTerrainFeatures(movementCostGrid, terrainFeatureGrid)
   mutateSetCharacterPositions(movementCostGrid, charactersList, targetPosition)
 
   const graph = new Graph(movementCostGrid)
@@ -37,12 +51,14 @@ export default function path({
   const startNode = graph.grid[startY][startX]
   const endNode = graph.grid[endY][endX]
 
-  const resultPath = search(graph, startNode, endNode, { closest: false }).map(
-    (node) => ({
+  const resultPath = search(graph, startNode, endNode, {
+    closest: false
+  })
+    .map((node) => ({
       pathCost: node.pathCost,
       position: [node.y, node.x] as [number, number]
-    })
-  )
+    }))
+    .filter((pathSegment) => pathSegment.pathCost <= maxMovementPoints)
 
   mutateSetDropLastSegmentIfOccupied(resultPath, targetPosition, charactersList)
 
@@ -54,6 +70,22 @@ function getMovementCostGrid(terrainGrid: TerrainSymbol[][]): number[][] {
   return terrainGrid.map((row) =>
     row.map((terrainSymbol) => TERRAIN[terrainSymbol].movementCost)
   )
+}
+
+function mutateSetBlockingTerrainFeatures(
+  movementCostGrid: number[][],
+  terrainFeatureGrid: TerrainFeatureSymbol[][]
+): void {
+  for (let row = 0; row < movementCostGrid.length; row++) {
+    for (let col = 0; col < movementCostGrid[0].length; col++) {
+      const terrainFeature = TERRAIN_FEATURES[terrainFeatureGrid[row][col]]
+      const isBlockingMovement =
+        'blocksMovement' in terrainFeature && terrainFeature.blocksMovement
+      if (isBlockingMovement) {
+        movementCostGrid[row][col] = 0
+      }
+    }
+  }
 }
 
 /** set character positions. 0 means position taken */

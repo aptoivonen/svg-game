@@ -5,9 +5,15 @@ import {
   CharacterDataSchema,
   ScenarioDataSchema
 } from './schemas'
-import { TERRAIN } from '@/config'
+import {
+  TERRAIN,
+  TERRAIN_FEATURES,
+  TILE_DATA_TERRAIN_EDGE_DIFFS
+} from '@/features/ScenarioPage/constants'
 
 export type TerrainSymbol = keyof typeof TERRAIN
+export type TerrainFeatureSymbol = keyof typeof TERRAIN_FEATURES
+export type EdgeKey = keyof typeof TILE_DATA_TERRAIN_EDGE_DIFFS
 
 export type Entity = {
   id: string
@@ -16,6 +22,9 @@ export type Entity = {
 export type BaseCharacter = {
   name: string
   owner: Owner
+  movementPoints: number
+  currentActionPoints: number
+  currentMovementActionPoints: number
 }
 
 export type Positioned = {

@@ -43,8 +43,12 @@ export default function TriggerCenterOnSelectedCharacter() {
       const [characterPositionX, characterPositionY] = character?.position || [
         0, 0
       ]
-      const viewX = dimensions.width / 2 - TILE_CSS_SIZE * characterPositionX
-      const viewY = dimensions.height / 2 - TILE_CSS_SIZE * characterPositionY
+      const viewX = Math.floor(
+        dimensions.width / 2 - TILE_CSS_SIZE * characterPositionX * scale
+      )
+      const viewY = Math.floor(
+        dimensions.height / 2 - TILE_CSS_SIZE * characterPositionY * scale
+      )
       setTransform(viewX, viewY, scale)
     }
   }, [mode, scale, character, dimensions, setTransform])

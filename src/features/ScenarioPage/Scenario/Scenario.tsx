@@ -49,9 +49,12 @@ function Scenario({ scenarioData }: ScenarioProps) {
   const terrainFeatureGrid = useTerrainFeatureGrid()
   const playerCharacters = usePlayerCharactersList()
   const aiCharacters = useAiCharactersList()
-  const [setHoveredCharacterId, clearHoveredCharacterId, hoveredCharacter] =
-    useHighlightedCharacter()
-  const hasHoveredCharacter = !!hoveredCharacter
+  const [
+    setHoveredCharacterId,
+    clearHoveredCharacterId,
+    hasHoveredCharacter,
+    hoveredCharacter
+  ] = useHighlightedCharacter()
   const mode = useMode()
   const [selectedCharacter, selectedCharacterPath] = useSelectedCharacter()
   const hasSelectedCharacter = !!selectedCharacter

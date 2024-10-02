@@ -8,15 +8,24 @@ export default function useHighlightedCharacter() {
 
   const highlightedCharacter =
     useCharacter(highlightedCharacterId || '') ?? null
+  const hashighlightedCharacter = !!highlightedCharacter
 
   const clearHighlightedCharacterId = useCallback(
     () => setHighlightedCharacterId(null),
     []
   )
 
-  return [
-    setHighlightedCharacterId,
-    clearHighlightedCharacterId,
-    highlightedCharacter
-  ] as const
+  return hashighlightedCharacter
+    ? ([
+        setHighlightedCharacterId,
+        clearHighlightedCharacterId,
+        true,
+        highlightedCharacter
+      ] as const)
+    : ([
+        setHighlightedCharacterId,
+        clearHighlightedCharacterId,
+        false,
+        null
+      ] as const)
 }

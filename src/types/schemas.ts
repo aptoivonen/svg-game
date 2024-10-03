@@ -2,10 +2,9 @@ import { z } from 'zod'
 
 export const OwnerSchema = z.enum(['ai', 'player'])
 
-export const PositionSchema = z.tuple([
-  z.number().int().nonnegative(),
-  z.number().int().nonnegative()
-])
+export const PositionSchema = z
+  .tuple([z.number().int().nonnegative(), z.number().int().nonnegative()])
+  .readonly()
 
 export const CharacterDataSchema = z.object({
   id: z.string(),
